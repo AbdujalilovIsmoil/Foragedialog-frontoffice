@@ -78,9 +78,9 @@ const Partners = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {partners.map((partner, index) => (
             <a
+              target="_blank"
               key={partner.id}
               href={partner.website}
-              target="_blank"
               rel="noopener noreferrer"
               className="group block"
               onMouseEnter={() => setHoveredId(partner.id)}

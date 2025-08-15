@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@/app/components";
+import ProfileImage from "@/public/images/png/profile-image.png";
 
 const languages = [
   { code: "uz", name: "O'zbek", flag: "🇺🇿" },
@@ -121,7 +122,7 @@ const Header = () => {
               {isLanguageDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-36 sm:w-40 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-50">
                   {languages.map((language) => (
-                    <button
+                    <Button
                       key={language.code}
                       onClick={() => {
                         setSelectedLanguage(language);
@@ -133,7 +134,7 @@ const Header = () => {
                       <span className="text-xs sm:text-sm">
                         {language.name}
                       </span>
-                    </button>
+                    </Button>
                   ))}
                 </div>
               )}
@@ -147,7 +148,7 @@ const Header = () => {
                   width={32}
                   height={32}
                   alt="Profile"
-                  src="/user-profile-avatar.png"
+                  src={ProfileImage}
                   className="h-8 w-8 sm:h-9 sm:w-9 rounded-full object-cover"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
@@ -263,31 +264,18 @@ const Header = () => {
         >
           <div className="border-t border-gray-200 py-4 space-y-2">
             {navigationItems.map((item) => (
-              <a
+              <Link
                 key={item.name}
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="block px-4 py-3 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
         </div>
       </div>
-
-      {(isLanguageDropdownOpen ||
-        isProfileDropdownOpen ||
-        isMobileMenuOpen) && (
-        <div
-          className="fixed inset-0 z-40"
-          onClick={() => {
-            setIsLanguageDropdownOpen(false);
-            setIsProfileDropdownOpen(false);
-            setIsMobileMenuOpen(false);
-          }}
-        />
-      )}
     </header>
   );
 };
