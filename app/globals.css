@@ -1,131 +1,26 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
-:root {
-  /* Updated design tokens to match the news page design brief */
-  --background: #ffffff;
-  --foreground: #374151;
-  --card: #f9fafb;
-  --card-foreground: #4b5563;
-  --popover: #ffffff;
-  --popover-foreground: #374151;
-  --primary: #0891b2;
-  --primary-foreground: #ffffff;
-  --secondary: #f59e0b;
-  --secondary-foreground: #ffffff;
-  --muted: #f9fafb;
-  --muted-foreground: #4b5563;
-  --accent: #f59e0b;
-  --accent-foreground: #ffffff;
-  --destructive: #dc2626;
-  --destructive-foreground: #ffffff;
-  --border: #e5e7eb;
-  --input: #ffffff;
-  --ring: rgba(8, 145, 178, 0.5);
-  --chart-1: #0891b2;
-  --chart-2: #f59e0b;
-  --chart-3: #dc2626;
-  --chart-4: #15803d;
-  --chart-5: #4b5563;
-  --radius: 0.5rem;
-  --sidebar: #f9fafb;
-  --sidebar-foreground: #374151;
-  --sidebar-primary: #0891b2;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f59e0b;
-  --sidebar-accent-foreground: #374151;
-  --sidebar-border: #e5e7eb;
-  --sidebar-ring: rgba(8, 145, 178, 0.5);
+body {
+  font-family: Cambria, Georgia, "Droid Serif", "Times New Roman", serif;
 }
 
-.dark {
-  /* Updated dark mode tokens to complement the new design */
-  --background: #111827;
-  --foreground: #f9fafb;
-  --card: #1f2937;
-  --card-foreground: #f9fafb;
-  --popover: #1f2937;
-  --popover-foreground: #f9fafb;
-  --primary: #06b6d4;
-  --primary-foreground: #ffffff;
-  --secondary: #f59e0b;
-  --secondary-foreground: #ffffff;
-  --muted: #374151;
-  --muted-foreground: #9ca3af;
-  --accent: #f59e0b;
-  --accent-foreground: #ffffff;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: #374151;
-  --input: #1f2937;
-  --ring: rgba(6, 182, 212, 0.5);
-  --chart-1: #06b6d4;
-  --chart-2: #f59e0b;
-  --chart-3: #ef4444;
-  --chart-4: #10b981;
-  --chart-5: #6b7280;
-  --sidebar: #1f2937;
-  --sidebar-foreground: #f9fafb;
-  --sidebar-primary: #06b6d4;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f59e0b;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #374151;
-  --sidebar-ring: rgba(6, 182, 212, 0.5);
+.container {
+  margin: 0 auto;
+  padding: 0 60px;
+  max-width: 1440px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
+@media only screen and (max-width: 768px) {
+  .container {
+    padding: 0 30px;
   }
 }
 
-/* Added font imports for creative services typography */
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap");
+@media only screen and (max-width: 576px) {
+  .container {
+    padding: 0 10px;
+  }
+}
 
 /* Added custom animations for hero component */
 @keyframes bounce-slow {
@@ -439,279 +334,117 @@
   transform-origin: center bottom;
 }
 
-/* Added creative services animations and font classes */
-.font-serif {
-  font-family: "Playfair Display", serif;
+:root {
+  /* Updated to use lab color values for more beautiful design */
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --card: #fefefe;
+  --card-foreground: #1a1a1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+  --primary: lab(49 -27.88 -2.61); /* Beautiful lab color provided by user */
+  --primary-foreground: #ffffff;
+  --secondary: #f8f9fa;
+  --secondary-foreground: #1a1a1a;
+  --muted: #f8f9fa;
+  --muted-foreground: #6b7280;
+  --accent: #3b82f6;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e5e7eb;
+  --input: #ffffff;
+  --ring: rgba(59, 130, 246, 0.3);
+  --chart-1: #f97316;
+  --chart-2: #6366f1;
+  --chart-3: #34d399;
+  --chart-4: #fbbf24;
+  --chart-5: #ec4899;
+  --radius: 0.75rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1a1a1a;
+  --sidebar-primary: #f8f9fa;
+  --sidebar-primary-foreground: #1a1a1a;
+  --sidebar-accent: #3b82f6;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: rgba(59, 130, 246, 0.3);
+}
+.dark {
+  --background: #0a0a0a;
+  --foreground: #fafafa;
+  --card: #111111;
+  --card-foreground: #fafafa;
+  --popover: #111111;
+  --popover-foreground: #fafafa;
+  --primary: lab(49 -27.88 -2.61);
+  --primary-foreground: #ffffff;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #fafafa;
+  --muted: #1a1a1a;
+  --muted-foreground: #a1a1aa;
+  --accent: #3b82f6;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #262626;
+  --input: #111111;
+  --ring: rgba(59, 130, 246, 0.3);
+  --chart-1: #f97316;
+  --chart-2: #6366f1;
+  --chart-3: #34d399;
+  --chart-4: #fbbf24;
+  --chart-5: #ec4899;
+  --radius: 0.75rem;
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #111111;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #3b82f6;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #262626;
+  --sidebar-ring: rgba(59, 130, 246, 0.3);
 }
 
-.font-sans {
-  font-family: "Source Sans Pro", sans-serif;
-}
-
-/* Creative services card animations */
-@keyframes service-card-entrance {
-  0% {
-    opacity: 0;
-    transform: translateY(30px) scale(0.95);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes service-icon-pulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-}
-
-@keyframes service-glow {
-  0%,
-  100% {
-    box-shadow: 0 0 20px rgba(37, 99, 235, 0.1);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(37, 99, 235, 0.2);
-  }
-}
-
-.service-card-animate {
-  animation: service-card-entrance 0.6s ease-out forwards;
-}
-
-.service-icon-animate {
-  animation: service-icon-pulse 2s ease-in-out infinite;
-}
-
-.service-glow-animate {
-  animation: service-glow 3s ease-in-out infinite;
-}
-
-/* Added font imports for Montserrat and Open Sans typography */
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@300;400;600&display=swap");
-
-/* Added innovative services section animations */
-@keyframes fade-in-up {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse-gentle {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.02);
-    opacity: 0.9;
-  }
-}
-
-@keyframes pulse-slow {
-  0%,
-  100% {
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.8s ease-out forwards;
-}
-
-.animate-pulse-gentle {
-  animation: pulse-gentle 3s ease-in-out infinite;
-}
-
-.animate-pulse-slow {
-  animation: pulse-slow 4s ease-in-out infinite;
-}
-
-/* Removed all news-related CSS animations and styling */
-
-/* Added Swiper.js custom styling for partners section */
-/* Custom Swiper pagination styling for partners */
-.partners-swiper .swiper-pagination-bullet {
-  width: 10px;
-  height: 10px;
-  background: #14b8a6;
-  opacity: 0.5;
-  transition: all 0.3s ease;
-}
-
-.partners-swiper .swiper-pagination-bullet-active {
-  background: #0d9488;
-  opacity: 1;
-  transform: scale(1.2);
-  box-shadow: 0 2px 6px rgba(13, 148, 136, 0.3);
-}
-
-/* Custom Swiper navigation styling for partners */
-.partners-swiper .swiper-button-next,
-.partners-swiper .swiper-button-prev {
-  display: none; /* Hide default buttons, using custom ones */
-}
-
-/* Partners section card animations */
-@keyframes partner-card-slide-in {
-  0% {
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.partner-card-animate {
-  animation: partner-card-slide-in 0.5s ease-out forwards;
-}
-
-/* Line clamp utility for description text */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Added 3D flip animations and utilities for partners section */
-/* 3D Flip Card Utilities */
-.perspective-1000 {
-  perspective: 1000px;
-}
-
-.preserve-3d {
-  transform-style: preserve-3d;
-}
-
-.backface-hidden {
-  backface-visibility: hidden;
-}
-
-.rotate-y-180 {
-  transform: rotateY(180deg);
-}
-
-/* Partners Section 3D Animations */
-@keyframes partner-card-entrance {
-  0% {
-    opacity: 0;
-    transform: translateY(50px) rotateY(-15deg) scale(0.9);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) rotateY(0deg) scale(1);
-  }
-}
-
-@keyframes partner-logo-float {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
-  }
-  50% {
-    transform: translateY(-5px) scale(1.05);
-  }
-}
-
-@keyframes partner-glow {
-  0%,
-  100% {
-    box-shadow: 0 10px 30px rgba(34, 197, 94, 0.1);
-  }
-  50% {
-    box-shadow: 0 20px 50px rgba(34, 197, 94, 0.3);
-  }
-}
-
-.partner-card-animate {
-  animation: partner-card-entrance 0.8s ease-out forwards;
-}
-
-.partner-logo-animate {
-  animation: partner-logo-float 3s ease-in-out infinite;
-}
-
-.partner-glow-animate {
-  animation: partner-glow 4s ease-in-out infinite;
-}
-
-/* Added beautiful partners section animations */
-/* Beautiful Partners Section Animations */
-@keyframes partner-card-entrance {
-  0% {
-    opacity: 0;
-    transform: translateY(30px) scale(0.95);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes partner-logo-float {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
-  }
-  50% {
-    transform: translateY(-3px) scale(1.05);
-  }
-}
-
-@keyframes partner-glow-pulse {
-  0%,
-  100% {
-    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.1);
-  }
-  50% {
-    box-shadow: 0 15px 35px rgba(37, 99, 235, 0.15);
-  }
-}
-
-.partner-card-animate {
-  animation: partner-card-entrance 0.6s ease-out forwards;
-}
-
-.partner-logo-animate {
-  animation: partner-logo-float 3s ease-in-out infinite;
-}
-
-.partner-glow-animate {
-  animation: partner-glow-pulse 4s ease-in-out infinite;
-}
-
-/* Font imports for beautiful typography */
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap");
-
-/* Updated font classes for partners section */
-.font-sans {
-  font-family: "DM Sans", sans-serif;
-}
-
-.font-display {
-  font-family: "Space Grotesk", sans-serif;
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  /* Updated to use Inter and Poppins for better typography */
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-poppins);
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
