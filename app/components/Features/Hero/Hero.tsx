@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { Button } from "@/app/components";
 import { useState, useEffect } from "react";
-import HeroImage from "@/public/images/png/image.png";
-import HeroBackgroundImage from "@/public/images/png/background.png";
+import HeroImage from "@/public/images/png/hero-image.webp";
+import HeroBackgroundImage from "@/public/images/png/background-image.avif";
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -18,7 +18,10 @@ const Hero = () => {
       <div
         className="absolute inset-0 bg-gradient-to-br from-teal-600 via-teal-500 to-cyan-500"
         style={{
-          backgroundImage: `linear-gradient(135deg, rgba(13, 148, 136, 0.9), rgba(6, 182, 212, 0.8)), url('${HeroBackgroundImage.src}')`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center center",
+          backgroundImage: `linear-gradient(135deg, rgba(13, 148, 136, 0.7), rgba(6, 182, 212, 0.7)), url('${HeroBackgroundImage.src}')`,
         }}
       />
 
@@ -32,15 +35,14 @@ const Hero = () => {
                   : "-translate-x-10 opacity-0"
               }`}
             >
-              <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
-                Transform Your
-                <span className="block text-cyan-200">Digital Future</span>
+              <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
+                Building climate resilience for sustainable
+                <span className="block text-cyan-200">forage production.</span>
               </h1>
 
               <p className="text-xl lg:text-2xl text-teal-100 leading-relaxed max-w-lg">
-                Discover innovative solutions that drive growth, enhance
-                productivity, and create meaningful connections in the digital
-                world.
+                Your resource for best practices, innovations, and collaboration
+                in agriculture.
               </p>
 
               <Button className="group bg-white text-teal-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-50 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
@@ -83,7 +85,7 @@ const Hero = () => {
                     width={300}
                     src={HeroImage.src}
                     alt="Hero illustration"
-                    className="w-full h-auto rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-500"
+                    className="w-full h-[300px] md:h-[400px] lg:h-[450px] rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-500"
                   />
                 </div>
 

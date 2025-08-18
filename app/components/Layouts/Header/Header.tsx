@@ -1,10 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@/app/components";
 import ProfileImage from "@/public/images/png/profile-image.png";
+import SiteLogoLeft from "@/public/images/png/site-logo-left.webp";
+import SitLogoRight from "@/public/images/png/site-right-logo.webp";
+import Link from "next/link";
 
 const languages = [
   { code: "uz", name: "O'zbek", flag: "🇺🇿" },
@@ -15,6 +17,7 @@ const languages = [
 
 const navigationItems = [
   { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
   { name: "News", href: "/news" },
   { name: "Blog", href: "/blog" },
   { name: "Contact", href: "/contact" },
@@ -27,14 +30,10 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white backdrop-blur-sm shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center">
-            <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 text-white font-bold text-sm sm:text-lg shadow-md">
-              L1
-            </div>
-          </div>
+        <div className="flex items-center justify-between">
+          <Image src={SiteLogoLeft.src} alt="logo" height={60} width={150} />
 
           <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
             {navigationItems.map((item) => (
@@ -98,10 +97,10 @@ const Header = () => {
                     d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 0a9 9 0 919-9 9 9 0 01-9 9m0 0a9 9 0 01-9-9 9 9 0 019 9z"
                   />
                 </svg>
-                <span className="hidden sm:inline text-xs sm:text-sm">
+                <span className="hidden sm:inline text-[18px]">
                   {selectedLanguage.flag} {selectedLanguage.name}
                 </span>
-                <span className="sm:hidden text-sm">
+                <span className="sm:hidden text-[18px]">
                   {selectedLanguage.flag}
                 </span>
                 <svg
@@ -130,10 +129,8 @@ const Header = () => {
                       }}
                       className="w-full text-left px-3 sm:px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
                     >
-                      <span className="mr-2">{language.flag}</span>
-                      <span className="text-xs sm:text-sm">
-                        {language.name}
-                      </span>
+                      <span className="mr-2 text-[18px]">{language.flag}</span>
+                      <span className="text-[18px]">{language.name}</span>
                     </Button>
                   ))}
                 </div>
@@ -142,14 +139,14 @@ const Header = () => {
             <div className="relative">
               <Button
                 onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                className="flex items-center justify-center h-8 w-8 sm:h-9 sm:w-9 rounded-full hover:ring-2 hover:ring-blue-500 hover:ring-offset-2 transition-all"
+                className="flex items-center justify-center rounded-full hover:ring-2 hover:ring-blue-500 hover:ring-offset-2 transition-all"
               >
                 <Image
-                  width={32}
-                  height={32}
+                  width={40}
+                  height={40}
                   alt="Profile"
                   src={ProfileImage}
-                  className="h-8 w-8 sm:h-9 sm:w-9 rounded-full object-cover"
+                  className="h-[40px] w-[40px] rounded-full object-cover"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.style.display = "none";
@@ -232,7 +229,7 @@ const Header = () => {
                   <div className="border-t border-gray-100 mt-1 pt-1">
                     <Button className="w-full text-left px-3 sm:px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center">
                       <svg
-                        className="mr-3 h-4 w-4"
+                        className="mr-3 h-4 w-4" 
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -251,15 +248,13 @@ const Header = () => {
               )}
             </div>
 
-            <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-bold text-sm sm:text-lg shadow-md">
-              L2
-            </div>
+            <Image src={SitLogoRight} alt="logo" height={60} width={150} />
           </div>
         </div>
 
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isMobileMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
+            isMobileMenuOpen ? "min-h-64 opacity-100" : "max-h-0 opacity-0"
           }`}
         >
           <div className="border-t border-gray-200 py-4 space-y-2">
@@ -268,7 +263,7 @@ const Header = () => {
                 key={item.name}
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-3 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
+                className="block px-4 py-4 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
               >
                 {item.name}
               </Link>
