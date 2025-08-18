@@ -1,8 +1,6 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import NewsImage1 from "@/public/images/png/news-image-1.png";
-import NewsImage2 from "@/public/images/png/news-image-2.png";
-import NewsImage3 from "@/public/images/png/news-image-3.png";
+import { useState } from "react";
 
 interface NewsArticle {
   id: number;
@@ -17,10 +15,29 @@ interface NewsArticle {
   tags: string[];
 }
 
+interface Comment {
+  id: number;
+  user: string;
+  avatar: string;
+  message: string;
+  timestamp: string;
+  isAdmin: boolean;
+  replies: Reply[];
+}
+
+interface Reply {
+  id: number;
+  user: string;
+  avatar: string;
+  message: string;
+  timestamp: string;
+  isAdmin: boolean;
+}
+
 const newsArticles: NewsArticle[] = [
   {
     id: 1,
-    image: NewsImage1.src,
+    image: "/ai-modern-tech.png",
     title: "Revolutionary AI Technology Transforms Industry Standards",
     description:
       "Discover how cutting-edge artificial intelligence is reshaping business operations and creating new opportunities across multiple sectors.",
@@ -53,7 +70,7 @@ const newsArticles: NewsArticle[] = [
   },
   {
     id: 2,
-    image: NewsImage2.src,
+    image: "/global-market-trends.png",
     title: "Global Market Trends Show Unprecedented Growth",
     description:
       "Latest market analysis reveals significant growth patterns that are influencing investment strategies worldwide.",
@@ -80,7 +97,7 @@ const newsArticles: NewsArticle[] = [
   },
   {
     id: 3,
-    image: NewsImage3.src,
+    image: "/startup-innovation-office.png",
     title: "Startup Innovation Drives Economic Recovery",
     description:
       "Young entrepreneurs are leading the charge in economic recovery with innovative solutions and disruptive technologies.",
@@ -106,12 +123,93 @@ const newsArticles: NewsArticle[] = [
   },
 ];
 
+const sampleComments: Comment[] = [
+  {
+    id: 1,
+    user: "Ahmad Karimov",
+    avatar: "AK",
+    message:
+      "Bu maqola juda foydali bo'ldi. AI texnologiyalari haqida yangi ma'lumotlar oldim.",
+    timestamp: "2 soat oldin",
+    isAdmin: false,
+    replies: [
+      {
+        id: 1,
+        user: "Admin",
+        avatar: "AD",
+        message: "Rahmat! Bunday maqolalarni davom ettiramiz.",
+        timestamp: "1 soat oldin",
+        isAdmin: true,
+      },
+    ],
+  },
+  {
+    id: 2,
+    user: "Malika Tosheva",
+    avatar: "MT",
+    message:
+      "Startup kompaniyalar haqidagi qism juda qiziq edi. Boshqa maqolalar ham bormi?",
+    timestamp: "4 soat oldin",
+    isAdmin: false,
+    replies: [],
+  },
+];
+
 export default function NewsView() {
   const params = useParams();
   const router = useRouter();
   const newsId = Number.parseInt(params.id as string);
 
+  const [comments, setComments] = useState<Comment[]>(sampleComments);
+  const [newComment, setNewComment] = useState("");
+  const [replyingTo, setReplyingTo] = useState<number | null>(null);
+  const [replyText, setReplyText] = useState("");
+  const [currentUser] = useState({
+    name: "Foydalanuvchi",
+    avatar: "FO",
+    isAdmin: false,
+  });
+
   const article = newsArticles.find((article) => article.id === newsId);
+
+  const handleAddComment = () => {
+    if (newComment.trim()) {
+      const comment: Comment = {
+        id: Date.now(),
+        user: currentUser.name,
+        avatar: currentUser.avatar,
+        message: newComment,
+        timestamp: "Hozir",
+        isAdmin: currentUser.isAdmin,
+        replies: [],
+      };
+      setComments([comment, ...comments]);
+      setNewComment("");
+    }
+  };
+
+  const handleAddReply = (commentId: number) => {
+    if (replyText.trim()) {
+      const reply: Reply = {
+        id: Date.now(),
+        user: currentUser.name,
+        avatar: currentUser.avatar,
+        message: replyText,
+        timestamp: "Hozir",
+        isAdmin: currentUser.isAdmin,
+      };
+
+      setComments(
+        comments.map((comment) =>
+          comment.id === commentId
+            ? { ...comment, replies: [...comment.replies, reply] }
+            : comment
+        )
+      );
+      setReplyText("");
+      setReplyingTo(null);
+    }
+  };
 
   if (!article) {
     return (
@@ -213,6 +311,190 @@ export default function NewsView() {
               className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3 prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-4 prose-ul:text-gray-700 prose-li:mb-2 prose-strong:text-gray-900 prose-blockquote:border-l-4 prose-blockquote:border-teal-500 prose-blockquote:bg-teal-50 prose-blockquote:p-4 prose-blockquote:rounded-r-lg prose-blockquote:text-teal-800 prose-blockquote:italic"
               dangerouslySetInnerHTML={{ __html: article.content }}
             />
+
+            {/* Comments Section */}
+            <div className="mt-16 pt-8 border-t border-gray-200">
+              <h3 className="text-2xl font-bold text-gray-900 mb-8">
+                Izohlar ({comments.length})
+              </h3>
+
+              {/* Add Comment Form */}
+              <div className="bg-gray-50 rounded-xl p-6 mb-8">
+                <div className="flex items-start space-x-4">
+                  <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-teal-600 font-semibold text-sm">
+                      {currentUser.avatar}
+                    </span>
+                  </div>
+                  <div className="flex-1">
+                    <textarea
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
+                      placeholder="Izoh yozing..."
+                      className="w-full p-4 border border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                      rows={3}
+                    />
+                    <div className="flex justify-end mt-3">
+                      <button
+                        onClick={handleAddComment}
+                        disabled={!newComment.trim()}
+                        className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                      >
+                        Izoh qo'shish
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Comments List */}
+              <div className="space-y-6">
+                {comments.map((comment) => (
+                  <div
+                    key={comment.id}
+                    className="bg-white border border-gray-200 rounded-xl p-6"
+                  >
+                    {/* Comment Header */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center space-x-3">
+                        <div
+                          className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                            comment.isAdmin ? "bg-red-100" : "bg-blue-100"
+                          }`}
+                        >
+                          <span
+                            className={`font-semibold text-sm ${
+                              comment.isAdmin ? "text-red-600" : "text-blue-600"
+                            }`}
+                          >
+                            {comment.avatar}
+                          </span>
+                        </div>
+                        <div>
+                          <div className="flex items-center space-x-2">
+                            <h4 className="font-semibold text-gray-900">
+                              {comment.user}
+                            </h4>
+                            {comment.isAdmin && (
+                              <span className="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full font-medium">
+                                Admin
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-gray-500 text-sm">
+                            {comment.timestamp}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Comment Content */}
+                    <p className="text-gray-700 mb-4 leading-relaxed">
+                      {comment.message}
+                    </p>
+
+                    {/* Comment Actions */}
+                    <div className="flex items-center space-x-4 text-sm">
+                      <button
+                        onClick={() =>
+                          setReplyingTo(
+                            replyingTo === comment.id ? null : comment.id
+                          )
+                        }
+                        className="text-teal-600 hover:text-teal-700 font-medium"
+                      >
+                        Javob berish
+                      </button>
+                    </div>
+
+                    {/* Reply Form */}
+                    {replyingTo === comment.id && (
+                      <div className="mt-4 ml-8 bg-gray-50 rounded-lg p-4">
+                        <div className="flex items-start space-x-3">
+                          <div className="w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span className="text-teal-600 font-semibold text-xs">
+                              {currentUser.avatar}
+                            </span>
+                          </div>
+                          <div className="flex-1">
+                            <textarea
+                              value={replyText}
+                              onChange={(e) => setReplyText(e.target.value)}
+                              placeholder="Javob yozing..."
+                              className="w-full p-3 border border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                              rows={2}
+                            />
+                            <div className="flex justify-end space-x-2 mt-2">
+                              <button
+                                onClick={() => setReplyingTo(null)}
+                                className="px-4 py-2 text-gray-600 hover:text-gray-700"
+                              >
+                                Bekor qilish
+                              </button>
+                              <button
+                                onClick={() => handleAddReply(comment.id)}
+                                disabled={!replyText.trim()}
+                                className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                              >
+                                Javob berish
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Replies */}
+                    {comment.replies.length > 0 && (
+                      <div className="mt-6 ml-8 space-y-4">
+                        {comment.replies.map((reply) => (
+                          <div
+                            key={reply.id}
+                            className="bg-gray-50 rounded-lg p-4"
+                          >
+                            <div className="flex items-center space-x-3 mb-3">
+                              <div
+                                className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                                  reply.isAdmin ? "bg-red-100" : "bg-blue-100"
+                                }`}
+                              >
+                                <span
+                                  className={`font-semibold text-xs ${
+                                    reply.isAdmin
+                                      ? "text-red-600"
+                                      : "text-blue-600"
+                                  }`}
+                                >
+                                  {reply.avatar}
+                                </span>
+                              </div>
+                              <div>
+                                <div className="flex items-center space-x-2">
+                                  <h5 className="font-semibold text-gray-900 text-sm">
+                                    {reply.user}
+                                  </h5>
+                                  {reply.isAdmin && (
+                                    <span className="bg-red-100 text-red-600 text-xs px-2 py-0.5 rounded-full font-medium">
+                                      Admin
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="text-gray-500 text-xs">
+                                  {reply.timestamp}
+                                </p>
+                              </div>
+                            </div>
+                            <p className="text-gray-700 text-sm leading-relaxed">
+                              {reply.message}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
 
             {/* Back to News Button */}
             <div className="mt-12 pt-8 border-t border-gray-200">
