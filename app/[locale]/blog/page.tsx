@@ -28,7 +28,7 @@ export interface BlogPost {
   isPublished: boolean;
 }
 
-export const blogCategories = [
+const blogCategories = [
   "Technology",
   "Design",
   "Development",
@@ -37,7 +37,7 @@ export const blogCategories = [
   "Tutorial",
 ] as const;
 
-export const blogTags = [
+const blogTags = [
   "React",
   "Next.js",
   "TypeScript",
@@ -53,7 +53,7 @@ export const blogTags = [
 ] as const;
 
 // Sample blog data
-export const sampleBlogPosts: BlogPost[] = [
+const sampleBlogPosts: BlogPost[] = [
   {
     id: "1",
     title: "Building Beautiful User Interfaces with Modern CSS",
