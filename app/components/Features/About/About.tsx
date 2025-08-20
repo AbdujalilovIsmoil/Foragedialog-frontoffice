@@ -24,7 +24,7 @@ const About = () => {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [allImages.length]);
 
   const getCurrentImages = () => {
     const images = [];

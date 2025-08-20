@@ -5,6 +5,7 @@ import NewsImage1 from "@/public/images/png/news-image-1.png";
 import NewsImage2 from "@/public/images/png/news-image-2.png";
 import NewsImage3 from "@/public/images/png/news-image-3.png";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import Image from "next/image";
 
 interface NewsItem {
   id: number;
@@ -119,9 +120,11 @@ const News = () => {
                   onClick={() => handleCardClick(news.id)}
                 >
                   <div className="relative overflow-hidden">
-                    <img
-                      src={news.image || "/placeholder.svg"}
+                    <Image
+                      width={500}
+                      height={128}
                       alt={news.title}
+                      src={news.image || "/placeholder.svg"}
                       className="w-full h-32 sm:h-40 lg:h-48 xl:h-52 object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

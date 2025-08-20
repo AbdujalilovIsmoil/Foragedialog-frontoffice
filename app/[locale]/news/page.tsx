@@ -204,7 +204,7 @@ export default function NewsPage() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
-                {filteredNews.map((news, index) => (
+                {filteredNews.map((news) => (
                   <article
                     key={news.id}
                     className="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-gray-100"
