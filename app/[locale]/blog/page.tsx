@@ -6,6 +6,7 @@ import NewsImage1 from "@/public/images/png/news-image-1.png";
 import NewsImage2 from "@/public/images/png/news-image-2.png";
 import NewsImage3 from "@/public/images/png/news-image-3.png";
 import ProfileImage from "@/public/images/png/profile-image.png";
+import Image from "next/image";
 
 export interface BlogPost {
   id: string;
@@ -433,9 +434,11 @@ export default function BlogPage() {
               className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 group"
             >
               <div className="aspect-video overflow-hidden">
-                <img
-                  src={post.featuredImage || "/placeholder.svg"}
+                <Image
+                  width={500}
+                  height={500}
                   alt={post.title}
+                  src={post.featuredImage || "/placeholder.svg"}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
@@ -463,7 +466,9 @@ export default function BlogPage() {
 
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <img
+                    <Image
+                      width={24}
+                      height={24}
                       src={post.author.avatar || "/placeholder.svg"}
                       alt={post.author.name}
                       className="w-6 h-6 rounded-full"

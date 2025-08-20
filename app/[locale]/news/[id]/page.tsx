@@ -3,6 +3,7 @@ import { useParams, useRouter } from "next/navigation";
 import NewsImage1 from "@/public/images/png/news-image-1.png";
 import NewsImage2 from "@/public/images/png/news-image-2.png";
 import NewsImage3 from "@/public/images/png/news-image-3.png";
+import Image from "next/image";
 
 interface NewsArticle {
   id: number;
@@ -142,10 +143,12 @@ export default function NewsView() {
         {/* Hero Section */}
         <section className="relative">
           <div className="relative h-64 sm:h-80 lg:h-96 overflow-hidden">
-            <img
-              src={article.image || "/placeholder.svg"}
+            <Image
+              width={500}
+              height={256}
               alt={article.title}
               className="w-full h-full object-cover"
+              src={article.image || "/placeholder.svg"}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
 

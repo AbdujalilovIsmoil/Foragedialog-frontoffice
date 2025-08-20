@@ -1,11 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import AboutTeamImage1 from "@/public/images/png/team-image-1.png";
 import AboutTeamImage2 from "@/public/images/png/team-image-2.png";
 import AboutTeamImage3 from "@/public/images/png/team-image-3.png";
 import AboutImageTeam from "@/public/images/png/about-image-team.png";
-import Image from "next/image";
 
 interface TeamMember {
   id: number;
@@ -81,7 +81,7 @@ export default function AboutPage() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % teamMembers.length);
-    }, 4000); // 4 soniyada bir marta o'tadi
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
@@ -117,7 +117,6 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Hero Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
@@ -132,7 +131,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Company Info */}
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -168,7 +166,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Team Section */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -191,7 +188,9 @@ export default function AboutPage() {
                       key={member.id}
                       className="bg-white rounded-lg shadow-lg overflow-hidden"
                     >
-                      <img
+                      <Image
+                        width={256}
+                        height={256}
                         src={member.image || "/placeholder.svg"}
                         alt={member.name}
                         className="w-full h-64 object-cover"

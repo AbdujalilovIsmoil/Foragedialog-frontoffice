@@ -210,7 +210,6 @@ export default function NewsPage() {
                     className="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-gray-100"
                     onClick={() => handleNewsClick(news.id)}
                   >
-                    {/* Image Section */}
                     <div className="relative overflow-hidden">
                       <Image
                         width={192}
@@ -221,14 +220,12 @@ export default function NewsPage() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                      {/* Category Badge */}
                       <div className="absolute top-4 left-4">
                         <span className="bg-teal-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
                           {news.category}
                         </span>
                       </div>
 
-                      {/* Read Time */}
                       <div className="absolute top-4 right-4">
                         <span className="bg-white/95 backdrop-blur-sm text-gray-900 text-xs font-medium px-2 py-1 rounded-full shadow-sm">
                           {news.readTime}
@@ -236,7 +233,6 @@ export default function NewsPage() {
                       </div>
                     </div>
 
-                    {/* Content Section */}
                     <div className="p-6">
                       <div className="flex items-center justify-between mb-4">
                         <time className="text-gray-500 text-sm">
