@@ -7,23 +7,27 @@ const __dirname = dirname(__filename);
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-  "@typescript-eslint/no-unused-vars": [
-    "error",
-    {
-      args: "all",
-      argsIgnorePattern: "^_",
-      caughtErrors: "all",
-      caughtErrorsIgnorePattern: "^_",
-      destructuredArrayIgnorePattern: "^_",
-      varsIgnorePattern: "^_",
-      ignoreRestSiblings: true,
-    },
-  ],
-  "react/no-unescaped-entities": 0,
 });
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          args: "all",
+          caughtErrors: "all",
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          ignoreRestSiblings: true,
+          caughtErrorsIgnorePattern: "^_",
+          destructuredArrayIgnorePattern: "^_",
+        },
+      ],
+      "react/no-unescaped-entities": 0,
+    },
+  },
 ];
 
 export default eslintConfig;
