@@ -84,6 +84,16 @@ export default function AboutPage() {
     setIsModalOpen(false);
   };
 
+  const getVisibleMembers = () => {
+    const visible: TeamMember[] = [];
+    const count = Math.min(3, teamMembers.length); // maksimal 3 yoki mavjud elementlar
+    for (let i = 0; i < count; i++) {
+      const index = (currentSlide + i) % teamMembers.length;
+      visible.push(teamMembers[index]);
+    }
+    return visible;
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Jamoa bo'limi */}
@@ -101,7 +111,7 @@ export default function AboutPage() {
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {teamMembers.map((member, visibleIdx) => (
+            {getVisibleMembers().map((member, visibleIdx) => (
               <div
                 key={`${member.id}-${visibleIdx}`}
                 className="bg-white rounded-lg shadow-lg overflow-hidden"
