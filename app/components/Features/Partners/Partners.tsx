@@ -26,10 +26,7 @@ const Partners = () => {
 
         if (data.code === 200 && data.content) {
           const mapped: PartnerItem[] = data.content.map((item: any) => {
-            console.log(
-              "https://back.foragedialog.uz/File/DownloadFile/download?id=" +
-                item.picturesId
-            );
+            console.log(item);
             return {
               id: item.id,
               name: item.name.uz || "No name",
@@ -84,7 +81,7 @@ const Partners = () => {
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-white/50 hover:border-blue-200 transform hover:scale-105 hover:-translate-y-2 h-full group-hover:bg-white/90 partner-card-animate">
                   <div className="flex justify-center mb-6">
                     <div className="w-20 h-20 bg-gradient-to-br from-blue-100 via-sky-50 to-blue-100 rounded-2xl flex items-center justify-center shadow-inner group-hover:shadow-lg transition-all duration-500 partner-logo-animate">
-                      <Image
+                      <img
                         width={80}
                         height={80}
                         src={`${partner.image}`}
