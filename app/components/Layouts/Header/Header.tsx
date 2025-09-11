@@ -15,18 +15,19 @@ const languages = [
 ];
 
 const navigationItems = [
-  { name: "Home", href: "/" },
-  { name: "News", href: "/news" },
+  { name: "Bosh sahifa", href: "/" },
+  { name: "Biz haqimizda", href: "/about" },
+  { name: "Yangiliklar", href: "/news" },
   { name: "Blog", href: "/blog" },
-  { name: "Contact", href: "/contact" },
+  { name: "Kontakt", href: "/contact" },
 ];
 
 const blogDropdownItems = [
-  { name: "All Posts", href: "/blog" },
-  { name: "Technology", href: "/blog/technology" },
-  { name: "Business", href: "/blog/business" },
-  { name: "Design", href: "/blog/design" },
-  { name: "Development", href: "/blog/development" },
+  { name: "Barcha Postlar", href: "/blog" },
+  { name: "Texnologiya", href: "/blog/technology" },
+  { name: "Biznes", href: "/blog/business" },
+  { name: "Dizayn", href: "/blog/design" },
+  { name: "Rivojlantirish", href: "/blog/development" },
 ];
 
 export default function Header() {
@@ -187,9 +188,7 @@ export default function Header() {
                       className="w-full text-left px-3 sm:px-4 py-2 text-[16px] text-gray-700 hover:bg-gray-100 flex items-center"
                     >
                       <span className="mr-2">{language.flag}</span>
-                      <span className="text-[16px]">
-                        {language.name}
-                      </span>
+                      <span className="text-[16px]">{language.name}</span>
                     </button>
                   ))}
                 </div>

@@ -1,27 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import Category1 from "@/public/images/png/category-image-1.png";
-import Category2 from "@/public/images/png/category-image-2.png";
-import Category3 from "@/public/images/png/category-image-3.png";
+import { useState, useEffect } from "react";
 
-const categories = [
-  {
-    id: 1,
-    title: "Web Development",
-    backgroundImage: Category1.src,
-  },
-  {
-    id: 2,
-    title: "UI/UX Design",
-    backgroundImage: Category2.src,
-  },
-  {
-    id: 3,
-    title: "Digital Marketing",
-    backgroundImage: Category3.src,
-  },
-];
+interface Category {
+  id: number;
+  name: {
+    uz: string;
+    ru: string;
+    en: string;
+    ger: string;
+  };
+  picturesId: string;
+}
 
 const categoryIcon = (
   <svg
@@ -40,19 +30,36 @@ const categoryIcon = (
 );
 
 const Categories = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
   const [hoveredCategory, setHoveredCategory] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("http://95.130.227.28:8080/OurCategory/GetAll");
+        const data = await res.json();
+        if (data.code === 200 && data.content) {
+          setCategories(data.content);
+        }
+      } catch (error) {
+        console.error("Kategoriya ma'lumotlarini olishda xato:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-800 mb-4">
-            Our Categories
+            Bizning <span className="text-teal-600">Kategoriyalar</span>
           </h2>
           <div className="w-16 h-0.5 bg-teal-600 mx-auto mb-4"></div>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Discover our comprehensive range of services designed to transform
-            your digital presence
+            Raqamli xizmatlarimizning keng doirasini kashf eting va
+            biznesingizni rivojlantiring
           </p>
         </div>
 
@@ -66,7 +73,9 @@ const Categories = () => {
             >
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                style={{ backgroundImage: `url(${category.backgroundImage})` }}
+                style={{
+                  backgroundImage: `url(http://95.130.227.28:8080/File/DownloadFile/download?id=${category.picturesId})`,
+                }}
               />
 
               <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-black/80 transition-opacity duration-500 group-hover:from-black/60 group-hover:via-black/40 group-hover:to-black/70" />
@@ -88,7 +97,7 @@ const Categories = () => {
 
                 <div className="flex flex-col items-start">
                   <h3 className="text-xl font-bold text-white mb-2 transform transition-all duration-500 group-hover:translate-y-[-2px]">
-                    {category.title}
+                    {category.name.uz}
                   </h3>
 
                   <div
@@ -106,6 +115,6 @@ const Categories = () => {
       </div>
     </section>
   );
-}
+};
 
 export default Categories;

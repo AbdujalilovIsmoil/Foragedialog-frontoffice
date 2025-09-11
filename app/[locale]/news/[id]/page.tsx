@@ -1,9 +1,10 @@
 "use client";
+
+import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import NewsImage1 from "@/public/images/png/news-image-1.png";
 import NewsImage2 from "@/public/images/png/news-image-2.png";
 import NewsImage3 from "@/public/images/png/news-image-3.png";
-import Image from "next/image";
 
 interface NewsArticle {
   id: number;

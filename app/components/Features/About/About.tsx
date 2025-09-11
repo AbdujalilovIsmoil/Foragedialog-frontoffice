@@ -39,11 +39,13 @@ const About = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            About <span className="text-teal-600">Us</span>
+            O‘zbekistonda{" "}
+            <span className="text-teal-600">Qishloq Xo‘jaligi</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            We are a passionate team dedicated to delivering innovative
-            solutions that drive business success.
+            O‘zbekiston qishloq xo‘jaligida barqaror yem-xashak va sut
+            mahsulotlarini yetishtirish orqali oziq-ovqat xavfsizligini
+            ta’minlashga qaratilgan loyihamiz.
           </p>
         </div>
 
@@ -51,28 +53,17 @@ const About = () => {
           <div className="space-y-6">
             <div className="bg-card rounded-2xl p-8 shadow-lg">
               <h3 className="text-2xl font-bold text-foreground mb-4">
-                Who We Are
+                Loyihaning Maqsadi
               </h3>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                We are a dynamic team of innovators, designers, and developers
-                committed to transforming businesses through cutting-edge
-                technology solutions.
+                Barqaror va tuproqni muhofaza qiluvchi yem-xashak yetishtirishni
+                rivojlantirish, kichik va o‘rta fermer xo‘jaliklariga
+                agroekologik maslahatlar berish va amaliy sinovlar o‘tkazish.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                Our expertise spans across web development, mobile applications,
-                and digital transformation, helping companies achieve their
-                goals with precision and creativity.
-              </p>
-            </div>
-
-            <div className="bg-card rounded-2xl p-8 shadow-lg">
-              <h3 className="text-2xl font-bold text-foreground mb-4">
-                What We Do
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                From concept to deployment, we deliver comprehensive digital
-                solutions that enhance user experiences, streamline operations,
-                and drive measurable growth for our clients worldwide.
+                Loyihaning asosiy yo‘nalishlari: texnik va institutsional
+                tajriba almashish, mahalliy sut ishlab chiqarishni ko‘paytirish
+                va Germaniya-O‘zbekiston hamkorligini kuchaytirish.
               </p>
             </div>
           </div>
@@ -89,7 +80,7 @@ const About = () => {
                     width={300}
                     src={image}
                     height={300}
-                    alt={`Company image ${index + 1}`}
+                    alt={`Loyiha tasviri ${index + 1}`}
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
@@ -97,26 +88,6 @@ const About = () => {
               ))}
             </div>
           </div>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
-          {[
-            { number: "500+", label: "Happy Clients" },
-            { number: "1000+", label: "Projects" },
-            { number: "50+", label: "Team Members" },
-            { number: "5+", label: "Years Experience" },
-          ].map((stat, index) => (
-            <div key={index} className="text-center">
-              <div className="bg-card rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-                <div className="text-3xl font-bold text-teal-600 mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-muted-foreground text-sm">
-                  {stat.label}
-                </div>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
 

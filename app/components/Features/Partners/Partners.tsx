@@ -1,59 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/app/components";
-import PartnerImage1 from "@/public/images/png/partners-image-1.png";
-import PartnerImage2 from "@/public/images/png/partners-image-2.png";
-import PartnerImage3 from "@/public/images/png/partners-image-3.png";
 import Image from "next/image";
 
-const partners = [
-  {
-    id: 1,
-    image: PartnerImage1.src,
-    name: "TechCorp Solutions",
-    website: "https://techcorp.com",
-    description: "Innovative technology solutions for modern businesses",
-  },
-  {
-    id: 2,
-    name: "Global Dynamics",
-    image: PartnerImage2.src,
-    website: "https://globaldynamics.com",
-    description: "Driving sustainable growth worldwide",
-  },
-  {
-    id: 3,
-    name: "Innovation Labs",
-    image: PartnerImage3.src,
-    website: "https://innovationlabs.com",
-    description: "Research and development excellence",
-  },
-  {
-    id: 4,
-    name: "Digital Ventures",
-    image: PartnerImage1.src,
-    website: "https://digitalventures.com",
-    description: "Digital transformation specialists",
-  },
-  {
-    id: 5,
-    name: "Future Systems",
-    image: PartnerImage2.src,
-    website: "https://futuresystems.com",
-    description: "Building tomorrow's infrastructure",
-  },
-  {
-    id: 6,
-    name: "Smart Solutions",
-    image: PartnerImage3.src,
-    website: "https://smartsolutions.com",
-    description: "Intelligent business automation",
-  },
-];
+interface PartnerItem {
+  id: number;
+  name: string;
+  about: string;
+  link: string;
+  image: string;
+}
 
 const Partners = () => {
+  const [partners, setPartners] = useState<PartnerItem[]>([]);
   const [_, setHoveredId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchPartners = async () => {
+      try {
+        const res = await fetch("http://95.130.227.28:8080/OurPartners/GetAll");
+        const data = await res.json();
+
+        if (data.code === 200 && data.content) {
+          const mapped: PartnerItem[] = data.content.map((item: any) => ({
+            id: item.id,
+            name: item.name.uz || "No name",
+            about: item.about.uz || "No description",
+            link: item.link || "#",
+            image: item.picturesId
+              ? `http://95.130.227.28:8080/File/DownloadFile/download?id=${item.picturesId}`
+              : "/placeholder.svg",
+          }));
+          setPartners(mapped);
+        }
+      } catch (error) {
+        console.error("Partnerlarni olishda xato:", error);
+      }
+    };
+
+    fetchPartners();
+  }, []);
 
   return (
     <section className="py-16 px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-sky-50 relative overflow-hidden">
@@ -66,13 +53,12 @@ const Partners = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-800 mb-4">
-            Our Partners
+            Bizning Hamkorlar
           </h2>
           <div className="w-16 h-0.5 bg-teal-600 mx-auto mb-4"></div>
-
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Discover our comprehensive range of services designed to transform
-            your digital presence
+            Raqamli dunyodagi mavjudligingizni oshiradigan xizmatlarimizni kashf
+            eting
           </p>
         </div>
 
@@ -81,7 +67,7 @@ const Partners = () => {
             <a
               target="_blank"
               key={partner.id}
-              href={partner.website}
+              href={partner.link}
               rel="noopener noreferrer"
               className="group block"
               onMouseEnter={() => setHoveredId(partner.id)}
@@ -95,7 +81,7 @@ const Partners = () => {
                       width={80}
                       height={80}
                       alt={`${partner.name} logo`}
-                      src={partner.image || "/placeholder.svg"}
+                      src={partner.image}
                       className="w-12 h-12 object-contain transform group-hover:scale-110 transition-transform duration-500 filter group-hover:brightness-110"
                     />
                   </div>
@@ -106,11 +92,11 @@ const Partners = () => {
                     {partner.name}
                   </h3>
                   <p className="text-slate-600 text-sm leading-relaxed mb-4 group-hover:text-slate-700 transition-colors duration-300">
-                    {partner.description}
+                    {partner.about}
                   </p>
 
                   <div className="inline-flex items-center space-x-2 text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
-                    <span className="text-sm font-medium">Visit Website</span>
+                    <span className="text-sm font-medium">Saytga O‘tish</span>
                     <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition-all duration-300 transform group-hover:translate-x-1">
                       <svg
                         className="w-3 h-3"
@@ -137,7 +123,7 @@ const Partners = () => {
 
         <div className="text-center mt-12">
           <Button className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-300 font-medium">
-            <span>Learn More</span>
+            <span>Batafsil</span>
             <svg
               className="w-4 h-4"
               fill="none"

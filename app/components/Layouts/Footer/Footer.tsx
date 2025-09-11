@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import SiteLogoLeft from "@/public/images/png/site-logo-left.webp";
+import Image from "next/image";
 
 const Footer = () => {
   const pages = [
-    { name: "Home", href: "/" },
-    { name: "News", href: "/news" },
+    { name: "Bosh sahifa", href: "/" },
+    { name: "Yangiliklar", href: "/news" },
     { name: "Blog", href: "/blog" },
-    { name: "Contact", href: "/contact" },
+    { name: "Kontakt", href: "/contact" },
   ];
 
   const socialMedia = [
@@ -69,31 +71,32 @@ const Footer = () => {
 
   return (
     <footer className="bg-white border-t border-gray-200">
-      <div className="container">
+      <div className="container mx-auto px-4">
         <div className="py-12">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-            <div className="order-1">
-              <div className="text-center lg:text-left">
-                <div className="w-20 h-20 mx-auto lg:mx-0 mb-4 bg-gradient-to-br from-blue-500 via-purple-600 to-pink-500 rounded-2xl flex items-center justify-center shadow-xl shadow-blue-500/25">
-                  <span className="text-2xl font-bold text-white">L</span>
-                </div>
-
-                <div className="max-w-xs mx-auto lg:mx-0">
-                  <h3 className="text-xl font-bold mb-3 text-black">
-                    Your Company
-                  </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    Creating beautiful digital experiences with innovative
-                    solutions and cutting-edge technology for businesses
-                    worldwide.
-                  </p>
-                </div>
+            {/* Logo va kompaniya haqida */}
+            <div className="text-center lg:text-left">
+              <div className="flex items-center justify-center lg:justify-start mb-4">
+                <Image
+                  src={SiteLogoLeft.src}
+                  alt="Logo"
+                  height={60}
+                  width={150}
+                />
               </div>
+              <h3 className="text-xl font-bold mb-2 text-black">
+                Sizning Kompaniya
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed max-w-xs mx-auto lg:mx-0">
+                Innovatsion yechimlar va ilg‘or texnologiyalar yordamida go‘zal
+                raqamli tajribalar yaratamiz.
+              </p>
             </div>
 
-            <div className="order-2">
+            {/* Tezkor havolalar */}
+            <div>
               <h3 className="text-lg font-semibold mb-6 text-black text-center lg:text-left">
-                Quick Links
+                Tezkor Havolalar
               </h3>
               <nav className="space-y-3">
                 {pages.map((page) => (
@@ -111,41 +114,39 @@ const Footer = () => {
               </nav>
             </div>
 
-            <div className="order-3">
-              <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-                {socialMedia.map((social) => (
-                  <a
-                    target="_blank"
-                    key={social.name}
-                    href={social.href}
-                    className="group flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg hover:bg-gray-200 transition-all duration-300 hover:scale-110"
-                    title={social.name}
-                  >
-                    <div className="text-gray-600 group-hover:text-black transition-colors duration-300">
-                      {social.icon}
-                    </div>
-                  </a>
-                ))}
-              </div>
+            {/* Ijtimoiy tarmoqlar */}
+            <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+              {socialMedia.map((social) => (
+                <a
+                  target="_blank"
+                  key={social.name}
+                  href={social.href}
+                  className="group flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg hover:bg-gray-200 transition-all duration-300 hover:scale-110"
+                  title={social.name}
+                >
+                  <div className="text-gray-600 group-hover:text-black transition-colors duration-300">
+                    {social.icon}
+                  </div>
+                </a>
+              ))}
             </div>
           </div>
         </div>
       </div>
 
       <div className="border-t border-gray-200">
-        <div className="container">
-          <div className="py-6">
-            <div className="text-center">
-              <p className="text-gray-600 text-sm">
-                © {new Date().getFullYear()} Your Company. All rights reserved.
-                |<span className="ml-1">Designed with ❤️ for excellence</span>
-              </p>
-            </div>
+        <div className="container mx-auto px-4">
+          <div className="py-6 text-center">
+            <p className="text-gray-600 text-sm">
+              © {new Date().getFullYear()} Sizning Kompaniya. Barcha huquqlar
+              himoyalangan.
+              <span className="ml-1"> | Sifat uchun ❤️ bilan yaratilgan</span>
+            </p>
           </div>
         </div>
       </div>
     </footer>
   );
-}
+};
 
 export default Footer;
