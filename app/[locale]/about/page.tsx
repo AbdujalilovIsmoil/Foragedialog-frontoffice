@@ -33,7 +33,7 @@ export default function AboutPage() {
   useEffect(() => {
     async function fetchTeam() {
       try {
-        const res = await fetch("http://95.130.227.28:8080/OurTeam/GetAll");
+        const res = await fetch("https://back.foragedialog.uz/OurTeam/GetAll");
         const data = await res.json();
 
         const members: TeamMember[] = data.content.map(
@@ -44,7 +44,7 @@ export default function AboutPage() {
             bio: member.about.uz,
             experience: member.experience.uz,
             skills: member.skills.map((s) => s.uz),
-            image: `http://95.130.227.28:8080/File/DownloadFile/download?id=${member.picturesId}`,
+            image: `https://back.foragedialog.uz/File/DownloadFile/download?id=${member.picturesId}`,
           })
         );
 

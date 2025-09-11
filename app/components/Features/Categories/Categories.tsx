@@ -36,7 +36,7 @@ const Categories = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch("http://95.130.227.28:8080/OurCategory/GetAll");
+        const res = await fetch("https://back.foragedialog.uz/OurCategory/GetAll");
         const data = await res.json();
         if (data.code === 200 && data.content) {
           setCategories(data.content);
@@ -74,7 +74,7 @@ const Categories = () => {
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
                 style={{
-                  backgroundImage: `url(http://95.130.227.28:8080/File/DownloadFile/download?id=${category.picturesId})`,
+                  backgroundImage: `url(https://back.foragedialog.uz/File/DownloadFile/download?id=${category.picturesId})`,
                 }}
               />
 

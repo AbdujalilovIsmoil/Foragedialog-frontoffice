@@ -19,7 +19,7 @@ const Partners = () => {
   useEffect(() => {
     const fetchPartners = async () => {
       try {
-        const res = await fetch("http://95.130.227.28:8080/OurPartners/GetAll");
+        const res = await fetch("https://back.foragedialog.uz/OurPartners/GetAll");
         const data = await res.json();
 
         if (data.code === 200 && data.content) {
@@ -29,7 +29,7 @@ const Partners = () => {
             about: item.about.uz || "No description",
             link: item.link || "#",
             image: item.picturesId
-              ? `http://95.130.227.28:8080/File/DownloadFile/download?id=${item.picturesId}`
+              ? `https://back.foragedialog.uz/File/DownloadFile/download?id=${item.picturesId}`
               : "/placeholder.svg",
           }));
           setPartners(mapped);

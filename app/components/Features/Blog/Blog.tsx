@@ -21,7 +21,7 @@ const Blog = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await fetch("http://95.130.227.28:8080/Blog/GetAll");
+        const res = await fetch("https://back.foragedialog.uz/Blog/GetAll");
         const data = await res.json();
 
         if (data.code === 200 && data.content) {
@@ -36,7 +36,7 @@ const Blog = () => {
             }),
             image:
               item.images && item.images.length > 0
-                ? `http://95.130.227.28:8080/File/DownloadFile/download?id=${item.images[0]}`
+                ? `https://back.foragedialog.uz/File/DownloadFile/download?id=${item.images[0]}`
                 : "/placeholder.svg",
           }));
           setBlogs(mapped);

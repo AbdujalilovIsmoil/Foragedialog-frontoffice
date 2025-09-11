@@ -20,7 +20,7 @@ const News = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const res = await fetch("http://95.130.227.28:8080/News/GetAll");
+        const res = await fetch("https://back.foragedialog.uz/News/GetAll");
         const data = await res.json();
 
         if (data.code === 200 && data.content) {
@@ -37,7 +37,7 @@ const News = () => {
             }),
             images: item.images.map(
               (imgId: string) =>
-                `http://95.130.227.28:8080/File/DownloadFile/download?id=${imgId}`
+                `https://back.foragedialog.uz/File/DownloadFile/download?id=${imgId}`
             ),
           }));
 
