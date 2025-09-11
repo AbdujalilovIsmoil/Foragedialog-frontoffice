@@ -35,9 +35,7 @@ const Partners = () => {
               name: item.name.uz || "No name",
               about: item.about.uz || "No description",
               link: item.link || "#",
-              image: item.picturesId
-                ? `https://back.foragedialog.uz/File/DownloadFile/download?id=${item.picturesId}`
-                : "/placeholder.svg",
+              image: `https://back.foragedialog.uz/File/DownloadFile/download?id=${item.picturesId}`,
             };
           });
           setPartners(mapped);
@@ -72,7 +70,6 @@ const Partners = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {partners.map((partner, index) => {
-            console.log(partner.image);
             return (
               <a
                 target="_blank"
