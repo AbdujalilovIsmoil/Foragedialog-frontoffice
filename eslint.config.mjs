@@ -26,6 +26,7 @@ const eslintConfig = [
         },
       ],
       "react/no-unescaped-entities": 0,
+      "@typescript-eslint/no-explicit-any": "off", // <-- bu yerda any ishlatishga ruxsat beramiz
     },
   },
 ];
