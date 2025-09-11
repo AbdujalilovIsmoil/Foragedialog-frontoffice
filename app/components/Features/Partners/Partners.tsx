@@ -87,8 +87,8 @@ const Partners = () => {
                       <Image
                         width={80}
                         height={80}
+                        src={partner.image ? partner.image : ""}
                         alt={`${partner.name} logo`}
-                        src={partner.image}
                         className="w-12 h-12 object-contain transform group-hover:scale-110 transition-transform duration-500 filter group-hover:brightness-110"
                       />
                     </div>
