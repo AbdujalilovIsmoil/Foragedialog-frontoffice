@@ -26,7 +26,10 @@ const Partners = () => {
 
         if (data.code === 200 && data.content) {
           const mapped: PartnerItem[] = data.content.map((item: any) => {
-            console.log(item.picturesId);
+            console.log(
+              "https://back.foragedialog.uz/File/DownloadFile/download?id=" +
+                item.picturesId
+            );
             return {
               id: item.id,
               name: item.name.uz || "No name",
@@ -68,62 +71,65 @@ const Partners = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {partners.map((partner, index) => (
-            <a
-              target="_blank"
-              key={partner.id}
-              href={partner.link}
-              rel="noopener noreferrer"
-              className="group block"
-              onMouseEnter={() => setHoveredId(partner.id)}
-              onMouseLeave={() => setHoveredId(null)}
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-white/50 hover:border-blue-200 transform hover:scale-105 hover:-translate-y-2 h-full group-hover:bg-white/90 partner-card-animate">
-                <div className="flex justify-center mb-6">
-                  <div className="w-20 h-20 bg-gradient-to-br from-blue-100 via-sky-50 to-blue-100 rounded-2xl flex items-center justify-center shadow-inner group-hover:shadow-lg transition-all duration-500 partner-logo-animate">
-                    <Image
-                      width={80}
-                      height={80}
-                      alt={`${partner.name} logo`}
-                      src={partner.image}
-                      className="w-12 h-12 object-contain transform group-hover:scale-110 transition-transform duration-500 filter group-hover:brightness-110"
-                    />
-                  </div>
-                </div>
-
-                <div className="text-center">
-                  <h3 className="font-bold text-slate-800 text-lg mb-3 group-hover:text-blue-700 transition-colors duration-300">
-                    {partner.name}
-                  </h3>
-                  <p className="text-slate-600 text-sm leading-relaxed mb-4 group-hover:text-slate-700 transition-colors duration-300">
-                    {partner.about}
-                  </p>
-
-                  <div className="inline-flex items-center space-x-2 text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
-                    <span className="text-sm font-medium">Saytga O‘tish</span>
-                    <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition-all duration-300 transform group-hover:translate-x-1">
-                      <svg
-                        className="w-3 h-3"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                        />
-                      </svg>
+          {partners.map((partner, index) => {
+            console.log(partner.image);
+            return (
+              <a
+                target="_blank"
+                key={partner.id}
+                href={partner.link}
+                rel="noopener noreferrer"
+                className="group block"
+                onMouseEnter={() => setHoveredId(partner.id)}
+                onMouseLeave={() => setHoveredId(null)}
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-white/50 hover:border-blue-200 transform hover:scale-105 hover:-translate-y-2 h-full group-hover:bg-white/90 partner-card-animate">
+                  <div className="flex justify-center mb-6">
+                    <div className="w-20 h-20 bg-gradient-to-br from-blue-100 via-sky-50 to-blue-100 rounded-2xl flex items-center justify-center shadow-inner group-hover:shadow-lg transition-all duration-500 partner-logo-animate">
+                      <Image
+                        width={80}
+                        height={80}
+                        alt={`${partner.name} logo`}
+                        src={partner.image}
+                        className="w-12 h-12 object-contain transform group-hover:scale-110 transition-transform duration-500 filter group-hover:brightness-110"
+                      />
                     </div>
                   </div>
-                </div>
 
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-400/0 via-sky-400/0 to-blue-400/0 group-hover:from-blue-400/5 group-hover:via-sky-400/5 group-hover:to-blue-400/5 transition-all duration-500 pointer-events-none"></div>
-              </div>
-            </a>
-          ))}
+                  <div className="text-center">
+                    <h3 className="font-bold text-slate-800 text-lg mb-3 group-hover:text-blue-700 transition-colors duration-300">
+                      {partner.name}
+                    </h3>
+                    <p className="text-slate-600 text-sm leading-relaxed mb-4 group-hover:text-slate-700 transition-colors duration-300">
+                      {partner.about}
+                    </p>
+
+                    <div className="inline-flex items-center space-x-2 text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
+                      <span className="text-sm font-medium">Saytga O‘tish</span>
+                      <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition-all duration-300 transform group-hover:translate-x-1">
+                        <svg
+                          className="w-3 h-3"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-400/0 via-sky-400/0 to-blue-400/0 group-hover:from-blue-400/5 group-hover:via-sky-400/5 group-hover:to-blue-400/5 transition-all duration-500 pointer-events-none"></div>
+                </div>
+              </a>
+            );
+          })}
         </div>
 
         <div className="text-center mt-12">

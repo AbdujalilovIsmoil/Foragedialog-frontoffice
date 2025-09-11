@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "back.foragedialog.uz",
-        pathname: "/File/DownloadFile/download/**", // /** query bilan keladigan barcha URLlarni qamrab oladi
+        pathname: "/File/DownloadFile/download/**",
       },
     ],
   },
