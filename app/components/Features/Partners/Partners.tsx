@@ -81,9 +81,10 @@ const Partners = () => {
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-white/50 hover:border-blue-200 transform hover:scale-105 hover:-translate-y-2 h-full group-hover:bg-white/90 partner-card-animate">
                   <div className="flex justify-center mb-6">
                     <div className="w-20 h-20 bg-gradient-to-br from-blue-100 via-sky-50 to-blue-100 rounded-2xl flex items-center justify-center shadow-inner group-hover:shadow-lg transition-all duration-500 partner-logo-animate">
-                      <img
+                      <Image
                         width={80}
                         height={80}
+                        unoptimized={true}
                         src={`${partner.image}`}
                         alt={`${partner.name} logo`}
                         className="w-12 h-12 object-contain transform group-hover:scale-110 transition-transform duration-500 filter group-hover:brightness-110"
