@@ -4,10 +4,9 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "95.130.227.28",
-        port: "8080",
-        pathname: "/File/DownloadFile/download",
+        protocol: "https",
+        hostname: "back.foragedialog.uz",
+        pathname: "/File/DownloadFile/download/**", // /** query bilan keladigan barcha URLlarni qamrab oladi
       },
     ],
   },

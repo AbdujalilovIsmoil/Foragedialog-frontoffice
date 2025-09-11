@@ -19,19 +19,24 @@ const Partners = () => {
   useEffect(() => {
     const fetchPartners = async () => {
       try {
-        const res = await fetch("https://back.foragedialog.uz/OurPartners/GetAll");
+        const res = await fetch(
+          "https://back.foragedialog.uz/OurPartners/GetAll"
+        );
         const data = await res.json();
 
         if (data.code === 200 && data.content) {
-          const mapped: PartnerItem[] = data.content.map((item: any) => ({
-            id: item.id,
-            name: item.name.uz || "No name",
-            about: item.about.uz || "No description",
-            link: item.link || "#",
-            image: item.picturesId
-              ? `https://back.foragedialog.uz/File/DownloadFile/download?id=${item.picturesId}`
-              : "/placeholder.svg",
-          }));
+          const mapped: PartnerItem[] = data.content.map((item: any) => {
+            console.log(item.picturesId);
+            return {
+              id: item.id,
+              name: item.name.uz || "No name",
+              about: item.about.uz || "No description",
+              link: item.link || "#",
+              image: item.picturesId
+                ? `https://back.foragedialog.uz/File/DownloadFile/download?id=${item.picturesId}`
+                : "/placeholder.svg",
+            };
+          });
           setPartners(mapped);
         }
       } catch (error) {
