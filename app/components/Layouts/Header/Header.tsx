@@ -382,7 +382,7 @@ export default function Header() {
         </div>
       </div>
 
-      {(isLanguageDropdownOpen ||
+      {/* {(isLanguageDropdownOpen ||
         isProfileDropdownOpen ||
         isMobileMenuOpen ||
         isAuthDropdownOpen) && (
@@ -395,7 +395,7 @@ export default function Header() {
             setIsAuthDropdownOpen(false);
           }}
         />
-      )}
+      )} */}
     </header>
   );
 }
