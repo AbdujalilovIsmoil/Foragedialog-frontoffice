@@ -7,12 +7,12 @@ import SiteLogoLeft from "@/public/images/png/site-logo-left.webp";
 import SitLogoRight from "@/public/images/png/site-right-logo.webp";
 import Link from "next/link";
 
-const languages = [
-  { code: "uz", name: "O'zbek", flag: "🇺🇿" },
-  { code: "ru", name: "Русский", flag: "🇷🇺" },
-  { code: "en", name: "English", flag: "🇺🇸" },
-  { code: "de", name: "Deutsch", flag: "🇩🇪" },
-];
+// const languages = [
+//   { code: "uz", name: "O'zbek", flag: "🇺🇿" },
+//   { code: "ru", name: "Русский", flag: "🇷🇺" },
+//   { code: "en", name: "English", flag: "🇺🇸" },
+//   { code: "de", name: "Deutsch", flag: "🇩🇪" },
+// ];
 
 const navigationItems = [
   { name: "Bosh sahifa", href: "/" },
@@ -31,7 +31,7 @@ const blogDropdownItems = [
 ];
 
 export default function Header() {
-  const [selectedLanguage, setSelectedLanguage] = useState(languages[2]); // Default to English
+  // const [selectedLanguage, setSelectedLanguage] = useState(languages[2]); // Default to English
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -135,7 +135,7 @@ export default function Header() {
             </button>
 
             {/* Language Selector */}
-            <div className="relative">
+            {/* <div className="relative">
               <button
                 onClick={() =>
                   setIsLanguageDropdownOpen(!isLanguageDropdownOpen)
@@ -193,7 +193,7 @@ export default function Header() {
                   ))}
                 </div>
               )}
-            </div>
+            </div> */}
 
             {isLoggedIn ? (
               /* Profile Dropdown */
