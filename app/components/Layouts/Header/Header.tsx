@@ -32,7 +32,6 @@ const blogDropdownItems = [
 
 export default function Header() {
   // const [selectedLanguage, setSelectedLanguage] = useState(languages[2]); // Default to English
-  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
