@@ -9,103 +9,171 @@ import HeroBackgroundImage from "@/public/images/png/background-image.avif";
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
-
   const pathName = usePathname();
 
-  console.log(pathName);
+  const language = pathName.split("/")[1];
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
+  interface heroContentInterface {
+    [key: string]: {
+      more: string;
+      title: string;
+      description: string;
+    };
+  }
+
+  const heroContents: heroContentInterface = {
+    uz: {
+      title:
+        "Iqlimga chidamli qishloq xo‘jaligi bo‘yicha Germaniya-O‘zbekiston ekspertlar muloqot dasturi",
+      description: `
+          Germaniya-O‘zbekiston ekspertlar muloqoti dasturi iqlimga chidamli
+          qishloq xo‘jaligini rivojlantirishga qaratilgan. Dasturda asosan
+          sutchilik sohasining samaradorligini oshirish uchun yem-xashak va
+          urug‘ yetishtirishga alohida e’tibor qaratiladi. Biz kichik va
+          o‘rta fermer xo‘jaliklari hamda ilmiy-tadqiqot institutlarini
+          maslahatlar berish, treninglar tashkil etish va amaliy sinovlar
+          o‘tkazish orqali qo‘llab-quvvatlaymiz. Bundan tashqari, manfaatdor
+          tomonlar bilan muloqot orqali barqaror rivojlanish uchun qulay
+          siyosiy sharoitlar yaratishga yordam beramiz. 
+      `,
+      more: "Ko'proq o‘qish",
+    },
+    ru: {
+      title:
+        "Программа германо-узбекского экспертного диалога по климатически устойчивому сельскому хозяйству",
+      description: `
+        Программа германо-узбекского экспертного диалога по
+        климатоустойчивому сельскому хозяйству направлена на развитие
+        устойчивого и адаптированного к климату сельского хозяйства.
+        Основное внимание уделяется производству кормов и семян для
+        повышения продуктивности молочного сектора. Мы поддерживаем малые
+        и средние фермы, а также научно-исследовательские институты,
+        предоставляя консультации, организуя тренинги и проводя
+        практические испытания. Кроме того, через диалог с
+        заинтересованными сторонами мы способствуем созданию благоприятных
+        политических рамок для устойчивого развития.
+      `,
+      more: "Читать далее",
+    },
+    en: {
+      title:
+        "German-Uzbek expert dialogue programme on climate-resilient agriculture",
+      description: `
+        German-Uzbek expert dialogue programme on climate-resilient
+        agriculture focuses on developing sustainable and
+        climate-resilient agriculture. The key emphasis is on fodder and
+        seed production to enhance the productivity of the dairy sector.
+        We support small and medium-sized farms as well as research
+        institutes by providing consultancy, organizing training sessions,
+        and conducting practical trials. Additionally, through dialogue
+        with stakeholders, we help establish favorable policy frameworks
+        for sustainable development.
+      `,
+      more: "Read more",
+    },
+    ger: {
+      title:
+        "Deutsch-usbekisches Fachdialogprogramm zu klimaresilienter Landwirtschaft",
+      description: `
+        Das deutsch-usbekische Expertendialogprogramm für klimaresiliente
+        Landwirtschaft konzentriert sich auf die Entwicklung einer
+        nachhaltigen und klimaresilienten Landwirtschaft. Ein besonderer
+        Schwerpunkt liegt auf der Futter- und Saatgutproduktion, um die
+        Produktivität des Milchsektors zu steigern. Wir unterstützen
+        kleine und mittlere landwirtschaftliche Betriebe sowie
+        Forschungsinstitute durch Beratung, die Organisation von
+        Schulungen und die Durchführung praktischer Versuche. Darüber
+        hinaus helfen wir durch den Dialog mit Interessengruppen, günstige
+        politische Rahmenbedingungen für eine nachhaltige Entwicklung zu
+        schaffen.
+        `,
+      more: "Mehr lesen",
+    },
+  };
+
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden py-[75px] md:py-0">
+      {/* Background with gradient */}
       <div
-        className="absolute inset-0 bg-gradient-to-br from-teal-600 via-teal-500 to-cyan-500"
+        className="absolute inset-0"
         style={{
+          backgroundImage: `linear-gradient(135deg, rgba(13,148,136,0.7), rgba(6,182,212,0.7)), url('${HeroBackgroundImage.src}')`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center center",
-          backgroundImage: `linear-gradient(135deg, rgba(13, 148, 136, 0.7), rgba(6, 182, 212, 0.7)), url('${HeroBackgroundImage.src}')`,
         }}
       />
 
-      <div className="container">
-        <div className="relative z-10 py-20">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div
-              className={`text-white space-y-8 transform transition-all duration-1000 ${
-                isVisible
-                  ? "translate-x-0 opacity-100"
-                  : "-translate-x-10 opacity-0"
-              }`}
+      <div className="relative z-10 container mx-auto px-6 py-20">
+        {/* Title */}
+        <h1 className="text-3xl md:text-5xl text-center font-extrabold leading-tight text-white mb-16">
+          {heroContents[`${language}`].title}
+        </h1>
+
+        {/* Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left Side - Text */}
+          <div
+            className={`text-white space-y-8 transform transition-all duration-1000 ${
+              isVisible
+                ? "translate-x-0 opacity-100"
+                : "-translate-x-10 opacity-0"
+            }`}
+          >
+            <p className="text-lg lg:text-xl text-white leading-relaxed max-w-[800px] mx-auto lg:mx-0">
+              {heroContents[`${language}`].description}
+            </p>
+
+            <Button
+              type="button"
+              className="group bg-white text-teal-700 px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-50 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
-              <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
-                O‘zbekiston
-                <span className="block text-cyan-200">
-                  Iqlimga chidamli qishloq xo‘jaligi bo‘yicha
-                </span>
-              </h1>
-
-              <p className="text-xl lg:text-2xl text-teal-100 leading-relaxed max-w-lg">
-                Germaniya-O‘zbekiston muloqoti. Sut ishlab chiqarishni barqaror
-                oshirish uchun yem-xashak yetishtirish va urug‘chilik sohasida
-                texnik va institutsional tajribani rag‘batlantirish.
-              </p>
-
-              <Button
-                type="button"
-                className="group bg-white text-teal-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-50 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+              {heroContents[`${language}`].more}
+              <svg
+                className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                Ko'proq o'qish
-                <svg
-                  className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
-              </Button>
+                <path
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </Button>
+          </div>
 
-              <div className="relative mt-8">
-                <div className="water-waves">
-                  <div className="wave wave1"></div>
-                  <div className="wave wave2"></div>
-                  <div className="wave wave3"></div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className={`relative transform transition-all duration-1000 delay-300 ${
-                isVisible
-                  ? "translate-x-0 opacity-100"
-                  : "translate-x-10 opacity-0"
-              }`}
-            >
-              <div className="relative">
-                <div className="animate-bounce-slow">
-                  <Image
-                    height={300}
-                    width={300}
-                    unoptimized={true}
-                    src={HeroImage.src}
-                    alt="Hero illustration"
-                    className="w-full h-[300px] md:h-[400px] lg:h-[450px] rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
+          {/* Right Side - Image */}
+          <div
+            className={`relative transform transition-all duration-1000 delay-300 flex justify-center ${
+              isVisible
+                ? "translate-x-0 opacity-100"
+                : "translate-x-10 opacity-0"
+            }`}
+          >
+            <div className="relative max-w-sm sm:max-w-md md:max-w-lg">
+              <div className="animate-bounce-slow">
+                <Image
+                  width={500}
+                  height={500}
+                  unoptimized
+                  src={HeroImage.src}
+                  alt="Hero illustration"
+                  className="w-full h-auto max-h-[500px] rounded-3xl shadow-2xl transform hover:scale-105 transition-transform duration-500"
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Decorative Waves + Floating Particles */}
       <div className="absolute bottom-0 left-0 right-0 overflow-hidden">
         <div className="relative">
           <svg
@@ -140,6 +208,7 @@ const Hero = () => {
             <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"></path>
           </svg>
 
+          {/* Floating particles */}
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute top-4 left-1/4 w-2 h-2 bg-white/30 rounded-full animate-float-particle-1"></div>
             <div className="absolute top-8 left-1/2 w-1.5 h-1.5 bg-white/40 rounded-full animate-float-particle-2"></div>

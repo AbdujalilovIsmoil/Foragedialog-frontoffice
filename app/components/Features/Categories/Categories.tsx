@@ -3,6 +3,7 @@
 import { get } from "lodash";
 import { useState } from "react";
 import { useGet } from "@/app/hooks";
+import { usePathname } from "next/navigation";
 
 interface Category {
   id: number;
@@ -17,21 +18,18 @@ interface Category {
 
 const categoryIcon = (
   <svg
+    xmlns="http://www.w3.org/2000/svg"
     className="w-8 h-8 text-white"
-    fill="none"
-    stroke="currentColor"
     viewBox="0 0 24 24"
+    fill="currentColor"
   >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-    />
+    <path d="M5 21c7 0 12-5 12-12V4a1 1 0 0 0-1-1h-5C6.477 3 3 6.477 3 11v5a5 5 0 0 0 2 4z" />
   </svg>
 );
 
 const Categories = () => {
+  const pathName = usePathname();
+  const language = pathName.split("/")[1];
   const [hoveredCategory, setHoveredCategory] = useState<number | null>(null);
 
   const { data } = useGet({
@@ -39,17 +37,47 @@ const Categories = () => {
     path: "/OurCategory/GetAll",
   });
 
+  interface categoryContentInterface {
+    [key: string]: {
+      title: string;
+      description: string;
+    };
+  }
+
+  const categoryContent: categoryContentInterface = {
+    uz: {
+      title: "Bizning Kategoriyalar",
+      description: `
+      Raqamli xizmatlarimizning keng doirasini kashf eting va
+      biznesingizni rivojlantiring`,
+    },
+    ru: {
+      title: "Наши категории",
+      description: `
+      Откройте для себя наш широкий спектр цифровых услуг и развивайте свой бизнес`,
+    },
+    en: {
+      title: "Our categories",
+      description: `
+      Discover our wide range of digital services and grow your business`,
+    },
+    ger: {
+      title: "Unsere Kategorien",
+      description: `
+      Entdecken Sie unser breites Angebot an digitalen Services und erweitern Sie Ihr Geschäft`,
+    },
+  };
+
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-800 mb-4">
-            Bizning <span className="text-teal-600">Kategoriyalar</span>
+            {categoryContent[`${language}`].title}
           </h2>
           <div className="w-16 h-0.5 bg-teal-600 mx-auto mb-4"></div>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Raqamli xizmatlarimizning keng doirasini kashf eting va
-            biznesingizni rivojlantiring
+            {categoryContent[`${language}`].description}
           </p>
         </div>
 
@@ -87,7 +115,7 @@ const Categories = () => {
 
                 <div className="flex flex-col items-start">
                   <h3 className="text-xl font-bold text-white mb-2 transform transition-all duration-500 group-hover:translate-y-[-2px]">
-                    {category.name.uz}
+                    {category.name[`${language}` as "uz" | "ru" | "en" | "ger"]}
                   </h3>
 
                   <div
