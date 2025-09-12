@@ -6,13 +6,13 @@ import { useGet } from "@/app/hooks";
 
 interface Category {
   id: number;
+  picturesId: string;
   name: {
     uz: string;
     ru: string;
     en: string;
     ger: string;
   };
-  picturesId: string;
 }
 
 const categoryIcon = (
