@@ -32,7 +32,7 @@ export default function RootLayout({
       <head>
         <meta
           content="upgrade-insecure-requests"
-          http-equiv="Content-Security-Policy"
+          httpEquiv="Content-Security-Policy"
         />
       </head>
       <body
