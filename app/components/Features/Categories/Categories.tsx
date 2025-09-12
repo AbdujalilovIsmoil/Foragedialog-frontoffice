@@ -74,7 +74,7 @@ const Categories = () => {
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
                 style={{
-                  backgroundImage: `url(https://back.foragedialog.uz/File/DownloadFile/download?id=${category.picturesId})`,
+                  backgroundImage: `url(https://back.foragedialog.uz/File/DownloadFile/download/${category.picturesId})`,
                 }}
               />
 

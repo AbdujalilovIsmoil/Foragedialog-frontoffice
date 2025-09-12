@@ -44,7 +44,7 @@ export default function AboutPage() {
             bio: member.about.uz,
             experience: member.experience.uz,
             skills: member.skills.map((s) => s.uz),
-            image: `https://back.foragedialog.uz/File/DownloadFile/download?id=${member.picturesId}`,
+            image: `https://back.foragedialog.uz/File/DownloadFile/download/${member.picturesId}`,
           })
         );
 

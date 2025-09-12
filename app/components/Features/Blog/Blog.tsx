@@ -36,7 +36,7 @@ const Blog = () => {
             }),
             image:
               item.images && item.images.length > 0
-                ? `https://back.foragedialog.uz/File/DownloadFile/download?id=${item.images[0]}`
+                ? `https://back.foragedialog.uz/File/DownloadFile/download/${item.images[0]}`
                 : "/placeholder.svg",
           }));
           setBlogs(mapped);

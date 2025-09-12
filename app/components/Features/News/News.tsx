@@ -37,7 +37,7 @@ const News = () => {
             }),
             images: item.images.map(
               (imgId: string) =>
-                `https://back.foragedialog.uz/File/DownloadFile/download?id=${imgId}`
+                `https://back.foragedialog.uz/File/DownloadFile/download/${imgId}`
             ),
           }));
 

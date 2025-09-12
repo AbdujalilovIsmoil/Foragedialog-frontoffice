@@ -32,7 +32,7 @@ const Partners = () => {
               name: item.name.uz || "No name",
               about: item.about.uz || "No description",
               link: item.link || "#",
-              image: `https://back.foragedialog.uz/File/DownloadFile/download?id=${item.picturesId}`,
+              image: `https://back.foragedialog.uz/File/DownloadFile/download/${item.picturesId}`,
             };
           });
           setPartners(mapped);
