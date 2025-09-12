@@ -3,11 +3,16 @@
 import Image from "next/image";
 import { Button } from "@/app/components";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import HeroImage from "@/public/images/png/hero-image.webp";
 import HeroBackgroundImage from "@/public/images/png/background-image.avif";
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
+
+  const pathName = usePathname();
+
+  console.log(pathName);
 
   useEffect(() => {
     setIsVisible(true);
@@ -89,26 +94,11 @@ const Hero = () => {
                   <Image
                     height={300}
                     width={300}
-                    src={HeroImage.src}
                     unoptimized={true}
+                    src={HeroImage.src}
                     alt="Hero illustration"
                     className="w-full h-[300px] md:h-[400px] lg:h-[450px] rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-500"
                   />
-                </div>
-
-                <div className="absolute -top-4 -right-4 w-20 h-20 bg-cyan-300 rounded-full opacity-70 animate-pulse"></div>
-                <div className="absolute -bottom-6 -left-6 w-16 h-16 bg-teal-300 rounded-full opacity-60 animate-pulse delay-1000"></div>
-
-                <div className="absolute top-10 -left-8 bg-white/20 backdrop-blur-sm rounded-lg p-4 animate-float">
-                  <div className="w-8 h-8 bg-cyan-400 rounded-full mb-2"></div>
-                  <div className="w-16 h-2 bg-white/60 rounded"></div>
-                  <div className="w-12 h-2 bg-white/40 rounded mt-1"></div>
-                </div>
-
-                <div className="absolute bottom-16 -right-8 bg-white/20 backdrop-blur-sm rounded-lg p-4 animate-float delay-500">
-                  <div className="w-8 h-8 bg-teal-400 rounded-full mb-2"></div>
-                  <div className="w-16 h-2 bg-white/60 rounded"></div>
-                  <div className="w-12 h-2 bg-white/40 rounded mt-1"></div>
                 </div>
               </div>
             </div>

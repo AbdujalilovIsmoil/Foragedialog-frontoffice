@@ -132,7 +132,7 @@ const Header = () => {
             })}
           </nav>
 
-          <div className="hidden md:flex items-center space-x-3 sm:space-x-5">
+          <div className="hidden md:flex items-center space-x-2 sm:space-x-5">
             <div className="relative">
               <Button
                 type="button"
@@ -142,7 +142,6 @@ const Header = () => {
                 className="flex items-center gap-2 px-3 py-2 text-[18px] font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
               >
                 {languages.find((l) => l.code === language)?.flag}{" "}
-                {languages.find((l) => l.code === language)?.name}
               </Button>
 
               {isLanguageDropdownOpen && (
@@ -152,10 +151,9 @@ const Header = () => {
                       key={l.code}
                       type="button"
                       onClick={() => changeLanguage(l.code)}
-                      className="w-full text-left px-4 py-2 text-[16px] text-gray-700 hover:bg-gray-100 flex items-center"
+                      className="text-left px-4 py-2 text-[16px] text-gray-700 hover:bg-gray-100"
                     >
-                      <span className="mr-2">{l.flag}</span>
-                      {l.name}
+                      <span className="mr-2 text-[18px]">{l.flag}</span>
                     </Button>
                   ))}
                 </div>
