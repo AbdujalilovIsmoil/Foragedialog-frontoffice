@@ -2,18 +2,15 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, User } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/app/components";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
-import ProfileImage from "@/public/images/png/profile-image.png";
 import SiteLogoLeft from "@/public/images/png/site-logo-left.webp";
-import SiteLogoLeftGerman from "@/public/images/png/site-logo-left-german.png";
 import SiteLogoRight from "@/public/images/png/site-right-logo.webp";
-import { storage } from "@/app/services";
+import SiteLogoLeftGerman from "@/public/images/png/site-logo-left-german.png";
 
-// qo‘llab-quvvatlanadigan tillar
 const languages = [
   { code: "uz", name: "O'zbek", flag: "🇺🇿" },
   { code: "ru", name: "Русский", flag: "🇷🇺" },
@@ -21,7 +18,6 @@ const languages = [
   { code: "ger", name: "Deutsch", flag: "🇩🇪" },
 ];
 
-// menu itemlari (til bo‘yicha)
 const navigationItems: Record<string, { name: string; href: string }[]> = {
   uz: [
     { name: "Bosh sahifa", href: "/" },
@@ -54,27 +50,12 @@ const navigationItems: Record<string, { name: string; href: string }[]> = {
 };
 
 export default function Header() {
-  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
-  const [language, setLanguage] = useState<string>("uz"); // default
-
-  // ✅ Auth holati (localStorage bilan)
+  const [language, setLanguage] = useState<string>("uz");
 
   const pathname = usePathname();
   const router = useRouter();
-
-  // localStorage orqali auth holatini saqlab qolamiz
-
-  const login = () => {
-    router.push(`${language}/login`);
-    // setIsAuthenticated(true);
-  };
-
-  const logout = () => {
-    storage.remove("isAuthenticated");
-    setIsProfileDropdownOpen(false);
-  };
 
   useEffect(() => {
     const currentLang = pathname.split("/")[1];
@@ -93,35 +74,66 @@ export default function Header() {
     setIsLanguageDropdownOpen(false);
   };
 
+  interface NavItemProps {
+    name: string;
+    href: string;
+    language: string;
+  }
+
+  const NavItem = ({ name, href, language }: NavItemProps) => {
+    const pathname = usePathname();
+
+    const normalize = (path: string) =>
+      path.endsWith("/") && path !== "/" ? path.slice(0, -1) : path;
+
+    const currentPath = normalize(pathname);
+    const targetPath = normalize(`/${language}${href}`);
+
+    const isActive = currentPath === targetPath;
+
+    return (
+      <Link
+        href={`/${language}${href}`}
+        className={`text-[18px] font-medium transition-colors underline-offset-4 decoration-2 ${
+          isActive
+            ? "text-[#009689] underline decoration-[#009689]"
+            : "text-gray-700 hover:text-[#009689] hover:underline decoration-[#009689]"
+        }`}
+      >
+        {name}
+      </Link>
+    );
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white backdrop-blur-sm shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Image
-            src={language === "ger" ? SiteLogoLeftGerman : SiteLogoLeft}
-            alt="logo"
-            width={150}
-            height={60}
-            className="w-[150px] h-auto"
-          />
+          <Link href={`/${language}`}>
+            <Image
+              alt="logo"
+              width={150}
+              height={60}
+              className="w-[150px] h-auto"
+              src={language === "ger" ? SiteLogoLeftGerman : SiteLogoLeft}
+            />
+          </Link>
 
-          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
-            {navigationItems[language]?.map((item) => (
-              <Link
-                key={item.name}
-                href={`/${language}${item.href}`}
-                className="text-[18px] font-medium text-gray-700 hover:text-gray-900 transition-colors hover:underline underline-offset-4 decoration-2 decoration-blue-500"
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navigationItems[language]?.map((item) => {
+              console.log(item);
+              return (
+                <NavItem
+                  key={item.name}
+                  name={item.name}
+                  href={item.href}
+                  language={language}
+                />
+              );
+            })}
           </nav>
 
-          {/* Right side (desktop) */}
           <div className="hidden md:flex items-center space-x-3 sm:space-x-5">
-            {/* Language dropdown */}
             <div className="relative">
               <Button
                 type="button"
@@ -151,7 +163,6 @@ export default function Header() {
               )}
             </div>
 
-            {/* Right logo */}
             <Image
               src={SiteLogoRight}
               alt="logo"
@@ -161,7 +172,6 @@ export default function Header() {
             />
           </div>
 
-          {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center">
             <Button
               type="button"
@@ -177,7 +187,6 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-gray-200 py-4 space-y-2 animate-slideDown">
             {navigationItems[language]?.map((item) => (
@@ -191,7 +200,6 @@ export default function Header() {
               </Link>
             ))}
 
-            {/* Language select mobile */}
             <div className="px-4 pt-2 border-t border-gray-200">
               <p className="text-sm text-gray-500 mb-2">Tilni tanlang:</p>
               <div className="flex flex-wrap gap-2">
