@@ -1,6 +1,6 @@
 import { storage } from "../services";
 
-interface initialStateInterface {
+export interface initialStateInterface {
   isAuth: boolean | undefined | null | string;
 }
 
@@ -15,7 +15,10 @@ interface actionInterface {
   payload: React.ReactNode;
 }
 
-const reducer = (state = initialState, action: actionInterface) => {
+const reducer = (
+  state: initialStateInterface = initialState,
+  action: actionInterface
+) => {
   switch (action.type) {
     case "SIGN_UP":
       return {
