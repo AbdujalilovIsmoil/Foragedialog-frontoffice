@@ -14,7 +14,7 @@ import SiteLogoLeftGerman from "@/public/images/png/site-logo-left-german.png";
 const languages = [
   { code: "uz", name: "O'zbek", flag: "🇺🇿" },
   { code: "ru", name: "Русский", flag: "🇷🇺" },
-  { code: "en", name: "English", flag: "🇺🇸" },
+  { code: "en", name: "English", flag: "🇺🇬" },
   { code: "ger", name: "Deutsch", flag: "🇩🇪" },
 ];
 
@@ -145,7 +145,7 @@ const Header = () => {
               </Button>
 
               {isLanguageDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-50">
+                <div className="absolute right-0 mt-2 w-30 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-50">
                   {languages.map((l) => (
                     <Button
                       key={l.code}
@@ -211,7 +211,7 @@ const Header = () => {
                         : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                     }`}
                   >
-                    <span>{l.flag}</span> {l.name}
+                    <span>{l.flag}</span>
                   </Button>
                 ))}
               </div>
