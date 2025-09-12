@@ -60,18 +60,11 @@ export default function Header() {
   const [language, setLanguage] = useState<string>("uz"); // default
 
   // ✅ Auth holati (localStorage bilan)
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
 
   // localStorage orqali auth holatini saqlab qolamiz
-  useEffect(() => {
-    const savedAuth = localStorage.getItem("isAuthenticated");
-    if (savedAuth === "true") {
-      setIsAuthenticated(true);
-    }
-  }, []);
 
   const login = () => {
     router.push(`${language}/login`);
@@ -79,7 +72,6 @@ export default function Header() {
   };
 
   const logout = () => {
-    setIsAuthenticated(false);
     storage.remove("isAuthenticated");
     setIsProfileDropdownOpen(false);
   };
@@ -159,64 +151,6 @@ export default function Header() {
               )}
             </div>
 
-            {!isAuthenticated ? (
-              <Button
-                onClick={login}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg shadow-md hover:from-blue-700 hover:to-indigo-700 transition-all"
-              >
-                <User className="h-5 w-5" /> Sign In
-              </Button>
-            ) : (
-              <div className="relative">
-                <Button
-                  type="button"
-                  onClick={() =>
-                    setIsProfileDropdownOpen(!isProfileDropdownOpen)
-                  }
-                  className="flex items-center justify-center h-9 w-9 rounded-full hover:ring-2 hover:ring-blue-500 hover:ring-offset-2 transition-all"
-                >
-                  <Image
-                    src={ProfileImage}
-                    alt="Profile"
-                    width={36}
-                    height={36}
-                    className="rounded-full object-cover"
-                  />
-                </Button>
-                {isProfileDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50">
-                    <div className="px-4 py-3 border-b border-gray-100">
-                      <p className="font-medium text-gray-900 text-sm">
-                        John Doe
-                      </p>
-                      <p className="text-xs text-gray-500 truncate">
-                        john.doe@example.com
-                      </p>
-                    </div>
-                    <Link
-                      href="/profile"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                    >
-                      Profile
-                    </Link>
-                    <Link
-                      href="/settings"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                    >
-                      Settings
-                    </Link>
-                    <Button
-                      type="button"
-                      onClick={logout}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-                    >
-                      Logout
-                    </Button>
-                  </div>
-                )}
-              </div>
-            )}
-
             {/* Right logo */}
             <Image
               src={SiteLogoRight}
@@ -276,25 +210,6 @@ export default function Header() {
                   </Button>
                 ))}
               </div>
-            </div>
-
-            {/* Mobile Auth */}
-            <div className="px-4 pt-4 border-t border-gray-200">
-              {!isAuthenticated ? (
-                <Button
-                  onClick={login}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all"
-                >
-                  <User className="h-5 w-5" /> Sign In
-                </Button>
-              ) : (
-                <Button
-                  onClick={logout}
-                  className="w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
-                >
-                  Logout
-                </Button>
-              )}
             </div>
           </div>
         )}

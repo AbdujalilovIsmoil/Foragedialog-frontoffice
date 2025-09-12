@@ -33,7 +33,7 @@ const Blog = () => {
     image:
       item.images && item.images.length > 0
         ? `${process.env.NEXT_PUBLIC_API_URL}/File/DownloadFile/download/${item.images[0]}`
-        : "/placeholder.svg",
+        : "",
   }));
 
   const handleCardClick = (blogId: number) => {

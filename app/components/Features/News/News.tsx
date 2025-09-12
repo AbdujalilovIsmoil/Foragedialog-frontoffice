@@ -21,8 +21,6 @@ const News = () => {
     path: "/News/GetAll",
   });
 
-  console.log(data);
-
   const formattedNews: NewsItem[] = get(data, "content", []).map(
     (item: any) => ({
       id: item.id,

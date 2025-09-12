@@ -422,7 +422,7 @@ export default function BlogPage() {
                   height={500}
                   alt={post.title}
                   unoptimized={true}
-                  src={post.featuredImage || "/placeholder.svg"}
+                  src={post.featuredImage || ""}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
@@ -454,8 +454,8 @@ export default function BlogPage() {
                       width={24}
                       height={24}
                       unoptimized={true}
-                      src={post.author.avatar || "/placeholder.svg"}
                       alt={post.author.name}
+                      src={post.author.avatar || ""}
                       className="w-6 h-6 rounded-full"
                     />
                     <span className="text-sm text-muted-foreground font-serif">

@@ -150,8 +150,8 @@ export default function NewsView() {
               height={256}
               unoptimized={true}
               alt={article.title}
+              src={article.image || ""}
               className="w-full h-full object-cover"
-              src={article.image || "/placeholder.svg"}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
 
