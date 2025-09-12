@@ -48,7 +48,13 @@ export default function Header() {
         <div className="flex items-center justify-between">
           {/* Left Logo */}
           <div className="flex items-center">
-            <Image src={SiteLogoLeft.src} alt="logo" height={60} width={150} />
+            <Image
+              unoptimized={true}
+              src={SiteLogoLeft.src}
+              alt="logo"
+              height={60}
+              width={150}
+            />
           </div>
 
           {/* Navigation Menu - Hidden on mobile */}
@@ -207,6 +213,7 @@ export default function Header() {
                     width={32}
                     height={32}
                     alt="Profile"
+                    unoptimized={true}
                     src={ProfileImage}
                     className="h-8 w-8 sm:h-9 sm:w-9 rounded-full object-cover"
                     onError={(e) => {
@@ -356,7 +363,13 @@ export default function Header() {
 
             {/* Right Logo */}
             <div className="flex items-center">
-              <Image src={SitLogoRight} alt="logo" height={60} width={150} />
+              <Image
+                unoptimized={true}
+                src={SitLogoRight}
+                alt="logo"
+                height={60}
+                width={150}
+              />
             </div>
           </div>
         </div>

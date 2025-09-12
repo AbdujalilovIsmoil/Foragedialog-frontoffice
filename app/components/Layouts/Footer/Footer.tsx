@@ -80,6 +80,7 @@ const Footer = () => {
                 <Image
                   src={SiteLogoLeft.src}
                   alt="Logo"
+                  unoptimized={true}
                   height={60}
                   width={150}
                 />

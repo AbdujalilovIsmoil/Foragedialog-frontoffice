@@ -87,6 +87,7 @@ const Hero = () => {
                     height={300}
                     width={300}
                     src={HeroImage.src}
+                    unoptimized={true}
                     alt="Hero illustration"
                     className="w-full h-[300px] md:h-[400px] lg:h-[450px] rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-500"
                   />

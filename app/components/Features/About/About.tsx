@@ -79,6 +79,7 @@ const About = () => {
                   <Image
                     width={300}
                     src={image}
+                    unoptimized={true}
                     height={300}
                     alt={`Loyiha tasviri ${index + 1}`}
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"

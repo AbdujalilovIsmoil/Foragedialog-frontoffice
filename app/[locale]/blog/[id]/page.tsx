@@ -244,6 +244,7 @@ export default function NewsView() {
             <Image
               width={500}
               height={256}
+              unoptimized={true}
               alt={article.title}
               className="w-full h-full object-cover"
               src={article.image || "/placeholder.svg"}

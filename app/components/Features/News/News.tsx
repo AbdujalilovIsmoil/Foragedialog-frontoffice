@@ -107,6 +107,7 @@ const News = () => {
                       src={news.images[0] || "/placeholder.svg"}
                       width={500}
                       height={200}
+                      unoptimized={true}
                       alt={news.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />

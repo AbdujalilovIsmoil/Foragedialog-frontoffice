@@ -119,6 +119,7 @@ export default function AboutPage() {
                 <Image
                   width={256}
                   height={256}
+                  unoptimized={true}
                   src={member.image}
                   alt={member.name}
                   className="w-full h-64 object-cover"
@@ -285,6 +286,7 @@ export default function AboutPage() {
                 <Image
                   height={256}
                   width={250}
+                  unoptimized={true}
                   src={selectedMember.image}
                   alt={selectedMember.name}
                   className="w-full h-full object-cover rounded-lg"

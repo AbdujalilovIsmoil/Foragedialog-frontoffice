@@ -107,6 +107,7 @@ const Blog = () => {
                       width={500}
                       height={128}
                       alt={blog.title}
+                      unoptimized={true}
                       src={blog.image}
                       className="w-full h-32 sm:h-40 lg:h-48 xl:h-52 object-cover group-hover:scale-105 transition-transform duration-500"
                     />

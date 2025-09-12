@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Button } from "@/app/components";
 import Image from "next/image";
+import { Button } from "@/app/components";
+import { useEffect, useState } from "react";
 
 interface PartnerItem {
   id: number;
