@@ -21,11 +21,6 @@ const News = () => {
     path: "/News/GetAll",
   });
 
-  const categories = useGet({
-    queryKey: "news-category",
-    path: "/NewsCategory/GetAll",
-  });
-
   console.log(data);
 
   const formattedNews: NewsItem[] = get(data, "content", []).map(
