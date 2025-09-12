@@ -49,13 +49,12 @@ const navigationItems: Record<string, { name: string; href: string }[]> = {
   ],
 };
 
-export default function Header() {
+const Header = () => {
+  const router = useRouter();
+  const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [language, setLanguage] = useState<string>("uz");
-
-  const pathname = usePathname();
-  const router = useRouter();
 
   useEffect(() => {
     const currentLang = pathname.split("/")[1];
@@ -224,4 +223,6 @@ export default function Header() {
       </div>
     </header>
   );
-}
+};
+
+export default Header;
