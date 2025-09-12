@@ -112,7 +112,6 @@ export default function NewsPage() {
   return (
     <div className="min-h-screen bg-white">
       <main className="pt-20">
-        {/* Hero Section */}
         <section className="bg-gradient-to-br from-teal-50 to-cyan-50 py-12 lg:py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
@@ -127,11 +126,9 @@ export default function NewsPage() {
           </div>
         </section>
 
-        {/* Search and Filter Section */}
         <section className="py-8 bg-white border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
-              {/* Search Bar */}
               <div className="relative w-full lg:w-96">
                 <input
                   type="text"
@@ -155,10 +152,10 @@ export default function NewsPage() {
                 </svg>
               </div>
 
-              {/* Category Filter */}
               <div className="flex flex-wrap gap-2 justify-center lg:justify-end">
                 {categories.map((category) => (
-                  <button
+                  <Button
+                    type="button"
                     key={category}
                     onClick={() => setSelectedCategory(category)}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
@@ -168,14 +165,13 @@ export default function NewsPage() {
                     }`}
                   >
                     {category}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
           </div>
         </section>
 
-        {/* News Grid Section */}
         <section className="py-12 lg:py-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {filteredNews.length === 0 ? (
@@ -266,8 +262,9 @@ export default function NewsPage() {
                       </p>
 
                       <Button
-                        className="inline-flex items-center px-6 py-3 bg-teal-600 text-white font-semibold rounded-xl hover:bg-teal-700 transition-all duration-300 transform hover:scale-105"
+                        type="button"
                         onClick={() => router.push(`/news/${news.id}`)}
+                        className="inline-flex items-center px-6 py-3 bg-teal-600 text-white font-semibold rounded-xl hover:bg-teal-700 transition-all duration-300 transform hover:scale-105"
                       >
                         Read Full Article
                         <svg

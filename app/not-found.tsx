@@ -36,6 +36,7 @@ const NotFound = () => {
           </Link>
 
           <Button
+            type="button"
             onClick={() => router.back()}
             className="inline-block w-full bg-white text-teal-600 font-medium py-3 px-6 rounded-lg border-2 border-teal-600 hover:bg-teal-50 transition-all duration-300"
           >

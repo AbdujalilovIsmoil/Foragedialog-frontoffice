@@ -1,84 +1,76 @@
 "use client";
 
+import { get } from "lodash";
 import Image from "next/image";
+import { useGet } from "@/app/hooks";
+import { Button } from "@/app/components";
 import { useState, useEffect } from "react";
 
 interface ApiTeamMember {
   id: number;
+  picturesId: string;
   name: { uz: string; ru?: string; en?: string; ger?: string };
   role: { uz: string; ru?: string; en?: string; ger?: string };
   about: { uz: string; ru?: string; en?: string; ger?: string };
-  experience: { uz: string; ru?: string; en?: string; ger?: string };
   skills: { uz: string; ru?: string; en?: string; ger?: string }[];
-  picturesId: string;
+  experience: { uz: string; ru?: string; en?: string; ger?: string };
 }
 
 interface TeamMember {
   id: number;
-  name: string;
-  position: string;
   bio: string;
-  experience: string;
-  skills: string[];
+  name: string;
   image: string;
+  skills: string[];
+  position: string;
+  experience: string;
 }
 
-export default function AboutPage() {
-  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+const About = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // API dan jamoani olish
+  const { data } = useGet({
+    queryKey: "our-team",
+    path: "/OurTeam/GetAll",
+  });
+
+  const members: TeamMember[] = get(data, "content", []).map(
+    (member: ApiTeamMember) => ({
+      id: member.id,
+      name: member.name.uz,
+      position: member.role.uz,
+      bio: member.about.uz,
+      experience: member.experience.uz,
+      skills: member.skills.map((s) => s.uz),
+      image: `${process.env.NEXT_PUBLIC_API_URL}/File/DownloadFile/download/${member.picturesId}`,
+    })
+  );
+
   useEffect(() => {
-    async function fetchTeam() {
-      try {
-        const res = await fetch("https://back.foragedialog.uz/OurTeam/GetAll");
-        const data = await res.json();
-
-        const members: TeamMember[] = data.content.map(
-          (member: ApiTeamMember) => ({
-            id: member.id,
-            name: member.name.uz,
-            position: member.role.uz,
-            bio: member.about.uz,
-            experience: member.experience.uz,
-            skills: member.skills.map((s) => s.uz),
-            image: `https://back.foragedialog.uz/File/DownloadFile/download/${member.picturesId}`,
-          })
-        );
-
-        setTeamMembers(members);
-      } catch (error) {
-        console.error("Jamoa ma'lumotlarini olishda xatolik:", error);
-      }
-    }
-
-    fetchTeam();
-  }, []);
-
-  // Carousel avtomatik
-  useEffect(() => {
-    if (!teamMembers.length) return;
+    if (!get(members, "length", [])) return;
 
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % teamMembers.length);
+      setCurrentSlide((prev) => (prev + 1) % members.length);
     }, 4000);
 
     return () => clearInterval(interval);
-  }, [teamMembers]);
+  }, [members]);
 
   const nextSlide = () =>
-    setCurrentSlide((prev) => (prev + 1) % teamMembers.length);
+    setCurrentSlide((prev) => (prev + 1) % get(members, "length", 0));
   const prevSlide = () =>
     setCurrentSlide(
-      (prev) => (prev - 1 + teamMembers.length) % teamMembers.length
+      (prev) =>
+        (prev - 1 + get(members, "length", 0)) % get(members, "length", 0)
     );
 
   const openModal = (member: TeamMember) => {
     setSelectedMember(member);
     setIsModalOpen(true);
   };
+
   const closeModal = () => {
     setSelectedMember(null);
     setIsModalOpen(false);
@@ -86,17 +78,16 @@ export default function AboutPage() {
 
   const getVisibleMembers = () => {
     const visible: TeamMember[] = [];
-    const count = Math.min(3, teamMembers.length); // maksimal 3 yoki mavjud elementlar
+    const count = Math.min(3, get(members, "length", 0)); // maksimal 3 yoki mavjud elementlar
     for (let i = 0; i < count; i++) {
-      const index = (currentSlide + i) % teamMembers.length;
-      visible.push(teamMembers[index]);
+      const index = (currentSlide + i) % get(members, "length", 0);
+      visible.push(members[index]);
     }
     return visible;
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Jamoa bo'limi */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
           Bizning Jamoa
@@ -107,46 +98,48 @@ export default function AboutPage() {
         </p>
       </section>
 
-      {/* Carousel */}
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {getVisibleMembers().map((member, visibleIdx) => (
-              <div
-                key={`${member.id}-${visibleIdx}`}
-                className="bg-white rounded-lg shadow-lg overflow-hidden"
-              >
-                <Image
-                  width={256}
-                  height={256}
-                  unoptimized={true}
-                  src={member.image}
-                  alt={member.name}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-6">
-                  <h4 className="text-xl font-semibold text-gray-900 mb-2">
-                    {member.name}
-                  </h4>
-                  <p className="text-blue-600 font-medium mb-3">
-                    {member.position}
-                  </p>
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                    {member.bio}
-                  </p>
-                  <button
-                    onClick={() => openModal(member)}
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200"
-                  >
-                    Batafsil ma’lumot
-                  </button>
+            {getVisibleMembers().map((member) => {
+              return (
+                <div
+                  key={member?.id}
+                  className="bg-white rounded-lg shadow-lg overflow-hidden"
+                >
+                  <Image
+                    width={256}
+                    height={256}
+                    unoptimized={true}
+                    src={member?.image}
+                    alt={member?.name}
+                    className="w-full h-64 object-cover"
+                  />
+                  <div className="p-6">
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">
+                      {member?.name}
+                    </h4>
+                    <p className="text-blue-600 font-medium mb-3">
+                      {member?.position}
+                    </p>
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                      {member?.bio}
+                    </p>
+                    <Button
+                      type="button"
+                      onClick={() => openModal(member)}
+                      className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                    >
+                      Batafsil ma’lumot
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
-          {/* Controls */}
-          <button
+          <Button
+            type="button"
             onClick={prevSlide}
             className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-50 transition-colors duration-200"
           >
@@ -163,8 +156,9 @@ export default function AboutPage() {
                 d="M15 19l-7-7 7-7"
               />
             </svg>
-          </button>
-          <button
+          </Button>
+          <Button
+            type="button"
             onClick={nextSlide}
             className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-50 transition-colors duration-200"
           >
@@ -181,11 +175,10 @@ export default function AboutPage() {
                 d="M9 5l7 7-7 7"
               />
             </svg>
-          </button>
+          </Button>
         </div>
       </section>
 
-      {/* Qishloq xo’jaligi bo’limi */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-blue-50">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <h2 className="text-3xl font-bold text-gray-900">
@@ -208,7 +201,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Loyiha bo’limi */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-4xl mx-auto space-y-6">
           <h2 className="text-3xl font-bold text-gray-900 text-center">
@@ -253,7 +245,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Modal */}
       {isModalOpen && selectedMember && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
@@ -261,7 +252,8 @@ export default function AboutPage() {
               <h3 className="text-2xl font-bold text-gray-900">
                 Jamoa a'zosi haqida
               </h3>
-              <button
+              <Button
+                type="button"
                 onClick={closeModal}
                 className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
               >
@@ -278,7 +270,7 @@ export default function AboutPage() {
                     d="M6 18L18 6M6 6l12 12"
                   />
                 </svg>
-              </button>
+              </Button>
             </div>
 
             <div className="flex flex-col md:flex-row gap-6">
@@ -330,4 +322,6 @@ export default function AboutPage() {
       )}
     </div>
   );
-}
+};
+
+export default About;

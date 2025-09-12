@@ -13,7 +13,7 @@ const useGet = ({ path = "/", queryKey }: typeUseGet) => {
     gcTime: 1000 * 60 * 5,
     staleTime: 1000 * 60 * 6,
     queryFn: () =>
-      api.get(path).then((response) => get(response, "data.content")),
+      api.get(path).then((response) => get(response, "data")),
   });
 
   return data;

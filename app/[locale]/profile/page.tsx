@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/app/components";
 import type React from "react";
 import { useState } from "react";
 
@@ -29,7 +30,6 @@ export default function ProfilePage() {
 
   const handleSave = () => {
     setIsEditing(false);
-    console.log("Agronomist profile updated:", formData);
   };
 
   const stats = [
@@ -103,7 +103,8 @@ export default function ProfilePage() {
                 Agronomist Profile
               </h1>
             </div>
-            <button
+            <Button
+              type="button"
               onClick={() => setIsEditing(!isEditing)}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                 isEditing
@@ -112,7 +113,7 @@ export default function ProfilePage() {
               }`}
             >
               {isEditing ? "Cancel" : "Edit Profile"}
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -256,7 +257,8 @@ export default function ProfilePage() {
                     { key: "activity", label: "Recent Work", icon: "activity" },
                     { key: "settings", label: "Settings", icon: "settings" },
                   ].map((tab) => (
-                    <button
+                    <Button
+                      type="button"
                       key={tab.key}
                       onClick={() => setActiveTab(tab.key)}
                       className={`py-4 px-2 border-b-2 font-medium text-sm flex items-center space-x-2 transition-colors ${
@@ -297,13 +299,12 @@ export default function ProfilePage() {
                         )}
                       </svg>
                       <span>{tab.label}</span>
-                    </button>
+                    </Button>
                   ))}
                 </nav>
               </div>
 
               <div className="p-6">
-                {/* Personal Info Tab */}
                 {activeTab === "profile" && (
                   <div className="space-y-6">
                     <div>
@@ -405,24 +406,25 @@ export default function ProfilePage() {
 
                     {isEditing && (
                       <div className="flex justify-end space-x-3 pt-4 border-t">
-                        <button
+                        <Button
+                          type="button"
                           onClick={() => setIsEditing(false)}
                           className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium"
                         >
                           Cancel
-                        </button>
-                        <button
+                        </Button>
+                        <Button
+                          type="button"
                           onClick={handleSave}
                           className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium"
                         >
                           Save Changes
-                        </button>
+                        </Button>
                       </div>
                     )}
                   </div>
                 )}
 
-                {/* Recent Work Tab */}
                 {activeTab === "activity" && (
                   <div>
                     <h3 className="text-xl font-bold text-gray-900 mb-4">
@@ -446,7 +448,6 @@ export default function ProfilePage() {
                   </div>
                 )}
 
-                {/* Settings Tab */}
                 {activeTab === "settings" && (
                   <div className="space-y-6">
                     <div>
@@ -509,9 +510,12 @@ export default function ProfilePage() {
                           Permanently delete your profile and all associated
                           data. This action cannot be undone.
                         </p>
-                        <button className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium text-sm">
+                        <Button
+                          type="button"
+                          className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium text-sm"
+                        >
                           Delete Account
-                        </button>
+                        </Button>
                       </div>
                     </div>
                   </div>

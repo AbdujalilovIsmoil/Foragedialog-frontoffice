@@ -1,49 +1,36 @@
 "use client";
 
+import { get } from "lodash";
 import Image from "next/image";
+import { useState } from "react";
+import { useGet } from "@/app/hooks";
 import { Button } from "@/app/components";
-import { useEffect, useState } from "react";
 
 interface PartnerItem {
   id: number;
   name: string;
-  about: string;
   link: string;
+  about: string;
   image: string;
 }
 
 const Partners = () => {
-  const [partners, setPartners] = useState<PartnerItem[]>([]);
   const [_, setHoveredId] = useState<number | null>(null);
 
-  useEffect(() => {
-    const fetchPartners = async () => {
-      try {
-        const res = await fetch(
-          "https://back.foragedialog.uz/OurPartners/GetAll"
-        );
-        const data = await res.json();
+  const { data } = useGet({
+    queryKey: "our-partners",
+    path: "/OurPartners/GetAll",
+  });
 
-        if (data.code === 200 && data.content) {
-          const mapped: PartnerItem[] = data.content.map((item: any) => {
-            console.log(item);
-            return {
-              id: item.id,
-              name: item.name.uz || "No name",
-              about: item.about.uz || "No description",
-              link: item.link || "#",
-              image: `https://back.foragedialog.uz/File/DownloadFile/download/${item.picturesId}`,
-            };
-          });
-          setPartners(mapped);
-        }
-      } catch (error) {
-        console.error("Partnerlarni olishda xato:", error);
-      }
+  const mapped: PartnerItem[] = get(data, "content", []).map((item: any) => {
+    return {
+      id: item.id,
+      name: item.name.uz || "No name",
+      about: item.about.uz || "No description",
+      link: item.link || "#",
+      image: `${process.env.NEXT_PUBLIC_API_URL}/File/DownloadFile/download/${item.picturesId}`,
     };
-
-    fetchPartners();
-  }, []);
+  });
 
   return (
     <section className="py-16 px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-sky-50 relative overflow-hidden">
@@ -66,16 +53,16 @@ const Partners = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {partners.map((partner, index) => {
+          {mapped.map((partner, index) => {
             return (
               <a
                 target="_blank"
                 key={partner.id}
                 href={partner.link}
-                rel="noopener noreferrer"
                 className="group block"
-                onMouseEnter={() => setHoveredId(partner.id)}
+                rel="noopener noreferrer"
                 onMouseLeave={() => setHoveredId(null)}
+                onMouseEnter={() => setHoveredId(partner.id)}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-white/50 hover:border-blue-200 transform hover:scale-105 hover:-translate-y-2 h-full group-hover:bg-white/90 partner-card-animate">
@@ -128,7 +115,10 @@ const Partners = () => {
         </div>
 
         <div className="text-center mt-12">
-          <Button className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-300 font-medium">
+          <Button
+            type="button"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-300 font-medium"
+          >
             <span>Batafsil</span>
             <svg
               className="w-4 h-4"

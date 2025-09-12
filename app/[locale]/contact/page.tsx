@@ -2,6 +2,7 @@
 
 import type React from "react";
 import { useState } from "react";
+import { Button } from "@/app/components";
 
 const MailIcon = () => (
   <svg
@@ -104,7 +105,6 @@ export default function ContactForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
   };
 
   const handleChange = (
@@ -197,13 +197,13 @@ export default function ContactForm() {
                       />
                     </div>
 
-                    <button
+                    <Button
                       type="submit"
                       className="w-full bg-primary hover:bg-primary/90 text-white font-sans h-14 text-base font-semibold transition-all duration-300 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] rounded-xl flex items-center justify-center gap-3 group"
                     >
                       <SendIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                       Send Message
-                    </button>
+                    </Button>
                   </form>
                 </div>
               </div>
@@ -288,15 +288,24 @@ export default function ContactForm() {
                   </div>
 
                   <div className="flex justify-center gap-4">
-                    <button className="px-6 py-3 border-2 border-border hover:border-primary hover:bg-primary hover:text-white transition-all duration-300 font-serif bg-transparent rounded-xl text-foreground font-medium">
+                    <Button
+                      type="button"
+                      className="px-6 py-3 border-2 border-border hover:border-primary hover:bg-primary hover:text-white transition-all duration-300 font-serif bg-transparent rounded-xl text-foreground font-medium"
+                    >
                       Twitter
-                    </button>
-                    <button className="px-6 py-3 border-2 border-border hover:border-accent hover:bg-accent hover:text-white transition-all duration-300 font-serif bg-transparent rounded-xl text-foreground font-medium">
+                    </Button>
+                    <Button
+                      type="button"
+                      className="px-6 py-3 border-2 border-border hover:border-accent hover:bg-accent hover:text-white transition-all duration-300 font-serif bg-transparent rounded-xl text-foreground font-medium"
+                    >
                       LinkedIn
-                    </button>
-                    <button className="px-6 py-3 border-2 border-border hover:border-primary hover:bg-primary hover:text-white transition-all duration-300 font-serif bg-transparent rounded-xl text-foreground font-medium">
+                    </Button>
+                    <Button
+                      type="button"
+                      className="px-6 py-3 border-2 border-border hover:border-primary hover:bg-primary hover:text-white transition-all duration-300 font-serif bg-transparent rounded-xl text-foreground font-medium"
+                    >
                       Instagram
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>

@@ -8,7 +8,7 @@ const middleware = (req: NextRequest) => {
     pathname.startsWith("/uz") ||
     pathname.startsWith("/en") ||
     pathname.startsWith("/ru") ||
-    pathname.startsWith("/de");
+    pathname.startsWith("/ger");
 
   if (!hasLocale) {
     return NextResponse.redirect(new URL(`/uz${pathname}`, req.url));

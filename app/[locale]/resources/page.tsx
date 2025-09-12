@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/app/components";
 import { useState } from "react";
 
 export default function ResourcesPage() {
@@ -106,7 +107,6 @@ export default function ResourcesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
@@ -122,7 +122,6 @@ export default function ResourcesPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar - Categories */}
           <div className="lg:w-64">
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">
@@ -130,7 +129,8 @@ export default function ResourcesPage() {
               </h3>
               <div className="space-y-2">
                 {categories.map((category) => (
-                  <button
+                  <Button
+                    type="button"
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
                     className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors ${
@@ -141,12 +141,11 @@ export default function ResourcesPage() {
                   >
                     <span className="text-lg">{category.icon}</span>
                     <span className="font-medium">{category.name}</span>
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
 
-            {/* Statistics */}
             <div className="bg-white rounded-lg shadow-sm p-6 mt-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">
                 Statistika
@@ -172,9 +171,7 @@ export default function ResourcesPage() {
             </div>
           </div>
 
-          {/* Main Content */}
           <div className="flex-1">
-            {/* Search Bar */}
             <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
               <div className="relative">
                 <input
@@ -202,7 +199,6 @@ export default function ResourcesPage() {
               </div>
             </div>
 
-            {/* Resources Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
               {filteredResources.map((resource) => (
                 <div
@@ -224,7 +220,10 @@ export default function ResourcesPage() {
                           </p>
                         </div>
                       </div>
-                      <button className="text-gray-400 hover:text-gray-600">
+                      <Button
+                        type="button"
+                        className="text-gray-400 hover:text-gray-600"
+                      >
                         <svg
                           className="w-5 h-5"
                           fill="none"
@@ -238,7 +237,7 @@ export default function ResourcesPage() {
                             d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
                           />
                         </svg>
-                      </button>
+                      </Button>
                     </div>
 
                     <p className="text-gray-600 text-sm mb-4 line-clamp-2">
@@ -250,12 +249,18 @@ export default function ResourcesPage() {
                         {resource.date}
                       </span>
                       <div className="flex gap-2">
-                        <button className="text-green-600 hover:text-green-700 text-sm font-medium">
+                        <Button
+                          type="button"
+                          className="text-green-600 hover:text-green-700 text-sm font-medium"
+                        >
                           Ko'rish
-                        </button>
-                        <button className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                        </Button>
+                        <Button
+                          type="button"
+                          className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                        >
                           Yuklab olish
-                        </button>
+                        </Button>
                       </div>
                     </div>
                   </div>

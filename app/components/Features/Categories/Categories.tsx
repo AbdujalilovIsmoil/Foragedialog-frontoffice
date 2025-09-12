@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { get } from "lodash";
+import { useState } from "react";
+import { useGet } from "@/app/hooks";
 
 interface Category {
   id: number;
@@ -30,24 +32,12 @@ const categoryIcon = (
 );
 
 const Categories = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
   const [hoveredCategory, setHoveredCategory] = useState<number | null>(null);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await fetch("https://back.foragedialog.uz/OurCategory/GetAll");
-        const data = await res.json();
-        if (data.code === 200 && data.content) {
-          setCategories(data.content);
-        }
-      } catch (error) {
-        console.error("Kategoriya ma'lumotlarini olishda xato:", error);
-      }
-    };
-
-    fetchCategories();
-  }, []);
+  const { data } = useGet({
+    queryKey: "our-category",
+    path: "/OurCategory/GetAll",
+  });
 
   return (
     <section className="py-20 bg-gray-50">
@@ -64,17 +54,17 @@ const Categories = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {categories.map((category) => (
+          {get(data, "content", []).map((category: Category) => (
             <div
               key={category.id}
-              className="relative group cursor-pointer overflow-hidden rounded-2xl shadow-lg transition-all duration-500 hover:shadow-2xl hover:scale-105"
-              onMouseEnter={() => setHoveredCategory(category.id)}
               onMouseLeave={() => setHoveredCategory(null)}
+              onMouseEnter={() => setHoveredCategory(category.id)}
+              className="relative group cursor-pointer overflow-hidden rounded-2xl shadow-lg transition-all duration-500 hover:shadow-2xl hover:scale-105"
             >
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
                 style={{
-                  backgroundImage: `url(https://back.foragedialog.uz/File/DownloadFile/download/${category.picturesId})`,
+                  backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL}/File/DownloadFile/download/${category.picturesId})`,
                 }}
               />
 

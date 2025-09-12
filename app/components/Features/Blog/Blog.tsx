@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { get } from "lodash";
+import Image from "next/image";
+import { useGet } from "@/app/hooks";
 import { Button } from "@/app/components";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import Image from "next/image";
 
 interface BlogItem {
   id: number;
@@ -15,39 +16,25 @@ interface BlogItem {
 }
 
 const Blog = () => {
-  const [blogs, setBlogs] = useState<BlogItem[]>([]);
+  const { data } = useGet({
+    queryKey: "blog",
+    path: "/Blog/GetAll",
+  });
 
-  // API dan ma'lumot olish
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const res = await fetch("https://back.foragedialog.uz/Blog/GetAll");
-        const data = await res.json();
-
-        if (data.code === 200 && data.content) {
-          const mapped = data.content.map((item: any) => ({
-            id: item.id,
-            title: item.title.uz || "Sarlavha mavjud emas",
-            text: item.text.uz || "Matn mavjud emas",
-            date: new Date(item.publishedDate).toLocaleDateString("uz-UZ", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            }),
-            image:
-              item.images && item.images.length > 0
-                ? `https://back.foragedialog.uz/File/DownloadFile/download/${item.images[0]}`
-                : "/placeholder.svg",
-          }));
-          setBlogs(mapped);
-        }
-      } catch (error) {
-        console.error("Bloglarni olishda xato:", error);
-      }
-    };
-
-    fetchBlogs();
-  }, []);
+  const mapped = get(data, "content", []).map((item: any) => ({
+    id: item.id,
+    title: item.title.uz || "Sarlavha mavjud emas",
+    text: item.text.uz || "Matn mavjud emas",
+    date: new Date(item.publishedDate).toLocaleDateString("uz-UZ", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }),
+    image:
+      item.images && item.images.length > 0
+        ? `${process.env.NEXT_PUBLIC_API_URL}/File/DownloadFile/download/${item.images[0]}`
+        : "/placeholder.svg",
+  }));
 
   const handleCardClick = (blogId: number) => {
     console.log(`Navigatsiya blog maqolaga: ${blogId}`);
@@ -96,19 +83,19 @@ const Blog = () => {
               992: { slidesPerView: 3, spaceBetween: 24 },
             }}
           >
-            {blogs.map((blog) => (
+            {mapped.map((blog: BlogItem) => (
               <SwiperSlide key={blog.id}>
                 <div
-                  className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-white/20"
                   onClick={() => handleCardClick(blog.id)}
+                  className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-white/20"
                 >
                   <div className="relative overflow-hidden">
                     <Image
                       width={500}
                       height={128}
                       alt={blog.title}
-                      unoptimized={true}
                       src={blog.image}
+                      unoptimized={true}
                       className="w-full h-32 sm:h-40 lg:h-48 xl:h-52 object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -136,6 +123,7 @@ const Blog = () => {
                     </p>
 
                     <Button
+                      type="button"
                       className="inline-flex items-center px-4 sm:px-5 py-2.5 bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-semibold rounded-xl hover:from-teal-700 hover:to-cyan-700 transition-all duration-300 group-hover:shadow-lg transform hover:scale-105 font-sans text-xs sm:text-sm"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -144,16 +132,16 @@ const Blog = () => {
                     >
                       Batafsil
                       <svg
-                        className="ml-2 w-3 h-3 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1"
                         fill="none"
-                        stroke="currentColor"
                         viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        className="ml-2 w-3 h-3 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1"
                       >
                         <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
                           strokeWidth={2}
                           d="M9 5l7 7-7 7"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         />
                       </svg>
                     </Button>
@@ -163,34 +151,40 @@ const Blog = () => {
             ))}
           </Swiper>
 
-          <Button className="swiper-button-prev-custom absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/95 hover:bg-teal-50 text-teal-700 p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10 group border border-teal-100">
+          <Button
+            type="button"
+            className="swiper-button-prev-custom absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/95 hover:bg-teal-50 text-teal-700 p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10 group border border-teal-100"
+          >
             <svg
               className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform"
               fill="none"
-              stroke="currentColor"
               viewBox="0 0 24 24"
+              stroke="currentColor"
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
                 strokeWidth={2}
                 d="M15 19l-7-7 7-7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </Button>
 
-          <Button className="swiper-button-next-custom absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/95 hover:bg-teal-50 text-teal-700 p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10 group border border-teal-100">
+          <Button
+            type="button"
+            className="swiper-button-next-custom absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/95 hover:bg-teal-50 text-teal-700 p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10 group border border-teal-100"
+          >
             <svg
-              className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform"
               fill="none"
-              stroke="currentColor"
               viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform"
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
                 strokeWidth={2}
                 d="M9 5l7 7-7 7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </Button>

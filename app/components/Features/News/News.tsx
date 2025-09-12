@@ -1,55 +1,44 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { get } from "lodash";
+import Image from "next/image";
+import { useGet } from "@/app/hooks";
 import { Button } from "@/app/components";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import Image from "next/image";
 
 interface NewsItem {
   id: number;
-  title: string;
-  description: string;
   date: string;
+  title: string;
   images: string[];
+  description: string;
 }
 
 const News = () => {
-  const [newsData, setNewsData] = useState<NewsItem[]>([]);
+  const { data } = useGet({
+    queryKey: "news",
+    path: "/News/GetAll",
+  });
 
-  useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const res = await fetch("https://back.foragedialog.uz/News/GetAll");
-        const data = await res.json();
-
-        if (data.code === 200 && data.content) {
-          const formattedNews: NewsItem[] = data.content.map((item: any) => ({
-            id: item.id,
-            title: item.title.uz || "Yangilik",
-            description: item.text.uz
-              ? item.text.uz.replace(/<[^>]+>/g, "") // HTML taglarini olib tashlash
-              : "Yangilik tafsilotlari mavjud emas",
-            date: new Date(item.publishedDate).toLocaleDateString("uz-UZ", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            }),
-            images: item.images.map(
-              (imgId: string) =>
-                `https://back.foragedialog.uz/File/DownloadFile/download/${imgId}`
-            ),
-          }));
-
-          setNewsData(formattedNews);
-        }
-      } catch (error) {
-        console.error("Yangiliklarni olishda xato:", error);
-      }
-    };
-
-    fetchNews();
-  }, []);
+  const formattedNews: NewsItem[] = get(data, "content", []).map(
+    (item: any) => ({
+      id: item.id,
+      title: item.title.uz || "Yangilik",
+      description: item.text.uz
+        ? item.text.uz.replace(/<[^>]+>/g, "")
+        : "Yangilik tafsilotlari mavjud emas",
+      date: new Date(item.publishedDate).toLocaleDateString("uz-UZ", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      images: item.images.map(
+        (imgId: string) =>
+          `${process.env.NEXT_PUBLIC_API_URL}/File/DownloadFile/download/${imgId}`
+      ),
+    })
+  );
 
   const handleCardClick = (newsId: number) => {
     console.log(`Navigatsiya yangilikka: ${newsId}`);
@@ -96,11 +85,11 @@ const News = () => {
               992: { slidesPerView: 3, spaceBetween: 24 },
             }}
           >
-            {newsData.map((news) => (
+            {formattedNews.map((news) => (
               <SwiperSlide key={news.id}>
                 <div
-                  className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-white/20"
                   onClick={() => handleCardClick(news.id)}
+                  className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-white/20"
                 >
                   <div className="relative overflow-hidden h-40 sm:h-48 lg:h-52">
                     <Image
@@ -136,6 +125,7 @@ const News = () => {
                     </p>
 
                     <Button
+                      type="button"
                       className="inline-flex items-center px-4 sm:px-5 py-2.5 bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-semibold rounded-xl hover:from-teal-700 hover:to-cyan-700 transition-all duration-300 group-hover:shadow-lg transform hover:scale-105 font-sans text-xs sm:text-sm"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -163,7 +153,10 @@ const News = () => {
             ))}
           </Swiper>
 
-          <Button className="swiper-button-prev-custom absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/95 hover:bg-teal-50 text-teal-700 p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10 group border border-teal-100">
+          <Button
+            type="button"
+            className="swiper-button-prev-custom absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/95 hover:bg-teal-50 text-teal-700 p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10 group border border-teal-100"
+          >
             <svg
               className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform"
               fill="none"
@@ -179,7 +172,10 @@ const News = () => {
             </svg>
           </Button>
 
-          <Button className="swiper-button-next-custom absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/95 hover:bg-teal-50 text-teal-700 p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10 group border border-teal-100">
+          <Button
+            type="button"
+            className="swiper-button-next-custom absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/95 hover:bg-teal-50 text-teal-700 p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10 group border border-teal-100"
+          >
             <svg
               className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform"
               fill="none"

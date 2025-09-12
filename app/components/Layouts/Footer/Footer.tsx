@@ -74,7 +74,6 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="py-12">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-            {/* Logo va kompaniya haqida */}
             <div className="text-center lg:text-left">
               <div className="flex items-center justify-center lg:justify-start mb-4">
                 <Image
@@ -94,7 +93,6 @@ const Footer = () => {
               </p>
             </div>
 
-            {/* Tezkor havolalar */}
             <div>
               <h3 className="text-lg font-semibold mb-6 text-black text-center lg:text-left">
                 Tezkor Havolalar
@@ -115,7 +113,6 @@ const Footer = () => {
               </nav>
             </div>
 
-            {/* Ijtimoiy tarmoqlar */}
             <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
               {socialMedia.map((social) => (
                 <a

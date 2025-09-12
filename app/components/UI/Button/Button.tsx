@@ -4,7 +4,7 @@ interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-function Button({ children, ...props }: IButton) {
+const Button = ({ children, ...props }: IButton) => {
   return <button {...props}>{children}</button>;
 }
 

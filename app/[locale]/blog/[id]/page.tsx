@@ -1,7 +1,8 @@
 "use client";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
+import { Button } from "@/app/components";
+import { useParams, useRouter } from "next/navigation";
 
 interface NewsArticle {
   id: number;
@@ -223,12 +224,13 @@ export default function NewsView() {
             <p className="text-gray-600 mb-8">
               The article you're looking for doesn't exist.
             </p>
-            <button
+            <Button
+              type="button"
               onClick={() => router.push("/news")}
               className="inline-flex items-center px-6 py-3 bg-teal-600 text-white font-semibold rounded-xl hover:bg-teal-700 transition-all duration-300"
             >
               Back to News
-            </button>
+            </Button>
           </div>
         </main>
       </div>
@@ -238,7 +240,6 @@ export default function NewsView() {
   return (
     <div className="min-h-screen bg-white">
       <main>
-        {/* Hero Section */}
         <section className="relative">
           <div className="relative h-64 sm:h-80 lg:h-96 overflow-hidden">
             <Image
@@ -251,7 +252,6 @@ export default function NewsView() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
 
-            {/* Content Overlay */}
             <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 lg:p-8">
               <div className="max-w-4xl mx-auto">
                 <div className="flex flex-wrap items-center gap-3 mb-4">
@@ -274,10 +274,8 @@ export default function NewsView() {
           </div>
         </section>
 
-        {/* Article Content */}
         <section className="py-8 lg:py-12">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Article Meta */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 pb-6 border-b border-gray-200">
               <div className="flex items-center mb-4 sm:mb-0">
                 <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mr-4">
@@ -310,19 +308,16 @@ export default function NewsView() {
               </div>
             </div>
 
-            {/* Article Body */}
             <div
               className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3 prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-4 prose-ul:text-gray-700 prose-li:mb-2 prose-strong:text-gray-900 prose-blockquote:border-l-4 prose-blockquote:border-teal-500 prose-blockquote:bg-teal-50 prose-blockquote:p-4 prose-blockquote:rounded-r-lg prose-blockquote:text-teal-800 prose-blockquote:italic"
               dangerouslySetInnerHTML={{ __html: article.content }}
             />
 
-            {/* Comments Section */}
             <div className="mt-16 pt-8 border-t border-gray-200">
               <h3 className="text-2xl font-bold text-gray-900 mb-8">
                 Izohlar ({comments.length})
               </h3>
 
-              {/* Add Comment Form */}
               <div className="bg-gray-50 rounded-xl p-6 mb-8">
                 <div className="flex items-start space-x-4">
                   <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -339,26 +334,25 @@ export default function NewsView() {
                       rows={3}
                     />
                     <div className="flex justify-end mt-3">
-                      <button
+                      <Button
+                        type="button"
                         onClick={handleAddComment}
                         disabled={!newComment.trim()}
                         className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
                       >
                         Izoh qo'shish
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Comments List */}
               <div className="space-y-6">
                 {comments.map((comment) => (
                   <div
                     key={comment.id}
                     className="bg-white border border-gray-200 rounded-xl p-6"
                   >
-                    {/* Comment Header */}
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center space-x-3">
                         <div
@@ -392,26 +386,24 @@ export default function NewsView() {
                       </div>
                     </div>
 
-                    {/* Comment Content */}
                     <p className="text-gray-700 mb-4 leading-relaxed">
                       {comment.message}
                     </p>
 
-                    {/* Comment Actions */}
                     <div className="flex items-center space-x-4 text-sm">
-                      <button
+                      <Button
+                        type="button"
+                        className="text-teal-600 hover:text-teal-700 font-medium"
                         onClick={() =>
                           setReplyingTo(
                             replyingTo === comment.id ? null : comment.id
                           )
                         }
-                        className="text-teal-600 hover:text-teal-700 font-medium"
                       >
                         Javob berish
-                      </button>
+                      </Button>
                     </div>
 
-                    {/* Reply Form */}
                     {replyingTo === comment.id && (
                       <div className="mt-4 ml-8 bg-gray-50 rounded-lg p-4">
                         <div className="flex items-start space-x-3">
@@ -429,26 +421,27 @@ export default function NewsView() {
                               rows={2}
                             />
                             <div className="flex justify-end space-x-2 mt-2">
-                              <button
+                              <Button
+                                type="button"
                                 onClick={() => setReplyingTo(null)}
                                 className="px-4 py-2 text-gray-600 hover:text-gray-700"
                               >
                                 Bekor qilish
-                              </button>
-                              <button
+                              </Button>
+                              <Button
+                                type="button"
                                 onClick={() => handleAddReply(comment.id)}
                                 disabled={!replyText.trim()}
                                 className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed"
                               >
                                 Javob berish
-                              </button>
+                              </Button>
                             </div>
                           </div>
                         </div>
                       </div>
                     )}
 
-                    {/* Replies */}
                     {comment.replies.length > 0 && (
                       <div className="mt-6 ml-8 space-y-4">
                         {comment.replies.map((reply) => (
@@ -500,9 +493,9 @@ export default function NewsView() {
               </div>
             </div>
 
-            {/* Back to News Button */}
             <div className="mt-12 pt-8 border-t border-gray-200">
-              <button
+              <Button
+                type="button"
                 onClick={() => router.push("/news")}
                 className="inline-flex items-center px-6 py-3 bg-teal-600 text-white font-semibold rounded-xl hover:bg-teal-700 transition-all duration-300 hover:scale-105"
               >
@@ -520,7 +513,7 @@ export default function NewsView() {
                   />
                 </svg>
                 Back to All News
-              </button>
+              </Button>
             </div>
           </div>
         </section>

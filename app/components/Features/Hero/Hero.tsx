@@ -48,7 +48,10 @@ const Hero = () => {
                 texnik va institutsional tajribani rag‘batlantirish.
               </p>
 
-              <Button className="group bg-white text-teal-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-50 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+              <Button
+                type="button"
+                className="group bg-white text-teal-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-50 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
                 Ko'proq o'qish
                 <svg
                   className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
