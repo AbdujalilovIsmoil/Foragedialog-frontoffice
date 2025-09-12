@@ -1,8 +1,6 @@
 "use client";
 
-import type React from "react";
-import { useState } from "react";
-import { Button } from "@/app/components";
+import { usePathname } from "next/navigation";
 
 const MailIcon = () => (
   <svg
@@ -58,63 +56,82 @@ const MapPinIcon = () => (
   </svg>
 );
 
-const SendIcon = ({ className }: { className?: string }) => (
-  <svg
-    className={className}
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-    />
-  </svg>
-);
-
-const HeartIcon = () => (
-  <svg
-    className="w-5 h-5 text-primary"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-    />
-  </svg>
-);
-
-const StarIcon = () => (
-  <svg className="w-6 h-6 text-accent fill-current" viewBox="0 0 24 24">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-  </svg>
-);
-
-export default function ContactForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+interface contactContentInterface {
+  [key: string]: {
+    title: string;
+    channel: string;
+    information: string;
+    description: string;
+    medias: {
+      call: string;
+      email: string;
+      visit: string;
+    };
   };
+}
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+const contactContent: contactContentInterface = {
+  uz: {
+    title: "Aloqa qiling",
+    channel: "Ushbu kanallarning har biri orqali murojaat qiling",
+    description: `
+      Suhbat boshlashga tayyormisiz? Biz sizning g'oyalaringizni etkazishga yordam berish uchun shu yerdamiz
+      shaxsiylashtirilgan echimlar va ajoyib xizmat bilan hayotga.
+    `,
+    medias: {
+      email: "Bizga elektron pochta",
+      call: "Bizga qo'ng'iroq qiling",
+      visit: "Bizga tashrif buyuring",
+    },
+    information: "Bog'lanish uchun ma'lumot",
+  },
+  en: {
+    title: "Get in Touch",
+    information: "Contact information",
+    channel: "Reach out through any of these channels",
+    description: `
+      Ready to start a conversation? We're here to help bring your ideas
+      to life with personalized solutions and exceptional service.
+    `,
+    medias: {
+      call: "Call Us",
+      email: "Email Us",
+      visit: "Visit Us",
+    },
+  },
+  ru: {
+    title: "Свяжитесь с нами",
+    information: "Контактная информация",
+    channel: "Свяжитесь по любому из этих каналов",
+    description: `
+      Готовы начать разговор? Мы поможем вам воплотить ваши идеи
+      в жизнь, предлагая индивидуальные решения и исключительный сервис.
+    `,
+    medias: {
+      call: "Call Us",
+      email: "Email Us",
+      visit: "Visit Us",
+    },
+  },
+  ger: {
+    title: "Nehmen Sie Kontakt auf",
+    information: "Kontakt informationen",
+    channel: "Klicken Sie hier, um die gewünschten Kanäle auszuwählen",
+    description: `
+      Sind Sie bereit für ein Gespräch? Wir helfen Ihnen, Ihre Ideen mit 
+      individuellen Lösungen und außergewöhnlichem Service umzusetzen.
+    `,
+    medias: {
+      call: "Rufen Sie uns an",
+      visit: "Besuchen Sie uns",
+      email: "Schicken Sie uns eine E-Mail",
+    },
+  },
+};
+
+const ContactPage = () => {
+  const pathName = usePathname();
+  const language = pathName.split("/")[1];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-secondary to-background">
@@ -125,88 +142,28 @@ export default function ContactForm() {
 
         <div className="relative px-4 py-20 sm:py-32">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 mb-8 px-6 py-3 bg-white/80 backdrop-blur-sm rounded-full border border-border/50 shadow-lg">
-              <HeartIcon />
-              <span className="text-sm font-medium text-foreground font-serif">
-                We'd love to hear from you
-              </span>
-            </div>
             <h1 className="text-6xl sm:text-7xl font-bold text-foreground font-sans mb-8 tracking-tight leading-tight">
-              Get in{" "}
-              <span className="text-primary bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Touch
-              </span>
+              {contactContent[`${language}`].title}
             </h1>
             <p className="text-xl text-muted-foreground font-serif max-w-2xl mx-auto leading-relaxed">
-              Ready to start a conversation? We're here to help bring your ideas
-              to life with personalized solutions and exceptional service.
+              {contactContent[`${language}`].description}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="px-4 pb-20">
+      <div className="px-4 py-20">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
-            <div className="space-y-8">
-              <div className="bg-white/90 backdrop-blur-sm border border-border/50 shadow-2xl rounded-2xl overflow-hidden">
-                <div className="p-10">
-                  <div className="mb-8">
-                    <h2 className="text-3xl font-bold text-foreground font-sans mb-3">
-                      Send us a message
-                    </h2>
-                    <p className="text-muted-foreground font-serif text-lg">
-                      Fill out the form below and we'll get back to you within
-                      24 hours.
-                    </p>
-                  </div>
-
-                  <form onSubmit={handleSubmit} className="space-y-8">
-                    <div className="space-y-2">
-                      <input
-                        type="text"
-                        name="name"
-                        placeholder="Your Full Name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="w-full bg-white border-2 border-border/50 focus:border-primary focus:ring-4 focus:ring-primary/20 font-serif h-14 text-base transition-all duration-300 rounded-xl px-4 outline-none placeholder:text-muted-foreground"
-                        required
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <input
-                        type="email"
-                        name="email"
-                        placeholder="your.email@example.com"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="w-full bg-white border-2 border-border/50 focus:border-primary focus:ring-4 focus:ring-primary/20 font-serif h-14 text-base transition-all duration-300 rounded-xl px-4 outline-none placeholder:text-muted-foreground"
-                        required
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <textarea
-                        name="message"
-                        placeholder="Tell us about your project, questions, or how we can help you..."
-                        value={formData.message}
-                        onChange={handleChange}
-                        className="w-full bg-white border-2 border-border/50 focus:border-primary focus:ring-4 focus:ring-primary/20 min-h-[140px] font-serif text-base transition-all duration-300 resize-none rounded-xl p-4 outline-none placeholder:text-muted-foreground"
-                        required
-                      />
-                    </div>
-
-                    <Button
-                      type="submit"
-                      className="w-full bg-primary hover:bg-primary/90 text-white font-sans h-14 text-base font-semibold transition-all duration-300 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] rounded-xl flex items-center justify-center gap-3 group"
-                    >
-                      <SendIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                      Send Message
-                    </Button>
-                  </form>
-                </div>
-              </div>
+          <div className="grid lg:grid-cols-2 gap-10 items-start">
+            <div className="rounded-2xl overflow-hidden shadow-2xl border border-border/50 h-[400px] md:h-full">
+              <iframe
+                src="https://www.google.com/maps?q=41.302801,69.305848&ll=41.302801,69.305848&z=16&output=embed"
+                width="100%"
+                height="100%"
+                loading="lazy"
+                className="w-full h-full border-0"
+                allowFullScreen
+              ></iframe>
             </div>
 
             <div className="space-y-8">
@@ -214,10 +171,10 @@ export default function ContactForm() {
                 <div className="p-10">
                   <div className="mb-8">
                     <h3 className="text-3xl font-bold text-foreground font-sans mb-3">
-                      Contact Information
+                      {contactContent[`${language}`].information}
                     </h3>
                     <p className="text-muted-foreground font-serif text-lg">
-                      Reach out through any of these channels
+                      {contactContent[`${language}`].channel}
                     </p>
                   </div>
 
@@ -228,13 +185,10 @@ export default function ContactForm() {
                       </div>
                       <div>
                         <h4 className="font-semibold text-foreground font-sans mb-2 text-lg">
-                          Email Us
+                          {contactContent[`${language}`].medias.email}
                         </h4>
                         <p className="text-muted-foreground font-serif text-base">
-                          hello@company.com
-                        </p>
-                        <p className="text-sm text-muted-foreground font-serif mt-1">
-                          We'll respond within 24 hours
+                          Forage-Info@gopa.eu
                         </p>
                       </div>
                     </div>
@@ -245,13 +199,10 @@ export default function ContactForm() {
                       </div>
                       <div>
                         <h4 className="font-semibold text-foreground font-sans mb-2 text-lg">
-                          Call Us
+                          {contactContent[`${language}`].medias.call}
                         </h4>
                         <p className="text-muted-foreground font-serif text-base">
-                          +1 (555) 123-4567
-                        </p>
-                        <p className="text-sm text-muted-foreground font-serif mt-1">
-                          Mon-Fri, 9AM-6PM EST
+                          +998-90-054-43-45
                         </p>
                       </div>
                     </div>
@@ -262,74 +213,26 @@ export default function ContactForm() {
                       </div>
                       <div>
                         <h4 className="font-semibold text-foreground font-sans mb-2 text-lg">
-                          Visit Us
+                          {contactContent[`${language}`].medias.visit}
                         </h4>
                         <p className="text-muted-foreground font-serif text-base">
-                          123 Business Street
+                          33 Mahtumquli Street 2nd Driveway
                         </p>
                         <p className="text-muted-foreground font-serif text-base">
-                          New York, NY 10001
+                          Tashkent, Uzbekistan, 100047
                         </p>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <div className="bg-white/90 backdrop-blur-sm border border-border/50 shadow-2xl rounded-2xl overflow-hidden">
-                <div className="p-10">
-                  <div className="text-center mb-8">
-                    <h3 className="text-2xl font-bold text-foreground font-sans mb-3">
-                      Follow Our Journey
-                    </h3>
-                    <p className="text-muted-foreground font-serif text-lg">
-                      Stay connected with us on social media
-                    </p>
-                  </div>
-
-                  <div className="flex justify-center gap-4">
-                    <Button
-                      type="button"
-                      className="px-6 py-3 border-2 border-border hover:border-primary hover:bg-primary hover:text-white transition-all duration-300 font-serif bg-transparent rounded-xl text-foreground font-medium"
-                    >
-                      Twitter
-                    </Button>
-                    <Button
-                      type="button"
-                      className="px-6 py-3 border-2 border-border hover:border-accent hover:bg-accent hover:text-white transition-all duration-300 font-serif bg-transparent rounded-xl text-foreground font-medium"
-                    >
-                      LinkedIn
-                    </Button>
-                    <Button
-                      type="button"
-                      className="px-6 py-3 border-2 border-border hover:border-primary hover:bg-primary hover:text-white transition-all duration-300 font-serif bg-transparent rounded-xl text-foreground font-medium"
-                    >
-                      Instagram
-                    </Button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20 shadow-2xl rounded-2xl overflow-hidden">
-                <div className="p-10 text-center">
-                  <div className="flex justify-center mb-6">
-                    {[...Array(5)].map((_, i) => (
-                      <StarIcon key={i} />
-                    ))}
-                  </div>
-                  <blockquote className="text-xl text-foreground font-serif italic mb-6 leading-relaxed">
-                    "Exceptional service and attention to detail. They truly
-                    understand what their clients need."
-                  </blockquote>
-                  <cite className="text-muted-foreground font-sans font-medium text-lg">
-                    — Sarah Johnson, CEO
-                  </cite>
-                </div>
-              </div>
             </div>
+            {/* END Contact Info */}
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default ContactPage;

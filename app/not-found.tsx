@@ -1,11 +1,57 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "@/app/components";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const NotFound = () => {
   const router = useRouter();
+
+  const pathName = usePathname();
+
+  const language = pathName.split("/")[1];
+
+  interface notFoundContentInterface {
+    [key: string]: {
+      title: string;
+      home: string;
+      description: string;
+    };
+  }
+
+  const notFoundContent: notFoundContentInterface = {
+    uz: {
+      title: "Sahifa topilmadi",
+      home: "Bosh sahifaga qaytish",
+      description: `
+        Kechirasiz, siz qidirayotgan sahifa mavjud emas yoki ko‘chirilgan.
+        Keling, sizni yo'lga qaytaraylik.
+      `,
+    },
+    ru: {
+      home: "Вернуться домой",
+      title: "Страница не найдена",
+      description: `
+        Извините, страница, которую вы ищете, не существует или была перемещена.
+        Давайте вернёмся к прежнему.
+      `,
+    },
+    en: {
+      home: "Go Back Home",
+      title: "Page Not Found",
+      description: `
+        Sorry, the page you are looking for doesn't exist or has been moved.
+        Let's get you back on track.
+      `,
+    },
+    ger: {
+      home: "Geh zurück nach Hause",
+      title: "Seite nicht gefunden",
+      description: `
+        Die gesuchte Seite existiert leider nicht oder wurde verschoben.
+        Wir helfen Ihnen, wieder auf den richtigen Weg zu kommen.
+      `,
+    },
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100 flex items-center justify-center px-4">
@@ -19,11 +65,10 @@ const NotFound = () => {
 
         <div className="mb-8">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-            Page Not Found
+            {notFoundContent[`${language}`].title}
           </h2>
           <p className="text-gray-600 leading-relaxed">
-            Sorry, the page you are looking for doesn't exist or has been moved.
-            Let's get you back on track.
+            {notFoundContent[`${language}`].description}
           </p>
         </div>
 
@@ -32,16 +77,8 @@ const NotFound = () => {
             href="/"
             className="inline-block w-full bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-medium py-3 px-6 rounded-lg hover:from-teal-700 hover:to-cyan-700 transition-all duration-300 transform hover:scale-105"
           >
-            Go Back Home
+            {notFoundContent[`${language}`].home}
           </Link>
-
-          <Button
-            type="button"
-            onClick={() => router.back()}
-            className="inline-block w-full bg-white text-teal-600 font-medium py-3 px-6 rounded-lg border-2 border-teal-600 hover:bg-teal-50 transition-all duration-300"
-          >
-            Go Back
-          </Button>
         </div>
 
         <div className="absolute top-20 left-10 w-20 h-20 bg-teal-200 rounded-full opacity-20 animate-pulse"></div>
