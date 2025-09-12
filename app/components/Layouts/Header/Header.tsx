@@ -12,10 +12,10 @@ import SiteLogoRight from "@/public/images/png/site-right-logo.webp";
 import SiteLogoLeftGerman from "@/public/images/png/site-logo-left-german.png";
 
 const languages = [
-  { code: "uz", name: "O'zbek", flag: "🇺🇿" },
-  { code: "ru", name: "Русский", flag: "🇷🇺" },
-  { code: "en", name: "English", flag: "🇺🇬" },
-  { code: "ger", name: "Deutsch", flag: "🇩🇪" },
+  { code: "uz", name: "O'zbek", flag: "uz" },
+  { code: "ru", name: "Русский", flag: "ru" },
+  { code: "en", name: "English", flag: "en" },
+  { code: "ger", name: "Deutsch", flag: "de" },
 ];
 
 const navigationItems: Record<string, { name: string; href: string }[]> = {
