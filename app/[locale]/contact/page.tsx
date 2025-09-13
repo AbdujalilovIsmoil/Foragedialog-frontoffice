@@ -140,12 +140,12 @@ const ContactPage = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.1),transparent_50%)]"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(168,85,247,0.1),transparent_50%)]"></div>
 
-        <div className="relative px-4 py-20 sm:py-32">
+        <div className="relative px-4 py-20 sm:py-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-6xl sm:text-7xl font-bold text-foreground font-sans mb-8 tracking-tight leading-tight">
+            <h1 className="text-5xl font-bold text-foreground font-sans mb-8 tracking-tight leading-tight">
               {contactContent[`${language}`].title}
             </h1>
-            <p className="text-xl text-muted-foreground font-serif max-w-2xl mx-auto leading-relaxed">
+            <p className="text-[16px] text-muted-foreground font-serif max-w-2xl mx-auto leading-relaxed">
               {contactContent[`${language}`].description}
             </p>
           </div>

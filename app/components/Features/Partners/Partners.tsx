@@ -107,23 +107,15 @@ export default function PartnersCarousel() {
                 className="block h-full"
               >
                 <article className="h-full bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col items-center text-center">
-                  {/* Logo */}
-                  <div className="w-[140px] h-[140px] rounded-xl bg-gradient-to-br from-blue-50 to-sky-50 flex items-center justify-center overflow-hidden shadow-inner mb-6">
+                  <div className="w-[140px] rounded-xl py-1 bg-gradient-to-br from-blue-50 to-sky-50 flex items-center justify-center overflow-hidden shadow-inner">
                     <Image
                       width={140}
                       height={140}
                       unoptimized
                       alt={partner.name}
                       src={partner.image}
-                      className="object-contain w-full h-full p-4 transition-transform duration-500 group-hover:scale-105"
+                      className="object-contain w-full h-[140px] transition-transform duration-500 group-hover:scale-105"
                     />
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex-1 flex flex-col">
-                    <h3 className="font-semibold text-lg text-slate-800 mb-2 line-clamp-1">
-                      {partner.name}
-                    </h3>
                   </div>
                 </article>
               </a>

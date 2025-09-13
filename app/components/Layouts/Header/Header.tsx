@@ -24,6 +24,7 @@ const navigationItems: Record<string, { name: string; href: string }[]> = {
     { name: "Biz haqimizda", href: "/about" },
     { name: "Blog", href: "/blog" },
     { name: "Yangiliklar", href: "/news" },
+    { name: "Resurslar", href: "/resources" }, // Qo‘shildi
     { name: "Kontakt", href: "/contact" },
   ],
   ru: [
@@ -31,6 +32,7 @@ const navigationItems: Record<string, { name: string; href: string }[]> = {
     { name: "О нас", href: "/about" },
     { name: "Блог", href: "/blog" },
     { name: "Новости", href: "/news" },
+    { name: "Ресурсы", href: "/resources" }, // Qo‘shildi
     { name: "Контакт", href: "/contact" },
   ],
   en: [
@@ -38,13 +40,15 @@ const navigationItems: Record<string, { name: string; href: string }[]> = {
     { name: "About", href: "/about" },
     { name: "Blog", href: "/blog" },
     { name: "News", href: "/news" },
+    { name: "Resources", href: "/resources" }, // Qo‘shildi
     { name: "Contact", href: "/contact" },
   ],
   ger: [
     { name: "Startseite", href: "/" },
     { name: "Über uns", href: "/about" },
     { name: "Blog", href: "/blog" },
-    { name: "Nachricht", href: "/news" },
+    { name: "Nachrichten", href: "/news" },
+    { name: "Ressourcen", href: "/resources" }, // Qo‘shildi
     { name: "Kontakt", href: "/contact" },
   ],
 };
@@ -119,17 +123,14 @@ const Header = () => {
           </Link>
 
           <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
-            {navigationItems[language]?.map((item) => {
-              console.log(item);
-              return (
-                <NavItem
-                  key={item.name}
-                  name={item.name}
-                  href={item.href}
-                  language={language}
-                />
-              );
-            })}
+            {navigationItems[language]?.map((item) => (
+              <NavItem
+                key={item.name}
+                name={item.name}
+                href={item.href}
+                language={language}
+              />
+            ))}
           </nav>
 
           <div className="hidden md:flex items-center space-x-2 sm:space-x-5">
@@ -141,7 +142,7 @@ const Header = () => {
                 }
                 className="flex items-center gap-2 px-3 py-2 text-[18px] font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
               >
-                {languages.find((l) => l.code === language)?.flag}{" "}
+                {languages.find((l) => l.code === language)?.flag}
               </Button>
 
               {isLanguageDropdownOpen && (
