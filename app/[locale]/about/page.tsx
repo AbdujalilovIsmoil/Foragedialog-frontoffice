@@ -513,16 +513,14 @@ const About = () => {
                   <h4 className="text-xl font-semibold text-gray-900 mb-2">
                     {member.name}
                   </h4>
-                  <p className="text-blue-600 font-medium mb-3">
-                    {member.position}
-                  </p>
+                  <p className=" font-medium mb-3">{member.position}</p>
                   <p className="text-gray-600 text-sm mb-4 line-clamp-3">
                     {member.bio}
                   </p>
                   <Button
                     type="button"
                     onClick={() => openModal(member)}
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+                    className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors"
                   >
                     {translations.moreInfo[language]}
                   </Button>
@@ -585,9 +583,7 @@ const About = () => {
                 <h4 className="text-xl font-semibold text-gray-900 mb-2">
                   {selectedMember.name}
                 </h4>
-                <p className="text-blue-600 font-medium mb-4">
-                  {selectedMember.position}
-                </p>
+                <p className="font-medium mb-4">{selectedMember.position}</p>
                 <p className="text-gray-600 mb-4">{selectedMember.bio}</p>
 
                 <div className="mb-4">
