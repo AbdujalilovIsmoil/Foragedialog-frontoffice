@@ -1,11 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const NotFound = () => {
-  const router = useRouter();
-
   const pathName = usePathname();
 
   const language = pathName.split("/")[1];
