@@ -198,6 +198,184 @@ const About = () => {
     },
   };
 
+  interface projectContentInterface {
+    [key: string]: {
+      title: string;
+      description: string;
+    };
+  }
+
+  const projectContent: projectContentInterface = {
+    uz: {
+      title: "Dastur",
+      description: `
+        Dastur Sut mahsulotlarining hosildorligi ko’p jihatdan to’g’ri ovqatlanishga bog’liq, bu 
+        esa ozuqa ekinlarini etishtirish va saqlash amaliyotining ahamiyatini oshiradi. Lekin ozuqa 
+        ekinlari urug‘larining asosiy qismi chetdan keltiriladi, chidamli, mahalliy nav- larni 
+        yetishtirish, shuningdek, qoplama ekinlardan foydalanish cheklangan. Bundan tashqari, 
+        silos yoki pichan kabi yem-xashakni saqlash tajribaari keng qo’llanilmaydi. Shuni inobatga 
+        olgan holda, loyihaning maqsadi barqaror va tuproqni muhofaza qiluvchi yem-xashak 
+        yetishtirishni ta’minlashdan iborat. Bunga kichik va o‘rta fermer xo‘jaliklari, shuningdek,
+        ilmiy-tadqiqot institutlariga agroekologik tamoyillar asosida yem-xashak va g‘alla 
+        yetishtirish bo‘yicha maslahatlar berish, o‘qitish va amaliy sinovlar o‘tkazish orqali 
+        erishiladi. Bundan tashqari, barqaror yem-xashak va urug’chilik uchun siyosiy asos qaror 
+        qabul qiluvchilar bilan muloqot formatlari orqali takomillashtiriladi.
+      `,
+    },
+    ru: {
+      title: "Программа",
+      description: `
+        Продуктивность молочного скота в значительной степени зависит от правильного питания, 
+        что повышает важность методов выращивания и хранения кормовых культур. Однако большинство 
+        семян кормовых культур импортируется, а выращивание устойчивых местных сортов, а также 
+        использование покровных культур ограничены. Кроме того, методы хранения кормов, такие 
+        как силос или сено, не получили широкого распространения. Учитывая это, проект направлен 
+        на обеспечение устойчивого и почвосберегающего производства кормов. Это будет достигнуто 
+        путем предоставления консультаций, обучения и практических испытаний малым и средним 
+        фермерским хозяйствам, а также научно-исследовательским институтам по производству кормов 
+        и зерна на основе агроэкологических принципов. Кроме того, политическая основа для 
+        устойчивого производства кормов и семян будет улучшена посредством диалога с лицами, 
+        принимающими решения.
+      `,
+    },
+    en: {
+      title: "Program",
+      description: `
+        Dairy cattle productivity is highly dependent on proper nutrition, 
+        making the management of forage crops important. However, most forage 
+        seeds are imported, and the cultivation of resistant local varieties and the use of cover crops 
+        are limited. In addition, feed storage methods such as silage or hay are not widely used. 
+        With this in mind, the project aims to ensure sustainable and soil-saving feed production.
+        This will be achieved by providing advice, training and practical trials to small and medium-sized farms and research institutes for the production of feed and grain based on agro-ecological principles.
+        In addition, the policy framework for sustainable feed and seed production will be improved through dialogue with decision makers.
+      `,
+    },
+    ger: {
+      title: "Programm",
+      description: `
+        Die Produktivität von Milchvieh hängt stark von der richtigen Ernährung ab, weshalb der Anbau von Futterpflanzen wichtig ist. Allerdings wird das meiste Futtersaatgut importiert, und der Anbau resistenter lokaler Sorten sowie der Einsatz von Deckfrüchten sind begrenzt. Darüber hinaus sind Futtermittellagerungsmethoden wie Silage oder Heu kaum verbreitet. Vor diesem Hintergrund zielt das Projekt darauf ab, eine nachhaltige und bodenschonende Futtermittelproduktion zu gewährleisten.
+        Dies wird durch Beratung, Schulungen und Praxisversuche für kleine und mittlere landwirtschaftliche Betriebe sowie Forschungsinstitute zur agrarökologischen Futter- und Getreideproduktion erreicht. Darüber hinaus werden die politischen Rahmenbedingungen für eine nachhaltige Futter- und Saatgutproduktion durch den Dialog mit Entscheidungsträgern verbessert.
+      `,
+    },
+  };
+
+  const projectResultsContent = {
+    uz: {
+      title: "Natijalar va erishilgan yutuqlar",
+      achievements: [
+        "Hamkor institutlarning iqlimga chidamli em-xashak ekinlari sohasidagi tajribasi mustahkamlandi.",
+        "Sut tovar xo‘jaliklari o‘z yerlarini iqlimga chidamli texnologiyalar bo‘yicha maslahatlar yordamida boshqarishga o‘tdi.",
+        "Resurslarni tejaydigan oziqlantirish tizimlari joriy etildi.",
+        "Ekspertiza muassasalarga muloqot platformalari orqali yetkazildi.",
+      ],
+      quote: {
+        text: "Ozuqa turlarini tahlil qilishning samarali tizimini yaratish, almashlab ekishga chidamli yem-xashak ekinlarini tatbiq etish va yem-xashakni tejash mahalliy sut ishlab chiqarishni oshirishning kalitidir.",
+        author: "Anton van Engelen, Jamoa rahbari",
+      },
+      partnersTitle: "Loyiha hamkorlari va hamkorlik",
+      partners: [
+        "Germaniya tomoni: Federal oziq-ovqat va qishloq xo‘jaligi vazirligi (BMEL)",
+        "O‘zbekiston tomoni: Qishloq xo‘jaligi vazirligi (QXV)",
+      ],
+      collaboratorsTitle: "Loyihaning faoliyat hamkori",
+      collaborators: [
+        "AKIS (Qishloq xo‘jaligida bilim va innovatsiyalar milliy markazi) tegishli institutlar bilan: Andijon Don, makkajo‘xori va dukkakli ekinlar instituti, Toshkent viloyati ilmiy-tadqiqot stansiyasi, Qashqadaryo viloyati Janubiy qishloq xo‘jaligi instituti.",
+        "Veterinariya qo‘mitasi: Toshkent viloyati chorvachilik va parrandachilik instituti, Samarqand davlat veterinariya, chorvachilik va biotexnologiya universiteti.",
+      ],
+      executorsTitle: "Amalga oshiruvchi tashkilotlar",
+      executors: [
+        "GOPA AFC GmbH ishchi guruhi",
+        "IAK Agrar Consulting GmbH bilan hamkorlikda",
+      ],
+    },
+    ru: {
+      title: "Результаты и достижения",
+      achievements: [
+        "Опыт партнерских институтов в области устойчивых к климату кормовых культур был укреплён.",
+        "Молочные хозяйства начали управлять своими землями с помощью консультаций по климатически устойчивым технологиям.",
+        "Внедрены ресурсосберегающие системы кормления.",
+        "Экспертиза предоставлена учреждениям через коммуникационные платформы.",
+      ],
+      quote: {
+        text: "Создание эффективной системы анализа видов кормов, внедрение устойчивых к севообороту кормовых культур и экономия кормов — это ключ к увеличению местного производства молока.",
+        author: "Антон ван Энгелен, Руководитель команды",
+      },
+      partnersTitle: "Партнеры проекта и сотрудничество",
+      partners: [
+        "Со стороны Германии: Федеральное министерство продовольствия и сельского хозяйства (BMEL)",
+        "Со стороны Узбекистана: Министерство сельского хозяйства (QXV)",
+      ],
+      collaboratorsTitle: "Рабочие партнеры проекта",
+      collaborators: [
+        "АКИС (Национальный центр знаний и инноваций в сельском хозяйстве) совместно с соответствующими институтами: Институт зерновых, кукурузы и бобовых культур в Андижане, Научно-исследовательская станция Ташкентской области, Южный сельскохозяйственный институт Кашкадарьинской области.",
+        "Ветеринарный комитет: Институт животноводства и птицеводства Ташкентской области, Самаркандский государственный университет ветеринарии, животноводства и биотехнологии.",
+      ],
+      executorsTitle: "Исполняющие организации",
+      executors: [
+        "Рабочая группа GOPA AFC GmbH в сотрудничестве с",
+        "IAK Agrar Consulting GmbH",
+      ],
+    },
+
+    en: {
+      title: "Results and Achievements",
+      achievements: [
+        "The experience of partner institutions in the field of climate-resilient forage crops has been strengthened.",
+        "Dairy farms began managing their land with the help of advice on climate-resilient technologies.",
+        "Resource-saving feeding systems have been introduced.",
+        "Expertise has been provided to institutions through communication platforms.",
+      ],
+      quote: {
+        text: "Creating an effective system for analyzing feed types, introducing forage crops resistant to crop rotation, and saving feed is the key to increasing local milk production.",
+        author: "Anton van Engelen, Team Leader",
+      },
+      partnersTitle: "Project Partners and Cooperation",
+      partners: [
+        "German side: Federal Ministry of Food and Agriculture (BMEL)",
+        "Uzbek side: Ministry of Agriculture (QXV)",
+      ],
+      collaboratorsTitle: "Project Implementing Partners",
+      collaborators: [
+        "AKIS (National Center for Knowledge and Innovation in Agriculture) together with relevant institutes: Andijan Institute of Grain, Maize and Legumes, Tashkent Region Research Station, Kashkadarya Region Southern Agricultural Institute.",
+        "Veterinary Committee: Tashkent Region Institute of Animal Husbandry and Poultry Farming, Samarkand State University of Veterinary Medicine, Animal Husbandry and Biotechnology.",
+      ],
+      executorsTitle: "Implementing Organizations",
+      executors: [
+        "GOPA AFC GmbH working group in cooperation with",
+        "IAK Agrar Consulting GmbH",
+      ],
+    },
+
+    ger: {
+      title: "Ergebnisse und Erreichte Fortschritte",
+      achievements: [
+        "Die Erfahrung der Partnerinstitutionen im Bereich klimaresistenter Futterpflanzen wurde gestärkt.",
+        "Milchviehbetriebe begannen, ihre Flächen mithilfe von Beratung zu klimaresistenten Technologien zu bewirtschaften.",
+        "Ressourcensparende Fütterungssysteme wurden eingeführt.",
+        "Expertise wurde über Kommunikationsplattformen an Institutionen vermittelt.",
+      ],
+      quote: {
+        text: "Die Schaffung eines effektiven Systems zur Analyse von Futtermitteln, die Einführung von Fruchtwechsel-resistenten Futterpflanzen und die Einsparung von Futter sind der Schlüssel zur Steigerung der lokalen Milchproduktion.",
+        author: "Anton van Engelen, Teamleiter",
+      },
+      partnersTitle: "Projektpartner und Zusammenarbeit",
+      partners: [
+        "Deutsche Seite: Bundesministerium für Ernährung und Landwirtschaft (BMEL)",
+        "Usbekische Seite: Ministerium für Landwirtschaft (QXV)",
+      ],
+      collaboratorsTitle: "Projektumsetzende Partner",
+      collaborators: [
+        "AKIS (Nationales Zentrum für Wissen und Innovation in der Landwirtschaft) gemeinsam mit relevanten Instituten: Andijan Institut für Getreide, Mais und Hülsenfrüchte, Forschungsstation der Region Taschkent, Landwirtschaftsinstitut der Region Qashqadarya.",
+        "Veterinärausschuss: Institut für Viehzucht und Geflügelzucht der Region Taschkent, Staatliche Universität Samarkand für Veterinärmedizin, Tierhaltung und Biotechnologie.",
+      ],
+      executorsTitle: "Durchführende Organisationen",
+      executors: [
+        "Arbeitsgruppe von GOPA AFC GmbH in Zusammenarbeit mit",
+        "IAK Agrar Consulting GmbH",
+      ],
+    },
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* HEADER */}
@@ -211,7 +389,7 @@ const About = () => {
       </section>
 
       <section className="py-16 px-6 bg-white">
-        <div className="max-w-4xl mx-auto shadow-xl rounded-2xl p-8 sm:p-12 border border-gray-100">
+        <div className="max-w-4xl mx-auto shadow-xl rounded-2xl p-8 sm:p-12 border border-gray-100 mb-[50px]">
           {/* Title */}
           <h2 className="text-3xl md:text-4xl font-extrabold text-green-700 mb-6 text-center">
             {translationsContent.title[language]}
@@ -230,6 +408,87 @@ const About = () => {
           <div className="mt-8 flex justify-center">
             <div className="w-24 h-1 bg-green-500 rounded-full"></div>
           </div>
+        </div>
+
+        <div className="max-w-4xl mx-auto shadow-xl rounded-2xl p-8 sm:p-12 border border-gray-100">
+          {/* Title */}
+          <h2 className="text-3xl md:text-4xl font-extrabold text-green-700 mb-6 text-center">
+            {projectContent[`${language}`].title}
+          </h2>
+
+          {/* Description */}
+          <p className="text-gray-700 leading-relaxed text-lg space-y-4">
+            {projectContent[`${language}`].description}
+          </p>
+
+          {/* Decorative line */}
+          <div className="mt-8 flex justify-center">
+            <div className="w-24 h-1 bg-green-500 rounded-full"></div>
+          </div>
+        </div>
+
+        <div className="max-w-4xl mx-auto shadow-xl rounded-2xl p-8 sm:p-12 border border-gray-100 mt-12">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-green-700 mb-6 text-center">
+            {projectResultsContent[language].title}
+          </h2>
+
+          <ul className="list-disc list-inside text-gray-700 space-y-2 mb-6">
+            {projectResultsContent[language].achievements.map((item, idx) => (
+              <li key={idx}>{item}</li>
+            ))}
+          </ul>
+
+          <blockquote className="italic text-gray-600 mb-6">
+            “{projectResultsContent[language].quote.text}”
+            <br />
+            <span className="font-semibold">
+              — {projectResultsContent[language].quote.author}
+            </span>
+          </blockquote>
+
+          <h3 className="text-2xl font-bold text-green-700 mb-4">
+            {projectResultsContent[language].partnersTitle}
+          </h3>
+          <ul className="list-disc list-inside text-gray-700 space-y-2 mb-6">
+            {projectResultsContent[language].partners.map((item, idx) => (
+              <li key={idx}>{item}</li>
+            ))}
+          </ul>
+
+          <h3 className="text-2xl font-bold text-green-700 mb-4">
+            {projectResultsContent[language].collaboratorsTitle}
+          </h3>
+          <ul className="list-disc list-inside text-gray-700 space-y-2 mb-6">
+            {projectResultsContent[language].collaborators.map((item, idx) => (
+              <li key={idx}>{item}</li>
+            ))}
+          </ul>
+
+          <h3 className="text-2xl font-bold text-green-700 mb-4">
+            {projectResultsContent[language].executorsTitle}
+          </h3>
+          <ul className="list-disc list-inside text-gray-700 space-y-2">
+            {projectResultsContent[language].executors.map((item, idx) => (
+              <li key={idx}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* PROJECT INFO */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <h2 className="text-3xl font-bold text-gray-900 text-center">
+            {translations.projectTitle[language]}
+          </h2>
+          <p className="text-gray-700 leading-relaxed">
+            {translations.projectDesc[language]}
+          </p>
+          <ul className="list-disc list-inside text-gray-700 space-y-2">
+            {translations.projectList[language].map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -291,23 +550,6 @@ const About = () => {
               </Button>
             </>
           )}
-        </div>
-      </section>
-
-      {/* PROJECT INFO */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-4xl mx-auto space-y-6">
-          <h2 className="text-3xl font-bold text-gray-900 text-center">
-            {translations.projectTitle[language]}
-          </h2>
-          <p className="text-gray-700 leading-relaxed">
-            {translations.projectDesc[language]}
-          </p>
-          <ul className="list-disc list-inside text-gray-700 space-y-2">
-            {translations.projectList[language].map((item, i) => (
-              <li key={i}>{item}</li>
-            ))}
-          </ul>
         </div>
       </section>
 
