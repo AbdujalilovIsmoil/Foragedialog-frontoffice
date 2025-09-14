@@ -34,6 +34,13 @@ interface NewsApiItem {
   readingTime: string;
   publishedDate: string;
   viewsCount: number;
+  publisherId?: number;
+}
+
+interface Publisher {
+  name: string;
+  imageId: string;
+  id: number;
 }
 
 export default function NewsView() {
@@ -76,6 +83,17 @@ export default function NewsView() {
     if (!article?.images || article.images.length === 0) return [];
     return article.images.map((imgId) => `${imageBase}/${imgId}`);
   }, [article]);
+
+  // publisher fetch
+  const { data: publisherData, isLoading: publisherLoading } = useGet({
+    queryKey: "publisher",
+    path: article?.publisherId
+      ? `/Publisher/GetById?id=${article.publisherId}`
+      : "",
+  });
+
+  const publisher: Publisher | null =
+    publisherData && publisherData.content ? publisherData.content : null;
 
   if (isLoading) {
     return (
@@ -241,6 +259,31 @@ export default function NewsView() {
                   </span>
                 ))}
             </div>
+
+            {/* publisher */}
+            {publisher && (
+              <div className="mt-12 pt-8 border-t border-gray-200 flex items-center gap-4">
+                <Image
+                  src={`${imageBase}/${publisher.imageId}`}
+                  alt={publisher.name}
+                  width={64}
+                  height={64}
+                  className="rounded-full object-cover border shadow-sm"
+                  unoptimized
+                />
+                <div>
+                  <p className="text-gray-900 font-semibold text-lg">
+                    {publisher.name}
+                  </p>
+                  <p className="text-gray-500 text-sm">
+                    {language === "uz" && "Muallif"}
+                    {language === "ru" && "Автор"}
+                    {language === "en" && "Publisher"}
+                    {language === "ger" && "Autor"}
+                  </p>
+                </div>
+              </div>
+            )}
 
             {/* back button */}
             <div className="mt-12 pt-8 border-t border-gray-200">

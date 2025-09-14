@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/app/components";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useGet } from "@/app/hooks";
@@ -36,6 +36,13 @@ interface NewsApiItem {
   readingTime: string;
   publishedDate: string;
   viewsCount: number;
+  publisherId: number;
+}
+
+interface Publisher {
+  id: number;
+  name: string;
+  imageId: string;
 }
 
 interface NewsItem {
@@ -50,6 +57,7 @@ interface NewsItem {
   date: string;
   views: number;
   publishedDate: string;
+  publisher?: Publisher;
 }
 
 export default function NewsPage() {
@@ -76,6 +84,9 @@ export default function NewsPage() {
   const [currentPage, setCurrentPage] = useState(initialPage);
 
   const itemsPerPage = 5; // ✅ Har bir sahifada nechta yangilik chiqishi
+
+  // ✅ Publisherlar state (yuqoriga ko‘chirdik)
+  const [publishers, setPublishers] = useState<Record<number, Publisher>>({});
 
   // ✅ URL params update qiluvchi funksiya
   const updateParams = (newParams: Record<string, string | null>) => {
@@ -126,8 +137,9 @@ export default function NewsPage() {
       }),
       views: n.viewsCount,
       publishedDate: n.publishedDate,
+      publisher: publishers[n.publisherId], // ✅ endi error chiqmaydi
     }));
-  }, [newsData, language]);
+  }, [newsData, language, publishers]);
 
   // Filter + Sort
   const filteredNews = useMemo(() => {
@@ -206,6 +218,41 @@ export default function NewsPage() {
     en: "Read Full News",
     ger: "Ganze Nachricht lesen",
   };
+
+  useEffect(() => {
+    const fetchPublishers = async () => {
+      if (!newsData?.content) return;
+
+      const uniquePublisherIds = [
+        ...new Set(newsData.content.map((n: NewsApiItem) => n.publisherId)),
+      ];
+
+      const results: Record<number, Publisher> = {};
+      await Promise.all(
+        uniquePublisherIds.map(async (id) => {
+          try {
+            const res = await fetch(
+              `https://back.foragedialog.uz/Publisher/GetById?id=${id}`
+            );
+            const data = await res.json();
+            if (data?.content) {
+              results[id as any] = {
+                id: data.content.id,
+                name: data.content.name,
+                imageId: data.content.imageId,
+              };
+            }
+          } catch (err) {
+            console.error("Publisher fetch error:", err);
+          }
+        })
+      );
+
+      setPublishers(results);
+    };
+
+    fetchPublishers();
+  }, [newsData]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -368,9 +415,26 @@ export default function NewsPage() {
                       </div>
 
                       <div className="p-6">
-                        <time className="text-gray-500 text-sm">
-                          {news.date}
-                        </time>
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center gap-3">
+                            {news.publisher?.imageId && (
+                              <Image
+                                src={`https://back.foragedialog.uz/File/DownloadFile/download/${news.publisher.imageId}`}
+                                alt={news.publisher.name}
+                                width={36}
+                                height={36}
+                                className="w-9 h-9 rounded-full object-cover border"
+                              />
+                            )}
+                            <span className="text-gray-700 font-medium text-sm">
+                              {news.publisher?.name || "—"}
+                            </span>
+                          </div>
+                          <time className="text-gray-500 text-xs">
+                            {news.date}
+                          </time>
+                        </div>
+
                         <h2 className="text-xl font-bold text-gray-900 mt-2 mb-3 line-clamp-2">
                           {news.title}
                         </h2>
