@@ -1,557 +1,370 @@
 "use client";
 
-import Link from "next/link";
-import { useState, useMemo } from "react";
-import NewsImage1 from "@/public/images/png/news-image-1.png";
-import NewsImage2 from "@/public/images/png/news-image-2.png";
-import NewsImage3 from "@/public/images/png/news-image-3.png";
-import ProfileImage from "@/public/images/png/profile-image.png";
 import Image from "next/image";
+import { useMemo, useState } from "react";
 import { Button } from "@/app/components";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useGet } from "@/app/hooks";
+import { get } from "lodash";
+import Link from "next/link";
 
-export interface BlogPost {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  content: string;
-  featuredImage: string;
-  author: {
-    name: string;
-    avatar: string;
-    bio: string;
+// ✅ Swiper importlari
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+interface Category {
+  id: number;
+  categoryName: {
+    uz: string;
+    ru: string;
+    en: string;
+    ger: string;
   };
-  publishedAt: string;
-  updatedAt: string;
+}
+
+interface NewsApiItem {
+  id: number;
+  subject: Record<"uz" | "ru" | "en" | "ger", string>;
+  title: Record<"uz" | "ru" | "en" | "ger", string>;
+  text: Record<"uz" | "ru" | "en" | "ger", string>;
+  categories: Record<"uz" | "ru" | "en" | "ger", string>[];
+  tags: Record<"uz" | "ru" | "en" | "ger", string>[];
+  images: string[];
+  readingTime: string;
+  publishedDate: string;
+  viewsCount: number;
+}
+
+interface NewsItem {
+  id: number;
+  title: string;
+  subject: string;
+  text: string;
+  categories: string[];
   tags: string[];
-  category: string;
-  readingTime: number;
-  isPublished: boolean;
+  images: string[];
+  readingTime: string;
+  date: string;
+  views: number;
+  publishedDate: string;
 }
 
-const blogCategories = [
-  "Technology",
-  "Design",
-  "Development",
-  "Business",
-  "Lifestyle",
-  "Tutorial",
-] as const;
+export default function NewsPage() {
+  const pathName = usePathname();
+  const language = pathName.split("/")[1] as "uz" | "ru" | "en" | "ger";
 
-const blogTags = [
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Tailwind CSS",
-  "UI/UX",
-  "Web Development",
-  "JavaScript",
-  "CSS",
-  "HTML",
-  "Frontend",
-  "Backend",
-  "Full Stack",
-] as const;
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-// Sample blog data
-const sampleBlogPosts: BlogPost[] = [
-  {
-    id: "1",
-    title: "Building Beautiful User Interfaces with Modern CSS",
-    slug: "building-beautiful-user-interfaces-modern-css",
-    excerpt:
-      "Discover the latest CSS techniques and best practices for creating stunning, responsive user interfaces that captivate your audience.",
-    content: `
-      <h2>Introduction to Modern CSS</h2>
-      <p>CSS has evolved tremendously over the years, offering developers powerful tools to create beautiful and responsive designs. In this comprehensive guide, we'll explore the latest techniques and best practices.</p>
-      
-      <h3>Grid and Flexbox</h3>
-      <p>Modern layout systems like CSS Grid and Flexbox have revolutionized how we approach web design. These tools provide unprecedented control over element positioning and alignment.</p>
-      
-      <blockquote>
-        "The best designs are not just beautiful, they're functional and accessible to everyone."
-      </blockquote>
-      
-      <h3>Custom Properties and Variables</h3>
-      <p>CSS custom properties allow for dynamic theming and maintainable stylesheets. They're essential for modern design systems.</p>
-    `,
-    featuredImage: NewsImage1.src,
-    author: {
-      name: "Sarah Johnson",
-      avatar: ProfileImage.src,
-      bio: "Frontend developer and UI/UX designer with 8+ years of experience",
-    },
-    publishedAt: "2024-01-15T10:00:00Z",
-    updatedAt: "2024-01-15T10:00:00Z",
-    tags: ["CSS", "UI/UX", "Web Development", "Frontend"],
-    category: "Design",
-    readingTime: 8,
-    isPublished: true,
-  },
-  {
-    id: "2",
-    title: "Next.js 14: The Complete Guide to App Router",
-    slug: "nextjs-14-complete-guide-app-router",
-    excerpt:
-      "Master the new App Router in Next.js 14 with this comprehensive guide covering routing, layouts, and advanced patterns.",
-    content: `
-      <h2>What's New in Next.js 14</h2>
-      <p>Next.js 14 introduces significant improvements to the App Router, making it more powerful and developer-friendly than ever before.</p>
-      
-      <h3>File-based Routing</h3>
-      <p>The App Router uses a file-based routing system that's intuitive and powerful. Learn how to structure your application for optimal performance.</p>
-      
-      <h3>Server Components</h3>
-      <p>Server Components are a game-changer for React applications, offering better performance and SEO capabilities.</p>
-    `,
-    featuredImage: NewsImage2.src,
-    author: {
-      name: "Michael Chen",
-      avatar: ProfileImage.src,
-      bio: "Full-stack developer specializing in React and Next.js",
-    },
-    publishedAt: "2024-01-12T14:30:00Z",
-    updatedAt: "2024-01-12T14:30:00Z",
-    tags: ["Next.js", "React", "TypeScript", "Full Stack"],
-    category: "Development",
-    readingTime: 12,
-    isPublished: true,
-  },
-  {
-    id: "3",
-    title: "The Art of Responsive Design in 2024",
-    slug: "art-of-responsive-design-2024",
-    excerpt:
-      "Explore the latest trends and techniques in responsive web design, from mobile-first approaches to advanced CSS Grid layouts.",
-    content: `
-      <h2>Responsive Design Evolution</h2>
-      <p>Responsive design has come a long way since its inception. Today's approaches are more sophisticated and user-centric.</p>
-      
-      <h3>Mobile-First Strategy</h3>
-      <p>Starting with mobile designs ensures better performance and user experience across all devices.</p>
-      
-      <h3>Container Queries</h3>
-      <p>The new container queries feature allows for truly component-based responsive design.</p>
-    `,
-    featuredImage: NewsImage3.src,
-    author: {
-      name: "Emily Rodriguez",
-      avatar: ProfileImage.src,
-      bio: "UX/UI designer focused on responsive and accessible design",
-    },
-    publishedAt: "2024-01-10T09:15:00Z",
-    updatedAt: "2024-01-10T09:15:00Z",
-    tags: ["CSS", "Responsive Design", "Mobile", "UI/UX"],
-    category: "Design",
-    readingTime: 6,
-    isPublished: true,
-  },
-  {
-    id: "4",
-    title: "TypeScript Best Practices for Large Applications",
-    slug: "typescript-best-practices-large-applications",
-    excerpt:
-      "Learn essential TypeScript patterns and practices for building maintainable, scalable applications with strong type safety.",
-    content: `
-      <h2>TypeScript in Enterprise</h2>
-      <p>TypeScript has become the standard for large-scale JavaScript applications. Here are the best practices for success.</p>
-      
-      <h3>Type Safety Strategies</h3>
-      <p>Implementing strict type checking and proper error handling patterns.</p>
-      
-      <h3>Code Organization</h3>
-      <p>Structuring your TypeScript codebase for maximum maintainability and team collaboration.</p>
-    `,
-    featuredImage: NewsImage1.src,
-    author: {
-      name: "David Kim",
-      avatar: ProfileImage.src,
-      bio: "Senior TypeScript developer and technical lead",
-    },
-    publishedAt: "2024-01-08T16:45:00Z",
-    updatedAt: "2024-01-08T16:45:00Z",
-    tags: ["TypeScript", "JavaScript", "Development", "Best Practices"],
-    category: "Development",
-    readingTime: 10,
-    isPublished: true,
-  },
-];
+  // ✅ URL dan initial qiymatlar
+  const initialSearch = searchParams.get("search") || "";
+  const initialCategory = searchParams.get("category")
+    ? Number(searchParams.get("category"))
+    : null;
+  const initialSort =
+    (searchParams.get("sort") as "newest" | "oldest") || "newest";
 
-function getBlogPosts(): BlogPost[] {
-  return sampleBlogPosts.filter((post) => post.isPublished);
-}
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(
+    initialCategory
+  );
+  const [searchTerm, setSearchTerm] = useState(initialSearch);
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">(initialSort);
 
-const FilterIcon = () => (
-  <svg
-    className="w-5 h-5"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z"
-    />
-  </svg>
-);
+  // ✅ URL params update qiluvchi funksiya
+  const updateParams = (newParams: Record<string, string | null>) => {
+    const params = new URLSearchParams(searchParams.toString());
 
-const CalendarIcon = () => (
-  <svg
-    className="w-4 h-4"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-    />
-  </svg>
-);
-
-const ClockIcon = () => (
-  <svg
-    className="w-4 h-4"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-    />
-  </svg>
-);
-
-const ArrowRightIcon = () => (
-  <svg
-    className="w-4 h-4"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M9 5l7 7-7 7"
-    />
-  </svg>
-);
-
-type SortOption = "newest" | "oldest" | "title" | "reading-time";
-
-export default function BlogPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [selectedTag, setSelectedTag] = useState<string>("all");
-  const [sortBy, setSortBy] = useState<SortOption>("newest");
-  const [showFilters, setShowFilters] = useState(false);
-
-  const blogPosts = getBlogPosts();
-
-  const filteredAndSortedPosts = useMemo(() => {
-    let filtered = blogPosts;
-
-    // Search filter
-    if (searchQuery) {
-      filtered = filtered.filter(
-        (post) =>
-          post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          post.author.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    // Category filter
-    if (selectedCategory !== "all") {
-      filtered = filtered.filter((post) => post.category === selectedCategory);
-    }
-
-    // Tag filter
-    if (selectedTag !== "all") {
-      filtered = filtered.filter((post) => post.tags.includes(selectedTag));
-    }
-
-    // Sort
-    const sorted = [...filtered].sort((a, b) => {
-      switch (sortBy) {
-        case "newest":
-          return (
-            new Date(b.publishedAt).getTime() -
-            new Date(a.publishedAt).getTime()
-          );
-        case "oldest":
-          return (
-            new Date(a.publishedAt).getTime() -
-            new Date(b.publishedAt).getTime()
-          );
-        case "title":
-          return a.title.localeCompare(b.title);
-        case "reading-time":
-          return a.readingTime - b.readingTime;
-        default:
-          return 0;
+    Object.entries(newParams).forEach(([key, value]) => {
+      if (value === null || value === "") {
+        params.delete(key);
+      } else {
+        params.set(key, value);
       }
     });
 
-    return sorted;
-  }, [blogPosts, searchQuery, selectedCategory, selectedTag, sortBy]);
+    router.push(`?${params.toString()}`);
+  };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+  // Kategoriya API
+  const { data: categoriesData } = useGet({
+    queryKey: "news-category",
+    path: "/NewsCategory/GetAll",
+  });
+
+  // Yangiliklar API
+  const { data: newsData } = useGet({
+    queryKey: "blog",
+    path: "/Blog/GetAll",
+  });
+
+  // Newslarni tayyorlash
+  const news: NewsItem[] = useMemo(() => {
+    if (!newsData?.content) return [];
+    return newsData.content.map((n: NewsApiItem) => ({
+      id: n.id,
+      title: n.title[language] || n.title["uz"],
+      subject: n.subject[language] || "",
+      text: n.text[language] || "",
+      categories: n.categories.map((c) => c[language]),
+      tags: n.tags.map((t) => t[language]),
+      images: n.images.map(
+        (imgId) =>
+          `https://back.foragedialog.uz/File/DownloadFile/download/${imgId}`
+      ),
+      readingTime: n.readingTime ? `${n.readingTime} min` : "—",
+      date: new Date(n.publishedDate).toLocaleDateString(language, {
+        year: "numeric",
+        month: "2-digit",
+        day: "numeric",
+      }),
+      views: n.viewsCount,
+      publishedDate: n.publishedDate,
+    }));
+  }, [newsData, language]);
+
+  // Filter + Sort
+  const filteredNews = useMemo(() => {
+    let result = news.filter((n: NewsItem) => {
+      const matchesSearch =
+        n.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        n.text.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesCategory =
+        selectedCategory === null ||
+        n.categories.includes(
+          (get(categoriesData, "content", []) as Category[]).find(
+            (c) => c.id === selectedCategory
+          )?.categoryName[language] ?? ""
+        );
+
+      return matchesSearch && matchesCategory;
     });
+
+    // ✅ Sort by newest / oldest
+    result = result.sort((a, b) => {
+      if (sortOrder === "newest") {
+        return (
+          new Date(b.publishedDate).getTime() -
+          new Date(a.publishedDate).getTime()
+        );
+      } else {
+        return (
+          new Date(a.publishedDate).getTime() -
+          new Date(b.publishedDate).getTime()
+        );
+      }
+    });
+
+    return result;
+  }, [news, searchTerm, selectedCategory, categoriesData, language, sortOrder]);
+
+  const inputPlaceholder = {
+    en: "Search blog",
+    ru: "Поиск блог",
+    ger: "Nachrichten blog",
+    uz: "Bloglarni qidirish",
+  };
+
+  const newsContent = {
+    uz: {
+      all: "Hammasi",
+      notFound: "Bu categoriyaga oid blog mavjud emas",
+    },
+    ru: {
+      all: "Все",
+      notFound: "Новостей по этой блог нет",
+    },
+    en: {
+      all: "All",
+      notFound: "No blog available for this category",
+    },
+    ger: {
+      all: "Alle",
+      notFound: "Keine Nachrichten blog diese Kategorie verfügbar",
+    },
+  };
+
+  type Lang = "uz" | "ru" | "en" | "ger";
+
+  const readFullArticleText: Record<Lang, string> = {
+    uz: "Yangilikni to‘liq o‘qish",
+    ru: "Читать полную новость",
+    en: "Read Full News",
+    ger: "Ganzen Nachrichten lesen",
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <section className="text-center py-12 mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold font-sans text-primary mb-4">
-            Discover Amazing Content
-          </h2>
-          <p className="text-xl text-muted-foreground font-serif max-w-2xl mx-auto">
-            Explore our collection of carefully crafted articles on web
-            development, design, and technology
-          </p>
-        </section>
-
-        <div className="mb-8">
-          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-6">
-            <Button
-              type="button"
-              onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-lg hover:bg-muted transition-colors"
-            >
-              <FilterIcon />
-              <span className="font-serif">Filters</span>
-            </Button>
-
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-muted-foreground font-serif">
-                {filteredAndSortedPosts.length} posts found
-              </span>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as SortOption)}
-                className="px-3 py-2 bg-input border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring font-serif"
-              >
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-                <option value="title">Title A-Z</option>
-                <option value="reading-time">Reading Time</option>
-              </select>
-            </div>
-          </div>
-
-          {showFilters && (
-            <div className="bg-card border border-border rounded-lg p-6 mb-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium font-sans text-foreground mb-2">
-                    Category
-                  </label>
-                  <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full px-3 py-2 bg-input border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring font-serif"
-                  >
-                    <option value="all">All Categories</option>
-                    {blogCategories.map((category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium font-sans text-foreground mb-2">
-                    Tag
-                  </label>
-                  <select
-                    value={selectedTag}
-                    onChange={(e) => setSelectedTag(e.target.value)}
-                    className="w-full px-3 py-2 bg-input border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring font-serif"
-                  >
-                    <option value="all">All Tags</option>
-                    {blogTags.map((tag) => (
-                      <option key={tag} value={tag}>
-                        {tag}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+    <div className="min-h-screen bg-white">
+      <main className="pt-20">
+        {/* Search + Sort + Categories */}
+        <section className="py-8 bg-white border-b border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-6 items-center">
+            {/* Search + Filter */}
+            <div className="flex w-full gap-4">
+              <div className="relative w-4/5">
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setSearchTerm(val);
+                    updateParams({ search: val });
+                  }}
+                  placeholder={inputPlaceholder[language]}
+                  className="w-full px-4 py-3 pl-12 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-300"
+                />
+                <svg
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
               </div>
 
-              <div className="flex gap-2 mt-4">
+              {/* Sort filter */}
+              <select
+                value={sortOrder}
+                onChange={(e) => {
+                  const val = e.target.value as "newest" | "oldest";
+                  setSortOrder(val);
+                  updateParams({ sort: val });
+                }}
+                className="w-1/5 px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-300"
+              >
+                <option value="newest">
+                  {language === "uz"
+                    ? "Yangi"
+                    : language === "ru"
+                    ? "Новые"
+                    : language === "ger"
+                    ? "Neueste"
+                    : "Newest"}
+                </option>
+                <option value="oldest">
+                  {language === "uz"
+                    ? "Eski"
+                    : language === "ru"
+                    ? "Старые"
+                    : language === "ger"
+                    ? "Älteste"
+                    : "Oldest"}
+                </option>
+              </select>
+            </div>
+
+            {/* Categories Carousel */}
+            <div className="w-full overflow-x-auto">
+              <div className="flex gap-2 pb-2 min-w-max">
                 <Button
                   type="button"
                   onClick={() => {
-                    setSearchQuery("");
-                    setSelectedTag("all");
-                    setSelectedCategory("all");
+                    setSelectedCategory(null);
+                    updateParams({ category: null });
                   }}
-                  className="px-4 py-2 text-sm bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors font-serif"
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+                    selectedCategory === null
+                      ? "bg-teal-600 text-white shadow-lg"
+                      : "bg-gray-100 text-gray-600 hover:bg-teal-50 hover:text-teal-600 border border-gray-200"
+                  }`}
                 >
-                  Clear Filters
+                  {newsContent[language].all}
                 </Button>
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredAndSortedPosts.map((post) => (
-            <article
-              key={post.id}
-              className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 group"
-            >
-              <div className="aspect-video overflow-hidden">
-                <Image
-                  width={500}
-                  height={500}
-                  alt={post.title}
-                  unoptimized={true}
-                  src={post.featuredImage || ""}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="px-2 py-1 text-xs font-medium bg-accent text-accent-foreground rounded-full font-serif">
-                    {post.category}
-                  </span>
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                    <CalendarIcon />
-                    <span className="font-serif">
-                      {formatDate(post.publishedAt)}
-                    </span>
-                  </div>
-                </div>
-
-                <h3 className="text-xl font-bold font-sans text-card-foreground mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                  {post.title}
-                </h3>
-
-                <p className="text-muted-foreground font-serif mb-4 line-clamp-3">
-                  {post.excerpt}
-                </p>
-
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <Image
-                      width={24}
-                      height={24}
-                      unoptimized={true}
-                      alt={post.author.name}
-                      src={post.author.avatar || ""}
-                      className="w-6 h-6 rounded-full"
-                    />
-                    <span className="text-sm text-muted-foreground font-serif">
-                      {post.author.name}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                    <ClockIcon />
-                    <span className="font-serif">{post.readingTime} min</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-1 mb-4">
-                  {post.tags.slice(0, 3).map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2 py-1 text-xs bg-muted text-muted-foreground rounded font-serif"
+                {(get(categoriesData, "content", []) as Category[]).map(
+                  (category) => (
+                    <Button
+                      type="button"
+                      key={category.id}
+                      onClick={() => {
+                        setSelectedCategory(category.id);
+                        updateParams({ category: String(category.id) });
+                      }}
+                      className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+                        selectedCategory === category.id
+                          ? "bg-teal-600 text-white shadow-lg"
+                          : "bg-gray-100 text-gray-600 hover:bg-teal-50 hover:text-teal-600 border border-gray-200"
+                      }`}
                     >
-                      {tag}
-                    </span>
-                  ))}
-                  {post.tags.length > 3 && (
-                    <span className="px-2 py-1 text-xs bg-muted text-muted-foreground rounded font-serif">
-                      +{post.tags.length - 3}
-                    </span>
-                  )}
-                </div>
-
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors font-serif font-medium"
-                >
-                  Read More
-                  <ArrowRightIcon />
-                </Link>
+                      {category.categoryName[language]}
+                    </Button>
+                  )
+                )}
               </div>
-            </article>
-          ))}
-        </div>
-
-        {filteredAndSortedPosts.length === 0 && (
-          <div className="text-center py-12">
-            <h3 className="text-2xl font-bold font-sans text-foreground mb-2">
-              No posts found
-            </h3>
-            <p className="text-muted-foreground font-serif mb-4">
-              Try adjusting your search criteria or filters
-            </p>
-            <Button
-              type="button"
-              onClick={() => {
-                setSearchQuery("");
-                setSelectedCategory("all");
-                setSelectedTag("all");
-              }}
-              className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-serif"
-            >
-              Clear All Filters
-            </Button>
-          </div>
-        )}
-
-        {filteredAndSortedPosts.length > 0 && (
-          <div className="flex justify-center mt-12">
-            <div className="flex items-center gap-2">
-              <Button
-                type="button"
-                className="px-4 py-2 bg-card border border-border rounded-lg hover:bg-muted transition-colors font-serif"
-              >
-                Previous
-              </Button>
-              <span className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-serif">
-                1
-              </span>
-              <Button
-                type="button"
-                className="px-4 py-2 bg-card border border-border rounded-lg hover:bg-muted transition-colors font-serif"
-              >
-                2
-              </Button>
-              <Button
-                type="button"
-                className="px-4 py-2 bg-card border border-border rounded-lg hover:bg-muted transition-colors font-serif"
-              >
-                3
-              </Button>
-              <Button
-                type="button"
-                className="px-4 py-2 bg-card border border-border rounded-lg hover:bg-muted transition-colors font-serif"
-              >
-                Next
-              </Button>
             </div>
           </div>
-        )}
-      </div>
+        </section>
+
+        {/* News List */}
+        <section className="py-12 lg:py-16 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {filteredNews.length === 0 ? (
+              <div className="text-center py-16">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  {newsContent[language].notFound}
+                </h3>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+                {filteredNews.map((news) => (
+                  <article
+                    key={news.id}
+                    className="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-gray-100"
+                  >
+                    {/* ✅ Swiper Carousel */}
+                    <div className="relative w-full h-56">
+                      <Swiper
+                        modules={[Navigation, Pagination, Autoplay]}
+                        spaceBetween={0}
+                        slidesPerView={1}
+                        navigation
+                        pagination={{ clickable: true }}
+                        autoplay={{ delay: 3000, disableOnInteraction: false }}
+                        loop
+                      >
+                        {news.images.map((img, idx) => (
+                          <SwiperSlide key={idx}>
+                            <Image
+                              width={600}
+                              height={300}
+                              src={img}
+                              alt={news.title}
+                              className="w-full h-56 object-cover"
+                              unoptimized
+                            />
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
+                    </div>
+
+                    <div className="p-6">
+                      <time className="text-gray-500 text-sm">{news.date}</time>
+                      <h2 className="text-xl font-bold text-gray-900 mt-2 mb-3 line-clamp-2">
+                        {news.title}
+                      </h2>
+
+                      <Link
+                        href={`/${language}/blog/${news.id}`}
+                        className="px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition inline-block"
+                      >
+                        {readFullArticleText[language]}
+                      </Link>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      </main>
     </div>
   );
 }

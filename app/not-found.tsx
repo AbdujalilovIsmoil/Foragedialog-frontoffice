@@ -8,7 +8,7 @@ const NotFound = () => {
   const langFromUrl = pathName?.split("/")[1]; // URL dan tilni olish
   const language = ["uz", "ru", "en", "ger"].includes(langFromUrl)
     ? langFromUrl
-    : "uz"; // Default qilib uz
+    : "uz";
 
   interface notFoundContentInterface {
     [key: string]: {
