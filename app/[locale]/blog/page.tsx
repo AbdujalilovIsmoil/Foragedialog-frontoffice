@@ -66,12 +66,16 @@ export default function NewsPage() {
     : null;
   const initialSort =
     (searchParams.get("sort") as "newest" | "oldest") || "newest";
+  const initialPage = Number(searchParams.get("page")) || 1;
 
   const [selectedCategory, setSelectedCategory] = useState<number | null>(
     initialCategory
   );
   const [searchTerm, setSearchTerm] = useState(initialSearch);
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">(initialSort);
+  const [currentPage, setCurrentPage] = useState(initialPage);
+
+  const itemsPerPage = 5; // ✅ Har bir sahifada nechta yangilik chiqishi
 
   // ✅ URL params update qiluvchi funksiya
   const updateParams = (newParams: Record<string, string | null>) => {
@@ -161,29 +165,36 @@ export default function NewsPage() {
     return result;
   }, [news, searchTerm, selectedCategory, categoriesData, language, sortOrder]);
 
+  // ✅ Pagination (slicing data)
+  const totalPages = Math.ceil(filteredNews.length / itemsPerPage);
+  const paginatedNews = filteredNews.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   const inputPlaceholder = {
-    en: "Search blog",
-    ru: "Поиск блог",
-    ger: "Nachrichten blog",
-    uz: "Bloglarni qidirish",
+    en: "Search news",
+    ru: "Поиск новостей",
+    ger: "Nachrichten suchen",
+    uz: "Yangiliklarni qidirish",
   };
 
   const newsContent = {
     uz: {
       all: "Hammasi",
-      notFound: "Bu categoriyaga oid blog mavjud emas",
+      notFound: "Bu categoriyaga oid yangilik mavjud emas",
     },
     ru: {
       all: "Все",
-      notFound: "Новостей по этой блог нет",
+      notFound: "Новостей по этой категории нет",
     },
     en: {
       all: "All",
-      notFound: "No blog available for this category",
+      notFound: "No news available for this category",
     },
     ger: {
       all: "Alle",
-      notFound: "Keine Nachrichten blog diese Kategorie verfügbar",
+      notFound: "Keine Nachrichten für diese Kategorie verfügbar",
     },
   };
 
@@ -193,7 +204,7 @@ export default function NewsPage() {
     uz: "Yangilikni to‘liq o‘qish",
     ru: "Читать полную новость",
     en: "Read Full News",
-    ger: "Ganzen Nachrichten lesen",
+    ger: "Ganze Nachricht lesen",
   };
 
   return (
@@ -211,7 +222,8 @@ export default function NewsPage() {
                   onChange={(e) => {
                     const val = e.target.value;
                     setSearchTerm(val);
-                    updateParams({ search: val });
+                    updateParams({ search: val, page: "1" });
+                    setCurrentPage(1);
                   }}
                   placeholder={inputPlaceholder[language]}
                   className="w-full px-4 py-3 pl-12 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-300"
@@ -237,7 +249,8 @@ export default function NewsPage() {
                 onChange={(e) => {
                   const val = e.target.value as "newest" | "oldest";
                   setSortOrder(val);
-                  updateParams({ sort: val });
+                  updateParams({ sort: val, page: "1" });
+                  setCurrentPage(1);
                 }}
                 className="w-1/5 px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-300"
               >
@@ -269,7 +282,8 @@ export default function NewsPage() {
                   type="button"
                   onClick={() => {
                     setSelectedCategory(null);
-                    updateParams({ category: null });
+                    updateParams({ category: null, page: "1" });
+                    setCurrentPage(1);
                   }}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                     selectedCategory === null
@@ -286,7 +300,11 @@ export default function NewsPage() {
                       key={category.id}
                       onClick={() => {
                         setSelectedCategory(category.id);
-                        updateParams({ category: String(category.id) });
+                        updateParams({
+                          category: String(category.id),
+                          page: "1",
+                        });
+                        setCurrentPage(1);
                       }}
                       className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                         selectedCategory === category.id
@@ -306,61 +324,132 @@ export default function NewsPage() {
         {/* News List */}
         <section className="py-12 lg:py-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {filteredNews.length === 0 ? (
+            {paginatedNews.length === 0 ? (
               <div className="text-center py-16">
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   {newsContent[language].notFound}
                 </h3>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
-                {filteredNews.map((news) => (
-                  <article
-                    key={news.id}
-                    className="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-gray-100"
-                  >
-                    {/* ✅ Swiper Carousel */}
-                    <div className="relative w-full h-56">
-                      <Swiper
-                        modules={[Navigation, Pagination, Autoplay]}
-                        spaceBetween={0}
-                        slidesPerView={1}
-                        navigation
-                        pagination={{ clickable: true }}
-                        autoplay={{ delay: 3000, disableOnInteraction: false }}
-                        loop
-                      >
-                        {news.images.map((img, idx) => (
-                          <SwiperSlide key={idx}>
-                            <Image
-                              width={600}
-                              height={300}
-                              src={img}
-                              alt={news.title}
-                              className="w-full h-56 object-cover"
-                              unoptimized
-                            />
-                          </SwiperSlide>
-                        ))}
-                      </Swiper>
-                    </div>
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+                  {paginatedNews.map((news) => (
+                    <article
+                      key={news.id}
+                      className="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-gray-100"
+                    >
+                      {/* ✅ Swiper Carousel */}
+                      <div className="relative w-full h-56">
+                        <Swiper
+                          modules={[Navigation, Pagination, Autoplay]}
+                          spaceBetween={0}
+                          slidesPerView={1}
+                          navigation
+                          pagination={{ clickable: true }}
+                          autoplay={{
+                            delay: 3000,
+                            disableOnInteraction: false,
+                          }}
+                          loop
+                        >
+                          {news.images.map((img, idx) => (
+                            <SwiperSlide key={idx}>
+                              <Image
+                                width={600}
+                                height={300}
+                                src={img}
+                                alt={news.title}
+                                className="w-full h-56 object-cover"
+                                unoptimized
+                              />
+                            </SwiperSlide>
+                          ))}
+                        </Swiper>
+                      </div>
 
-                    <div className="p-6">
-                      <time className="text-gray-500 text-sm">{news.date}</time>
-                      <h2 className="text-xl font-bold text-gray-900 mt-2 mb-3 line-clamp-2">
-                        {news.title}
-                      </h2>
+                      <div className="p-6">
+                        <time className="text-gray-500 text-sm">
+                          {news.date}
+                        </time>
+                        <h2 className="text-xl font-bold text-gray-900 mt-2 mb-3 line-clamp-2">
+                          {news.title}
+                        </h2>
 
-                      <Link
-                        href={`/${language}/blog/${news.id}`}
-                        className="px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition inline-block"
-                      >
-                        {readFullArticleText[language]}
-                      </Link>
-                    </div>
-                  </article>
-                ))}
-              </div>
+                        <Link
+                          href={`/${language}/blog/${news.id}`}
+                          className="px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition inline-block"
+                        >
+                          {readFullArticleText[language]}
+                        </Link>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+
+                {/* ✅ Pagination Controls with Numbers */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center items-center mt-10 gap-2 flex-wrap">
+                    {/* Previous */}
+                    <Button
+                      type="button"
+                      disabled={currentPage === 1}
+                      onClick={() => {
+                        setCurrentPage((prev) => prev - 1);
+                        updateParams({ page: String(currentPage - 1) });
+                      }}
+                      className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+                    >
+                      {language === "uz"
+                        ? "Oldingi"
+                        : language === "ru"
+                        ? "Предыдущая"
+                        : language === "ger"
+                        ? "Zurück"
+                        : "Previous"}
+                    </Button>
+
+                    {/* Numbered pages */}
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                      (page) => (
+                        <Button
+                          key={page}
+                          type="button"
+                          onClick={() => {
+                            setCurrentPage(page);
+                            updateParams({ page: String(page) });
+                          }}
+                          className={`px-4 py-2 rounded-lg ${
+                            currentPage === page
+                              ? "bg-teal-600 text-white"
+                              : "bg-gray-200 hover:bg-gray-300"
+                          }`}
+                        >
+                          {page}
+                        </Button>
+                      )
+                    )}
+
+                    {/* Next */}
+                    <Button
+                      type="button"
+                      disabled={currentPage === totalPages}
+                      onClick={() => {
+                        setCurrentPage((prev) => prev + 1);
+                        updateParams({ page: String(currentPage + 1) });
+                      }}
+                      className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+                    >
+                      {language === "uz"
+                        ? "Keyingi"
+                        : language === "ru"
+                        ? "Следующая"
+                        : language === "ger"
+                        ? "Weiter"
+                        : "Next"}
+                    </Button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </section>

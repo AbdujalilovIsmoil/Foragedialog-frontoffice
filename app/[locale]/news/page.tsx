@@ -3,12 +3,12 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { Button } from "@/app/components";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useGet } from "@/app/hooks";
 import { get } from "lodash";
 import Link from "next/link";
 
-// ✅ Swiper (carousel) importlari
+// ✅ Swiper (carousel)
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -52,26 +52,28 @@ interface NewsItem {
 }
 
 export default function NewsPage() {
-  const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5; // ✅ Har sahifada nechta yangilik chiqadi
 
   const pathName = usePathname();
   const language = pathName.split("/")[1] as "uz" | "ru" | "en" | "ger";
 
-  // Kategoriya API dan
+  // ✅ Kategoriya API
   const { data: categoriesData } = useGet({
     queryKey: "news-category",
     path: "/NewsCategory/GetAll",
   });
 
-  // Yangiliklar API dan
+  // ✅ Yangiliklar API
   const { data: newsData } = useGet({
     queryKey: "news",
     path: "/News/GetAll",
   });
 
-  // Newslarni tayyorlash
+  // ✅ Newslarni tayyorlash
   const news: NewsItem[] = useMemo(() => {
     if (!newsData?.content) return [];
     return newsData.content.map((n: NewsApiItem) => ({
@@ -95,7 +97,7 @@ export default function NewsPage() {
     }));
   }, [newsData, language]);
 
-  // Filter news
+  // ✅ Filter
   const filteredNews = useMemo(() => {
     return news.filter((n: NewsItem) => {
       const matchesSearch =
@@ -113,6 +115,13 @@ export default function NewsPage() {
       return matchesSearch && matchesCategory;
     });
   }, [news, searchTerm, selectedCategory, categoriesData, language]);
+
+  // ✅ Pagination hisoblash
+  const totalPages = Math.ceil(filteredNews.length / itemsPerPage);
+  const paginatedNews = filteredNews.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const inputPlaceholder = {
     en: "Search news",
@@ -155,12 +164,15 @@ export default function NewsPage() {
         {/* Search + Categories */}
         <section className="py-8 bg-white border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-6 items-center">
-            {/* Search Input */}
+            {/* Search */}
             <div className="relative w-full">
               <input
                 type="text"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setCurrentPage(1); // ✅ qidirganda 1-sahifaga qaytadi
+                }}
                 placeholder={inputPlaceholder[language]}
                 className="w-full px-4 py-3 pl-12 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-300"
               />
@@ -179,12 +191,15 @@ export default function NewsPage() {
               </svg>
             </div>
 
-            {/* Categories Carousel */}
+            {/* Categories */}
             <div className="w-full overflow-x-auto">
               <div className="flex gap-2 pb-2 min-w-max">
                 <Button
                   type="button"
-                  onClick={() => setSelectedCategory(null)}
+                  onClick={() => {
+                    setSelectedCategory(null);
+                    setCurrentPage(1);
+                  }}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                     selectedCategory === null
                       ? "bg-teal-600 text-white shadow-lg"
@@ -198,7 +213,10 @@ export default function NewsPage() {
                     <Button
                       type="button"
                       key={category.id}
-                      onClick={() => setSelectedCategory(category.id)}
+                      onClick={() => {
+                        setSelectedCategory(category.id);
+                        setCurrentPage(1);
+                      }}
                       className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                         selectedCategory === category.id
                           ? "bg-teal-600 text-white shadow-lg"
@@ -214,65 +232,126 @@ export default function NewsPage() {
           </div>
         </section>
 
-        {/* News List */}
+        {/* News */}
         <section className="py-12 lg:py-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {filteredNews.length === 0 ? (
+            {paginatedNews.length === 0 ? (
               <div className="text-center py-16">
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   {newsContent[language].notFound}
                 </h3>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
-                {filteredNews.map((news) => (
-                  <article
-                    key={news.id}
-                    className="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-gray-100"
-                  >
-                    {/* ✅ Swiper Carousel with autoplay + navigation + pagination */}
-                    <div className="relative w-full h-56">
-                      <Swiper
-                        modules={[Navigation, Pagination, Autoplay]}
-                        spaceBetween={0}
-                        slidesPerView={1}
-                        navigation
-                        pagination={{ clickable: true }}
-                        autoplay={{ delay: 3000, disableOnInteraction: false }}
-                        loop
-                      >
-                        {news.images.map((img, idx) => (
-                          <SwiperSlide key={idx}>
-                            <Image
-                              width={600}
-                              height={300}
-                              src={img}
-                              alt={news.title}
-                              className="w-full h-56 object-cover"
-                              unoptimized
-                            />
-                          </SwiperSlide>
-                        ))}
-                      </Swiper>
-                    </div>
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+                  {paginatedNews.map((news) => (
+                    <article
+                      key={news.id}
+                      className="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border border-gray-100"
+                    >
+                      {/* ✅ Swiper */}
+                      <div className="relative w-full h-56">
+                        <Swiper
+                          modules={[Navigation, Pagination, Autoplay]}
+                          spaceBetween={0}
+                          slidesPerView={1}
+                          navigation
+                          pagination={{ clickable: true }}
+                          autoplay={{
+                            delay: 3000,
+                            disableOnInteraction: false,
+                          }}
+                          loop
+                        >
+                          {news.images.map((img, idx) => (
+                            <SwiperSlide key={idx}>
+                              <Image
+                                width={600}
+                                height={300}
+                                src={img}
+                                alt={news.title}
+                                className="w-full h-56 object-cover"
+                                unoptimized
+                              />
+                            </SwiperSlide>
+                          ))}
+                        </Swiper>
+                      </div>
 
-                    <div className="p-6">
-                      <time className="text-gray-500 text-sm">{news.date}</time>
-                      <h2 className="text-xl font-bold text-gray-900 mt-2 mb-3 line-clamp-2">
-                        {news.title}
-                      </h2>
+                      <div className="p-6">
+                        <time className="text-gray-500 text-sm">
+                          {news.date}
+                        </time>
+                        <h2 className="text-xl font-bold text-gray-900 mt-2 mb-3 line-clamp-2">
+                          {news.title}
+                        </h2>
 
-                      {/* ✅ Link til bilan */}
-                      <Link
-                        href={`/${language}/news/${news.id}`}
-                        className="px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition inline-block"
-                      >
-                        {readFullArticleText[`${language}`]}
-                      </Link>
-                    </div>
-                  </article>
-                ))}
-              </div>
+                        <Link
+                          href={`/${language}/news/${news.id}`}
+                          className="px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition inline-block"
+                        >
+                          {readFullArticleText[language]}
+                        </Link>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+
+                {/* ✅ Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center items-center mt-10 gap-2 flex-wrap">
+                    {/* Previous */}
+                    <Button
+                      type="button"
+                      disabled={currentPage === 1}
+                      onClick={() => setCurrentPage((prev) => prev - 1)}
+                      className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+                    >
+                      {language === "uz"
+                        ? "Oldingi"
+                        : language === "ru"
+                        ? "Предыдущая"
+                        : language === "ger"
+                        ? "Zurück"
+                        : "Previous"}
+                    </Button>
+
+                    {/* Numbers */}
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                      (page) => (
+                        <Button
+                          key={page}
+                          type="button"
+                          onClick={() => setCurrentPage(page)}
+                          className={`px-4 py-2 rounded-lg ${
+                            currentPage === page
+                              ? "bg-teal-600 text-white"
+                              : "bg-gray-200 hover:bg-gray-300"
+                          }`}
+                        >
+                          {page}
+                        </Button>
+                      )
+                    )}
+
+                    {/* Next */}
+                    <Button
+                      type="button"
+                      disabled={currentPage === totalPages}
+                      onClick={() => setCurrentPage((prev) => prev + 1)}
+                      className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+                    >
+                      {language === "uz"
+                        ? "Keyingi"
+                        : language === "ru"
+                        ? "Следующая"
+                        : language === "ger"
+                        ? "Weiter"
+                        : "Next"}
+                    </Button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </section>
