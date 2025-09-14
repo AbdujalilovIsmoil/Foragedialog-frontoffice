@@ -13,20 +13,23 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     rules: {
+      // ishlatilmagan argumentlar/o‘zgaruvchilar faqat `_` bilan boshlangan bo‘lsa ruxsat beriladi
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
-          args: "all",
-          caughtErrors: "all",
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
+          vars: "all",
+          args: "after-used",
           ignoreRestSiblings: true,
+          varsIgnorePattern: "^_",
+          argsIgnorePattern: "^_",
           caughtErrorsIgnorePattern: "^_",
           destructuredArrayIgnorePattern: "^_",
         },
       ],
-      "react/no-unescaped-entities": 0,
-      "@typescript-eslint/no-explicit-any": "off", // <-- bu yerda any ishlatishga ruxsat beramiz
+      // JSX ichida qo‘shtirnoq muammosini yechadi
+      "react/no-unescaped-entities": "off",
+      // any ishlatishga ruxsat beramiz
+      "@typescript-eslint/no-explicit-any": "off",
     },
   },
 ];

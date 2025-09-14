@@ -57,11 +57,7 @@ export default function NewsView() {
   const newsId = Number(params?.id);
 
   // fetch all news
-  const {
-    data: newsData,
-    isLoading,
-    isError,
-  } = useGet({
+  const { data: newsData, isLoading } = useGet({
     queryKey: "blog",
     path: "/Blog/GetAll",
   });
@@ -85,7 +81,7 @@ export default function NewsView() {
   }, [article]);
 
   // publisher fetch
-  const { data: publisherData, isLoading: publisherLoading } = useGet({
+  const { data: publisherData } = useGet({
     queryKey: "publisher",
     path: article?.publisherId
       ? `/Publisher/GetById?id=${article.publisherId}`
@@ -99,14 +95,6 @@ export default function NewsView() {
     return (
       <div className="min-h-screen flex items-center justify-center text-gray-600">
         Loading...
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-red-600">
-        Error loading article.
       </div>
     );
   }
