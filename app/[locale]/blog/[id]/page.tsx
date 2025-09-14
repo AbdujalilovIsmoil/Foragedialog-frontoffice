@@ -156,7 +156,7 @@ export default function NewsView() {
                 loop
                 className="h-full"
               >
-                {imageUrls.map((src, idx) => (
+                {imageUrls.map((src) => (
                   <SwiperSlide key={src} className="h-full">
                     <Image
                       width={1200}

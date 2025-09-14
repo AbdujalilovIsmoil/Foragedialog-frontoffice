@@ -5,10 +5,9 @@ import { useQuery } from "@tanstack/react-query";
 type typeUseGet = {
   path: string;
   queryKey: string;
-  isLoading?: boolean;
 };
 
-const useGet = ({ path = "/", queryKey, isLoading = false }: typeUseGet) => {
+const useGet = ({ path = "/", queryKey }: typeUseGet) => {
   const data = useQuery({
     queryKey: [queryKey],
     gcTime: 1000 * 60 * 5,
