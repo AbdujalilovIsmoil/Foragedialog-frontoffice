@@ -155,7 +155,6 @@ const News = () => {
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={20}
           navigation
-          pagination={{ clickable: true }}
           autoplay={{ delay: 4500, disableOnInteraction: false }}
           breakpoints={{
             640: { slidesPerView: 1, spaceBetween: 16 },
@@ -231,7 +230,7 @@ const News = () => {
 
                     {/* Read more link */}
                     <div className="flex justify-end">
-                      <a
+                      <Link
                         href={`/${language}/blog/${news.id}`}
                         className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-700 font-medium transition-colors"
                       >
@@ -243,7 +242,7 @@ const News = () => {
                           ? "Mehr lesen"
                           : "Read more"}
                         <ArrowRightIcon className="w-4 h-4" />
-                      </a>
+                      </Link>
                     </div>
 
                     {/* Date & Views */}

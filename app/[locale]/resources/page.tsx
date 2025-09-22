@@ -335,7 +335,8 @@ export default function ResourcesPage() {
           {/* Resources grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredResources.map((res) => {
-              const fileUrl = `/File/DownloadFile/download/${
+              console.log();
+              const fileUrl = `https://back.foragedialog.uz/File/DownloadFile/download/${
                 language === "uz"
                   ? res.fileIdUZ
                   : language === "ru"
@@ -374,8 +375,8 @@ export default function ResourcesPage() {
                       </span>
                       <div className="flex gap-3">
                         <a
-                          href={fileUrl}
                           download
+                          href={fileUrl}
                           className="text-blue-600 hover:text-blue-700 font-medium"
                         >
                           {downloadText[`${language}`]}

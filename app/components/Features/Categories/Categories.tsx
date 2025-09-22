@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { get } from "lodash";
 import { useState } from "react";
 import { useGet } from "@/app/hooks";
@@ -83,8 +84,9 @@ const Categories = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {get(data, "content", []).map((category: Category) => (
-            <div
+            <Link
               key={category.id}
+              href={`${language}/category/${category.id}`}
               onMouseLeave={() => setHoveredCategory(null)}
               onMouseEnter={() => setHoveredCategory(category.id)}
               className="relative group cursor-pointer overflow-hidden rounded-2xl shadow-lg transition-all duration-500 hover:shadow-2xl hover:scale-105"
@@ -127,7 +129,7 @@ const Categories = () => {
               </div>
 
               <div className="absolute inset-0 border-2 border-transparent group-hover:border-white/30 rounded-2xl transition-all duration-500" />
-            </div>
+            </Link>
           ))}
         </div>
       </div>

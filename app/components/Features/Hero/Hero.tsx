@@ -111,7 +111,7 @@ const Hero = () => {
       <div className="relative z-10 container mx-auto px-6 py-20">
         {/* Title */}
         <h1 className="text-3xl md:text-5xl text-center font-extrabold leading-tight text-white mb-16">
-          {heroContents[`${language}`].title}
+          {heroContents[`${language}`]?.title}
         </h1>
 
         {/* Content */}
@@ -125,14 +125,14 @@ const Hero = () => {
             }`}
           >
             <p className="text-lg lg:text-xl text-white leading-relaxed max-w-[800px] mx-auto lg:mx-0">
-              {heroContents[`${language}`].description}
+              {heroContents[`${language}`]?.description}
             </p>
 
             <Button
               type="button"
               className="group bg-white text-teal-700 px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-50 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
-              {heroContents[`${language}`].more}
+              {heroContents[`${language}`]?.more}
               <svg
                 className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
                 fill="none"
