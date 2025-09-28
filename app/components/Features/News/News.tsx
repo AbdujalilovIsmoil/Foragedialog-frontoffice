@@ -166,8 +166,9 @@ const News = () => {
               news.images && news.images.length > 0 ? news.images[0] : "";
 
             return (
-              <SwiperSlide key={news.id}>
-                <article className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group">
+              <SwiperSlide key={news.id} className="!h-auto">
+                <article className="flex flex-col bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group h-full">
+                  {/* Image container */}
                   <div className="aspect-video bg-gray-100 overflow-hidden">
                     {img ? (
                       <Image
@@ -198,7 +199,8 @@ const News = () => {
                     )}
                   </div>
 
-                  <div className="p-6 flex flex-col gap-4">
+                  {/* Content */}
+                  <div className="flex flex-col flex-1 p-6 gap-4">
                     {/* Title */}
                     <h3 className="text-lg font-semibold text-slate-900 line-clamp-2">
                       {title || "Untitled"}
@@ -220,14 +222,14 @@ const News = () => {
                           );
                         })}
                       {Array.isArray(news.tags) && news.tags.length > 3 && (
-                        <span className="px-2 py-1 text-xs bg-muted text-muted-foreground rounded-full">
+                        <span className="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full">
                           +{news.tags.length - 3}
                         </span>
                       )}
                     </div>
 
                     {/* Read more link */}
-                    <div className="flex justify-end">
+                    <div className="mt-auto flex justify-end">
                       <a
                         href={`/${language}/blog/${news.id}`}
                         className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-700 font-medium transition-colors"

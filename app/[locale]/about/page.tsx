@@ -494,12 +494,13 @@ const About = () => {
 
       {/* CAROUSEL TEAM MEMBERS */}
       <section className="py-20 bg-white relative">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          {/* Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
             {getVisibleMembers().map((member) => (
               <div
                 key={member.id}
-                className="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform"
+                className="flex flex-col bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform h-full"
               >
                 <Image
                   width={256}
@@ -509,21 +510,23 @@ const About = () => {
                   alt={member.name}
                   className="w-full h-64 object-cover"
                 />
-                <div className="p-6">
+                <div className="flex flex-col flex-1 p-6">
                   <h4 className="text-xl font-semibold text-gray-900 mb-2">
                     {member.name}
                   </h4>
-                  <p className=" font-medium mb-3">{member.position}</p>
+                  <p className="font-medium mb-3">{member.position}</p>
                   <p className="text-gray-600 text-sm mb-4 line-clamp-3">
                     {member.bio}
                   </p>
-                  <Button
-                    type="button"
-                    onClick={() => openModal(member)}
-                    className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors"
-                  >
-                    {translations.moreInfo[language]}
-                  </Button>
+                  <div className="mt-auto">
+                    <Button
+                      type="button"
+                      onClick={() => openModal(member)}
+                      className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors"
+                    >
+                      {translations.moreInfo[language]}
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -535,14 +538,14 @@ const About = () => {
               <Button
                 type="button"
                 onClick={prevSlide}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-50"
+                className="absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-4 shadow-lg hover:bg-gray-50 text-3xl"
               >
                 ‹
               </Button>
               <Button
                 type="button"
                 onClick={nextSlide}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-50"
+                className="absolute right-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-4 shadow-lg hover:bg-gray-50 text-3xl"
               >
                 ›
               </Button>
@@ -553,8 +556,9 @@ const About = () => {
 
       {/* MODAL */}
       {isModalOpen && selectedMember && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-2xl shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6">
+            {/* Header */}
             <div className="flex justify-between items-start mb-6">
               <h3 className="text-2xl font-bold text-gray-900">
                 {translations.modalTitle[language]}
@@ -562,30 +566,39 @@ const About = () => {
               <Button
                 type="button"
                 onClick={closeModal}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
               >
                 ✕
               </Button>
             </div>
 
+            {/* Content */}
             <div className="flex flex-col md:flex-row gap-6">
+              {/* Left: Image */}
               <div className="md:w-1/2">
-                <Image
-                  height={256}
-                  width={250}
-                  unoptimized
-                  src={selectedMember.image}
-                  alt={selectedMember.name}
-                  className="w-full h-full object-cover rounded-lg"
-                />
+                <div className="w-full aspect-[4/5] overflow-hidden rounded-xl border bg-gray-100">
+                  <Image
+                    height={500}
+                    width={400}
+                    unoptimized
+                    src={selectedMember.image}
+                    alt={selectedMember.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
               </div>
-              <div className="md:w-1/2">
+
+              {/* Right: Info */}
+              <div className="md:w-1/2 flex flex-col">
                 <h4 className="text-xl font-semibold text-gray-900 mb-2">
                   {selectedMember.name}
                 </h4>
-                <p className="font-medium mb-4">{selectedMember.position}</p>
+                <p className="font-medium text-teal-600 mb-4">
+                  {selectedMember.position}
+                </p>
                 <p className="text-gray-600 mb-4">{selectedMember.bio}</p>
 
+                {/* Experience */}
                 <div className="mb-4">
                   <h5 className="font-semibold text-gray-900 mb-2">
                     {translations.experience[language]}:
@@ -593,7 +606,8 @@ const About = () => {
                   <p className="text-gray-600">{selectedMember.experience}</p>
                 </div>
 
-                <div>
+                {/* Skills */}
+                {/* <div className="mt-auto">
                   <h5 className="font-semibold text-gray-900 mb-2">
                     {translations.skills[language]}:
                   </h5>
@@ -607,7 +621,7 @@ const About = () => {
                       </span>
                     ))}
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

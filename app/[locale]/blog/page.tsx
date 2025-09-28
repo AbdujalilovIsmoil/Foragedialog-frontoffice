@@ -383,7 +383,7 @@ export default function NewsPage() {
                   {paginatedNews.map((news) => (
                     <article
                       key={news.id}
-                      className="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-gray-100"
+                      className="flex flex-col bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-gray-100 h-full"
                     >
                       {/* ✅ Swiper Carousel */}
                       <div className="relative w-full h-56">
@@ -414,7 +414,8 @@ export default function NewsPage() {
                         </Swiper>
                       </div>
 
-                      <div className="p-6">
+                      {/* ✅ Content */}
+                      <div className="flex flex-col flex-1 p-6">
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center gap-3">
                             {news.publisher?.imageId && (
@@ -439,12 +440,15 @@ export default function NewsPage() {
                           {news.title}
                         </h2>
 
-                        <Link
-                          href={`/${language}/blog/${news.id}`}
-                          className="px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition inline-block"
-                        >
-                          {readFullArticleText[language]}
-                        </Link>
+                        {/* ✅ Button always at bottom */}
+                        <div className="mt-auto">
+                          <Link
+                            href={`/${language}/blog/${news.id}`}
+                            className="w-full block text-center px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition"
+                          >
+                            {readFullArticleText[language]}
+                          </Link>
+                        </div>
                       </div>
                     </article>
                   ))}

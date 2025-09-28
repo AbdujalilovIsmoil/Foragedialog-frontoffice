@@ -73,13 +73,13 @@ interface contactContentInterface {
 const contactContent: contactContentInterface = {
   uz: {
     title: "Aloqa qiling",
-    channel: "Ushbu kanallarning har biri orqali murojaat qiling",
+    channel: "Ushbu kontaktlar orqali murojaat qiling",
     description: `
       Suhbat boshlashga tayyormisiz? Biz sizning g'oyalaringizni etkazishga yordam berish uchun shu yerdamiz
       shaxsiylashtirilgan echimlar va ajoyib xizmat bilan hayotga.
     `,
     medias: {
-      email: "Bizga elektron pochta",
+      email: "Elektron pochta",
       call: "Bizga qo'ng'iroq qiling",
       visit: "Bizga tashrif buyuring",
     },
@@ -88,35 +88,35 @@ const contactContent: contactContentInterface = {
   en: {
     title: "Get in Touch",
     information: "Contact information",
-    channel: "Reach out through any of these channels",
+    channel: "Contact us through these contacts",
     description: `
       Ready to start a conversation? We're here to help bring your ideas
       to life with personalized solutions and exceptional service.
     `,
     medias: {
       call: "Call Us",
-      email: "Email Us",
+      email: "E-mail",
       visit: "Visit Us",
     },
   },
   ru: {
     title: "Свяжитесь с нами",
     information: "Контактная информация",
-    channel: "Свяжитесь по любому из этих каналов",
+    channel: "Свяжитесь с нами через эти контакты",
     description: `
       Готовы начать разговор? Мы поможем вам воплотить ваши идеи
       в жизнь, предлагая индивидуальные решения и исключительный сервис.
     `,
     medias: {
       call: "Call Us",
-      email: "Email Us",
+      email: "Электронная почта",
       visit: "Visit Us",
     },
   },
   ger: {
     title: "Nehmen Sie Kontakt auf",
     information: "Kontakt informationen",
-    channel: "Klicken Sie hier, um die gewünschten Kanäle auszuwählen",
+    channel: "Kontaktieren Sie uns über diese Kontakte",
     description: `
       Sind Sie bereit für ein Gespräch? Wir helfen Ihnen, Ihre Ideen mit 
       individuellen Lösungen und außergewöhnlichem Service umzusetzen.
@@ -124,7 +124,7 @@ const contactContent: contactContentInterface = {
     medias: {
       call: "Rufen Sie uns an",
       visit: "Besuchen Sie uns",
-      email: "Schicken Sie uns eine E-Mail",
+      email: "E-Mail",
     },
   },
 };
