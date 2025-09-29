@@ -233,7 +233,7 @@ export default function NewsView() {
                     ? article.text[language]
                     : article.text.uz) || "",
               }}
-            />
+            ></div>
 
             {/* tags */}
             <div className="flex flex-wrap gap-2 mt-8">

@@ -10,6 +10,29 @@ body {
   max-width: 1440px;
 }
 
+.ql-custom-media {
+  display: block;
+  margin: 20px auto;
+  width: 100% !important;
+  height: 200px;
+  object-fit: cover;
+}
+
+.ql-custom-media[src*="youtube.com/embed"] {
+  height: 200px;
+  width: 100% !important;
+}
+
+.ql-align-left {
+  text-align: left;
+}
+.ql-align-center {
+  text-align: center;
+}
+.ql-align-right {
+  text-align: right;
+}
+
 @media only screen and (max-width: 768px) {
   .container {
     padding: 0 30px;
@@ -337,7 +360,7 @@ body {
   --card-foreground: #1a1a1a;
   --popover: #ffffff;
   --popover-foreground: #1a1a1a;
-  --primary: lab(49 -27.88 -2.61); 
+  --primary: lab(49 -27.88 -2.61);
   --primary-foreground: #ffffff;
   --secondary: #f8f9fa;
   --secondary-foreground: #1a1a1a;

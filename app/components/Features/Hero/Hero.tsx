@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import HeroImage from "@/public/images/png/hero-image.webp";
 import HeroBackgroundImage from "@/public/images/png/background-image.avif";
+import Link from "next/link";
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -30,15 +31,7 @@ const Hero = () => {
       title:
         "Iqlimga chidamli qishloq xo‘jaligi bo‘yicha Germaniya-O‘zbekiston ekspertlar muloqot dasturi",
       description: `
-          Germaniya-O‘zbekiston ekspertlar muloqoti dasturi iqlimga chidamli
-          qishloq xo‘jaligini rivojlantirishga qaratilgan. Dasturda asosan
-          sutchilik sohasining samaradorligini oshirish uchun yem-xashak va
-          urug‘ yetishtirishga alohida e’tibor qaratiladi. Biz kichik va
-          o‘rta fermer xo‘jaliklari hamda ilmiy-tadqiqot institutlarini
-          maslahatlar berish, treninglar tashkil etish va amaliy sinovlar
-          o‘tkazish orqali qo‘llab-quvvatlaymiz. Bundan tashqari, manfaatdor
-          tomonlar bilan muloqot orqali barqaror rivojlanish uchun qulay
-          siyosiy sharoitlar yaratishga yordam beramiz. 
+          Germaniya-O‘zbekiston ekspertlar muloqoti dasturi - iqlimga chidamli qishloq xo‘jaligi bo’yicha tajribalar olib borish va ularning natijalari asosida tavsiya va takliflar berishga qaratilgan. Dasturda asosan chorvachilik tizimidagi sut ishlab chiqarishga ixtisoslashlashgan chorva fermer xo’jaliklarida iqlim o’zgarishiga (asosan qurg'oqchilikka va sho'rga) chidamli yem-xashak ekin turlarini sinovdan o'tkazishga, tanlashga, ozuqa sifatini oshirish va ularni sifatini tahlil qilish hamda ayrim ozuqabop ekin turlarining urug’chiligini yo’lga qo’yish masalalariga alohida e'tibor qaratilgan. Biz chorvachilik yo'nalishidagi kichik va o‘rta fermer xo‘jaliklariga chorvachilik sohasida tegishli ilmiy-tadqiqot institutlari bilan hamkorlikda ularga maslahatlar berish, treninglar tashkil etish va ilmiy-amaliy dala tajriba sinovlarini olib borish orqali texnik-amaliy ko'mak ko'rsata olamiz. Bundan tashqari, manfaatdor tomonlar bilan doimiy va yaqin muloqotda bo'lish orqali sohani barqaror rivojlanishi uchun qulay siyosiy sharoitlar yaratish uchun biz o'z fikr-mulohazalarimizni taqdim etsihimiz mumkin.
       `,
       more: "Ko'proq o‘qish",
     },
@@ -46,16 +39,7 @@ const Hero = () => {
       title:
         "Программа германо-узбекского экспертного диалога по климатически устойчивому сельскому хозяйству",
       description: `
-        Программа германо-узбекского экспертного диалога по
-        климатоустойчивому сельскому хозяйству направлена на развитие
-        устойчивого и адаптированного к климату сельского хозяйства.
-        Основное внимание уделяется производству кормов и семян для
-        повышения продуктивности молочного сектора. Мы поддерживаем малые
-        и средние фермы, а также научно-исследовательские институты,
-        предоставляя консультации, организуя тренинги и проводя
-        практические испытания. Кроме того, через диалог с
-        заинтересованными сторонами мы способствуем созданию благоприятных
-        политических рамок для устойчивого развития.
+        Программа германо-узбекского экспертного диалога направлена на проведение экспериментов по климатоустойчивому сельскому хозяйству и предоставление рекомендаций и предложений на основе их результатов. В рамках программы основное внимание уделяется испытанию и отбору кормовых культур, устойчивых к изменению климата (в первую очередь к засухе и засолению), повышению качества кормов, анализу их питательной ценности, а также развитию семеноводства отдельных кормовых культур на фермерских хозяйствах, специализирующихся на производстве молока в системе животноводства. Мы можем оказывать техническую и практическую поддержку малым и средним фермерским хозяйствам в сфере животноводства, предоставляя консультации, организуя тренинги и проводя научно-практические полевые испытания в сотрудничестве с соответствующими научно-исследовательскими институтами. Кроме того, поддерживая постоянный и тесный диалог с заинтересованными сторонами, мы можем предоставлять свои предложения и замечания для создания благоприятных политических условий, способствующих устойчивому развитию отрасли.
       `,
       more: "Читать далее",
     },
@@ -63,15 +47,7 @@ const Hero = () => {
       title:
         "German-Uzbek expert dialogue programme on climate-resilient agriculture",
       description: `
-        German-Uzbek expert dialogue programme on climate-resilient
-        agriculture focuses on developing sustainable and
-        climate-resilient agriculture. The key emphasis is on fodder and
-        seed production to enhance the productivity of the dairy sector.
-        We support small and medium-sized farms as well as research
-        institutes by providing consultancy, organizing training sessions,
-        and conducting practical trials. Additionally, through dialogue
-        with stakeholders, we help establish favorable policy frameworks
-        for sustainable development.
+        German-Uzbek Expert Dialogue Program is aimed at conducting trials on climate-resilient agriculture and providing recommendations and proposals based on their results. The program primarily focuses on testing and selecting climate-resilient forage crop varieties (mainly resistant to drought and salinity), improving feed quality, analyzing its nutritional value, and developing seed production for certain forage crops in livestock farms specializing in dairy production. Special attention is given to these issues within livestock production systems. We are able to provide technical and practical support to small and medium-sized livestock farms by offering consultations, organizing training sessions, and conducting scientific and practical field trials in cooperation with relevant research institutes in the livestock sector. In addition, by maintaining regular and close dialogue with stakeholders, we can present our insights to help create favorable policy conditions for the sustainable development of the sector.
       `,
       more: "Read more",
     },
@@ -79,17 +55,7 @@ const Hero = () => {
       title:
         "Deutsch-usbekisches Fachdialogprogramm zu klimaresilienter Landwirtschaft",
       description: `
-        Das deutsch-usbekische Expertendialogprogramm für klimaresiliente
-        Landwirtschaft konzentriert sich auf die Entwicklung einer
-        nachhaltigen und klimaresilienten Landwirtschaft. Ein besonderer
-        Schwerpunkt liegt auf der Futter- und Saatgutproduktion, um die
-        Produktivität des Milchsektors zu steigern. Wir unterstützen
-        kleine und mittlere landwirtschaftliche Betriebe sowie
-        Forschungsinstitute durch Beratung, die Organisation von
-        Schulungen und die Durchführung praktischer Versuche. Darüber
-        hinaus helfen wir durch den Dialog mit Interessengruppen, günstige
-        politische Rahmenbedingungen für eine nachhaltige Entwicklung zu
-        schaffen.
+        Das deutsch-usbekische Expertendialogprogramm zielt darauf ab, Versuche im Bereich der klimaresilienten Landwirtschaft durchzuführen und auf Basis der Ergebnisse entsprechende Empfehlungen und Vorschläge zu erarbeiten. Im Mittelpunkt des Programms steht die Erprobung und Auswahl klimaresistenter Futterpflanzenarten (insbesondere solcher, die gegenüber Trockenheit und Versalzung widerstandsfähig sind), die Verbesserung der Futterqualität, die Analyse ihres Nährwerts sowie die Entwicklung der Saatgutproduktion bestimmter Futterpflanzen in auf Milchproduktion spezialisierten Viehzuchtbetrieben. Besonderes Augenmerk wird dabei auf diese Themen innerhalb der Viehhaltungssysteme gelegt. Wir sind in der Lage, kleinen und mittleren Viehzuchtbetrieben technische und praktische Unterstützung zu bieten, indem wir Beratungen anbieten, Schulungen organisieren und in Zusammenarbeit mit relevanten Forschungsinstituten wissenschaftliche und praktische Feldversuche durchführen. Darüber hinaus können wir durch einen regelmäßigen und engen Dialog mit den Interessengruppen unsere Erkenntnisse einbringen, um günstige politische Rahmenbedingungen für die nachhaltige Entwicklung des Sektors zu schaffen.
         `,
       more: "Mehr lesen",
     },
@@ -124,12 +90,12 @@ const Hero = () => {
                 : "-translate-x-10 opacity-0"
             }`}
           >
-            <p className="text-lg lg:text-xl text-white leading-relaxed max-w-[800px] mx-auto lg:mx-0">
+            <p className="text-lg lg:text-xl text-white leading-relaxed max-w-[800px] mx-auto lg:mx-0 line-clamp-8">
               {heroContents[`${language}`]?.description}
             </p>
 
-            <Button
-              type="button"
+            <Link
+              href={`${language}/about`}
               className="group bg-white text-teal-700 px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-50 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               {heroContents[`${language}`]?.more}
@@ -146,7 +112,7 @@ const Hero = () => {
                   d="M17 8l4 4m0 0l-4 4m4-4H3"
                 />
               </svg>
-            </Button>
+            </Link>
           </div>
 
           {/* Right Side - Image */}
