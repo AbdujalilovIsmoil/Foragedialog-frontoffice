@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 
 type Lang = "uz" | "ru" | "en" | "ger";
 
-// API'dan keladigan bitta element
+// API'dan keladigan element
 interface ImageItem {
   fileId: string;
   imageName: string;
@@ -65,7 +65,7 @@ const TRANSLATIONS: Record<
   },
 };
 
-const ImageGallery: React.FC<Props> = ({
+const PicturesPage: React.FC<Props> = ({
   autoDetectLang = true,
   initialPageSize = 8,
   apiBase = "https://back.foragedialog.uz",
@@ -104,12 +104,12 @@ const ImageGallery: React.FC<Props> = ({
         );
         const data = await res.json();
 
-        // API qaytarishi: { content: [...], totalPages: number }
         setImages(data?.content ?? []);
         setTotalPages(data?.totalPages ?? 1);
       } catch (err) {
-        if ((err as any).name !== "AbortError")
+        if ((err as any).name !== "AbortError") {
           console.error("Fetch error:", err);
+        }
       } finally {
         setLoading(false);
       }
@@ -155,7 +155,6 @@ const ImageGallery: React.FC<Props> = ({
               key={img.id}
               className="group relative rounded-xl overflow-hidden shadow hover:shadow-lg transition"
             >
-              {/* Next/Image ishlashi uchun relative va height kerak */}
               <div className="relative w-full h-48">
                 <Image
                   src={`${apiBase}/File/DownloadFile/download/${img.fileId}`}
@@ -232,4 +231,4 @@ const ImageGallery: React.FC<Props> = ({
   );
 };
 
-export default ImageGallery;
+export default PicturesPage;
