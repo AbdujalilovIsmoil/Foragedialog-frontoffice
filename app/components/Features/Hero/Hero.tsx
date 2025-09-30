@@ -89,7 +89,7 @@ const Hero = () => {
                 : "-translate-x-10 opacity-0"
             }`}
           >
-            <p className="text-lg lg:text-xl text-white leading-relaxed max-w-[800px] mx-auto lg:mx-0 line-clamp-8">
+            <p className="text-lg lg:text-xl text-white leading-relaxed max-w-[800px] mx-auto lg:mx-0">
               {heroContents[`${language}`]?.description}
             </p>
 
