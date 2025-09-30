@@ -27,10 +27,10 @@ interface NewsApiItem {
   id: number;
   subject: LocalizedRecord;
   title: LocalizedRecord;
-  text: LocalizedRecord; // CKEditor HTML
+  text: LocalizedRecord;
   categories: LocalizedRecord[];
   tags: LocalizedRecord[];
-  images: string[]; // ids
+  images: string[];
   readingTime: string;
   publishedDate: string;
   viewsCount: number;
@@ -48,7 +48,6 @@ export default function NewsView() {
   const pathName = usePathname();
   const router = useRouter();
 
-  // extract language (fallback to 'uz')
   const rawLang = (pathName?.split("/")[1] ?? "uz") as string;
   const language = (
     ["uz", "ru", "en", "ger"].includes(rawLang) ? rawLang : "uz"
@@ -56,7 +55,6 @@ export default function NewsView() {
 
   const newsId = Number(params?.id);
 
-  // fetch all news
   const { data: newsData, isLoading } = useGet({
     queryKey: "blog",
     path: "/Blog/GetAll",
@@ -72,7 +70,6 @@ export default function NewsView() {
   const contentArray = (get(newsData, "content", []) as NewsApiItem[]) ?? [];
   const article = contentArray.find((n) => n.id === newsId);
 
-  // backend image URLs
   const imageBase = "https://back.foragedialog.uz/File/DownloadFile/download";
 
   const imageUrls: string[] = useMemo(() => {
@@ -80,7 +77,6 @@ export default function NewsView() {
     return article.images.map((imgId) => `${imageBase}/${imgId}`);
   }, [article]);
 
-  // publisher fetch
   const { data: publisherData } = useGet({
     queryKey: "publisher",
     path: article?.publisherId
@@ -130,7 +126,6 @@ export default function NewsView() {
     ger: "Zurück zu allen Blogs",
   };
 
-  // helpers
   const localized = (rec: LocalizedRecord) =>
     rec[language] && rec[language].trim() !== "" ? rec[language] : rec.uz || "";
 
@@ -142,9 +137,9 @@ export default function NewsView() {
   return (
     <div className="min-h-screen bg-white">
       <main>
-        {/* Cover + Carousel */}
+        {/* Hero Section with Swiper */}
         <section className="relative">
-          <div className="relative h-64 sm:h-80 lg:h-96 overflow-hidden">
+          <div className="relative h-[70vh] w-full overflow-hidden">
             {imageUrls.length > 0 ? (
               <Swiper
                 modules={[Navigation, Pagination, Autoplay]}
@@ -154,16 +149,16 @@ export default function NewsView() {
                 pagination={{ clickable: true }}
                 autoplay={{ delay: 3500, disableOnInteraction: false }}
                 loop
-                className="h-full"
+                className="h-full w-full"
               >
                 {imageUrls.map((src) => (
-                  <SwiperSlide key={src} className="h-full">
+                  <SwiperSlide key={src}>
                     <Image
-                      width={1200}
-                      height={700}
+                      width={1600}
+                      height={900}
                       unoptimized
                       src={src}
-                      alt={localized(article.title) || `article-${article.id}`}
+                      alt={localized(article.title)}
                       className="w-full h-full object-cover"
                     />
                   </SwiperSlide>
@@ -175,12 +170,10 @@ export default function NewsView() {
               </div>
             )}
 
-            {/* gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-
-            {/* text content */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 lg:p-8">
-              <div className="max-w-4xl mx-auto">
+            {/* Overlay Content */}
+            <div className="absolute inset-0 bg-black/50 z-20 flex flex-col justify-end">
+              <div className="max-w-5xl mx-auto px-6 py-10 text-white relative z-30">
+                {/* Categories + date + reading time */}
                 <div className="flex flex-wrap items-center gap-3 mb-4">
                   {article.categories.length > 0 &&
                     localizedArr(article.categories).map((c, i) => (
@@ -191,29 +184,25 @@ export default function NewsView() {
                         {c}
                       </span>
                     ))}
-
-                  <span className="text-white/90 text-sm">
+                  <span className="text-sm">
                     {new Date(article.publishedDate).toLocaleDateString(
                       localeMap[language],
-                      {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      }
+                      { year: "numeric", month: "long", day: "numeric" }
                     )}
                   </span>
-
-                  <span className="text-white/90 text-sm">
+                  <span className="text-sm">
                     {article.readingTime && article.readingTime.trim() !== ""
                       ? `${article.readingTime} min`
                       : "—"}
                   </span>
                 </div>
 
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-4 leading-tight">
+                {/* Title */}
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 leading-tight drop-shadow-lg z-30 relative">
                   {localized(article.title)}
                 </h1>
-                <p className="text-white/90 text-lg lg:text-xl max-w-3xl">
+                {/* Subject */}
+                <p className="text-lg sm:text-xl text-white/90 max-w-3xl drop-shadow-md z-30 relative">
                   {localized(article.subject)}
                 </p>
               </div>
@@ -222,7 +211,7 @@ export default function NewsView() {
         </section>
 
         {/* Article body */}
-        <section className="py-8 lg:py-12">
+        <section className="py-10 lg:py-14">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div
               className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-ul:text-gray-700"
@@ -233,7 +222,7 @@ export default function NewsView() {
                     ? article.text[language]
                     : article.text.uz) || "",
               }}
-            ></div>
+            />
 
             {/* tags */}
             <div className="flex flex-wrap gap-2 mt-8">
@@ -300,7 +289,7 @@ export default function NewsView() {
         </section>
       </main>
 
-      {/* Global styles for CKEditor images & iframes */}
+      {/* Global styles */}
       <style jsx global>{`
         .prose img {
           max-width: 100%;
