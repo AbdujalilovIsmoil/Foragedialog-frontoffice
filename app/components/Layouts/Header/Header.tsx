@@ -26,6 +26,7 @@ const navigationItems: Record<string, { name: string; href: string }[]> = {
     { name: "Yangiliklar", href: "/news" },
     { name: "Resurslar", href: "/resources" }, // Qo‘shildi
     { name: "Kontakt", href: "/contact" },
+    { name: "Rasmlar", href: "/pictures" },
   ],
   ru: [
     { name: "Домашняя страница", href: "/" },
@@ -34,6 +35,7 @@ const navigationItems: Record<string, { name: string; href: string }[]> = {
     { name: "Новости", href: "/news" },
     { name: "Ресурсы", href: "/resources" }, // Qo‘shildi
     { name: "Контакт", href: "/contact" },
+    { name: "Фотографии", href: "/pictures" },
   ],
   en: [
     { name: "Home", href: "/" },
@@ -42,6 +44,7 @@ const navigationItems: Record<string, { name: string; href: string }[]> = {
     { name: "News", href: "/news" },
     { name: "Resources", href: "/resources" }, // Qo‘shildi
     { name: "Contact", href: "/contact" },
+    { name: "Pictures", href: "/pictures" },
   ],
   ger: [
     { name: "Startseite", href: "/" },
@@ -50,6 +53,7 @@ const navigationItems: Record<string, { name: string; href: string }[]> = {
     { name: "Nachrichten", href: "/news" },
     { name: "Ressourcen", href: "/resources" }, // Qo‘shildi
     { name: "Kontakt", href: "/contact" },
+    { name: "Bilder", href: "/pictures" },
   ],
 };
 

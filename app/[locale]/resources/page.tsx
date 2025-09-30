@@ -54,9 +54,9 @@ const formatBytes = (bytes: number): string => {
 };
 
 export default function ResourcesPage() {
-  const pathName = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathName = usePathname();
   const language =
     (pathName.split("/")[1] as "uz" | "ru" | "en" | "ger") || "uz";
 
