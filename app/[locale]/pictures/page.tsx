@@ -214,7 +214,7 @@ const ImageGallery: React.FC<Props> = ({
               </button>
             </div>
             <div className="p-4 flex justify-center">
-              <img
+              <Image
                 src={`${apiBase}/File/DownloadFile/download/${images[lightbox].fileId}`}
                 alt={images[lightbox].imageName}
                 className="max-h-[80vh] object-contain"
