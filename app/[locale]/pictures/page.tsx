@@ -14,6 +14,12 @@ interface ImageItem {
   id: number;
 }
 
+interface Props {
+  autoDetectLang?: boolean;
+  initialPageSize?: number;
+  apiBase?: string;
+}
+
 const TRANSLATIONS: Record<
   Lang,
   {
@@ -59,10 +65,12 @@ const TRANSLATIONS: Record<
   },
 };
 
-const PicturesPage = () => {
-  let apiBase = "https://back.foragedialog.uz";
-  let autoDetectLang = true;
-  let initialPageSize = 8;
+const PicturesPage: React.FC<Props> = (props) => {
+  const {
+    autoDetectLang = true,
+    initialPageSize = 8,
+    apiBase = "https://back.foragedialog.uz",
+  } = props;
   const pathName = usePathname();
 
   // Pathname'dan tilni aniqlash
