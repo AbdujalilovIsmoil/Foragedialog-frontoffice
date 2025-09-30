@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { Button } from "@/app/components";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import HeroImage from "@/public/images/png/hero-image.webp";
