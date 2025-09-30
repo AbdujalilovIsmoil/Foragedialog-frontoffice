@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { Button } from "@/app/components";
 import { usePathname } from "next/navigation";
 
 type Lang = "uz" | "ru" | "en" | "ger";
@@ -165,12 +166,13 @@ const ImageGallery: React.FC<Props> = ({
               </div>
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
                 <p className="text-sm text-white truncate">{img.imageName}</p>
-                <button
+                <Button
+                  type="button"
                   onClick={() => setLightbox(idx)}
                   className="mt-2 px-3 py-1 text-xs rounded bg-white/20 text-white hover:bg-white/40"
                 >
                   👁 View
-                </button>
+                </Button>
               </div>
             </div>
           ))}
@@ -179,23 +181,25 @@ const ImageGallery: React.FC<Props> = ({
 
       {/* Pagination */}
       <div className="flex justify-center items-center gap-4 mt-8">
-        <button
+        <Button
+          type="button"
           onClick={() => setPage((p) => Math.max(1, p - 1))}
           disabled={page <= 1}
           className="px-4 py-2 rounded-lg text-white bg-teal-600 disabled:opacity-40"
         >
           {t.prev}
-        </button>
+        </Button>
         <span className="text-gray-600">
           {page} / {totalPages}
         </span>
-        <button
+        <Button
+          type="button"
           onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
           disabled={page >= totalPages}
           className="px-4 py-2 rounded-lg text-white bg-teal-600 disabled:opacity-40"
         >
           {t.next}
-        </button>
+        </Button>
       </div>
 
       {/* Lightbox */}
@@ -206,12 +210,13 @@ const ImageGallery: React.FC<Props> = ({
               <h3 className="text-sm font-medium">
                 {images[lightbox].imageName}
               </h3>
-              <button
+              <Button
+                type="button"
                 onClick={() => setLightbox(null)}
                 className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300"
               >
                 ✖ Close
-              </button>
+              </Button>
             </div>
             <div className="p-4 flex justify-center">
               <Image
