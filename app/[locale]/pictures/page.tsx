@@ -14,12 +14,6 @@ interface ImageItem {
   id: number;
 }
 
-interface Props {
-  autoDetectLang?: boolean;
-  initialPageSize?: number;
-  apiBase?: string;
-}
-
 const TRANSLATIONS: Record<
   Lang,
   {
@@ -65,11 +59,10 @@ const TRANSLATIONS: Record<
   },
 };
 
-const PicturesPage: React.FC<Props> = ({
-  autoDetectLang = true,
-  initialPageSize = 8,
-  apiBase = "https://back.foragedialog.uz",
-}) => {
+const PicturesPage = () => {
+  let apiBase = "https://back.foragedialog.uz";
+  let autoDetectLang = true;
+  let initialPageSize = 8;
   const pathName = usePathname();
 
   // Pathname'dan tilni aniqlash
@@ -219,6 +212,8 @@ const PicturesPage: React.FC<Props> = ({
             </div>
             <div className="p-4 flex justify-center">
               <Image
+                height={1000}
+                width={1000}
                 src={`${apiBase}/File/DownloadFile/download/${images[lightbox].fileId}`}
                 alt={images[lightbox].imageName}
                 className="max-h-[80vh] object-contain"
