@@ -44,6 +44,15 @@ const Footer = () => {
       href: "/resources",
     },
     {
+      name: {
+        uz: "Rasmlar",
+        ru: "Фотографии",
+        en: "Pictures",
+        ger: "Bilder",
+      },
+      href: "/pictures",
+    },
+    {
       name: { uz: "Kontakt", ru: "Контакт", en: "Contact", ger: "Kontakt" },
       href: "/contact",
     },

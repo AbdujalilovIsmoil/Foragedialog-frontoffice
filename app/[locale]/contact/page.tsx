@@ -142,12 +142,9 @@ const ContactPage = () => {
 
         <div className="relative px-4 py-20 sm:py-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl font-bold text-foreground font-sans mb-8 tracking-tight leading-tight">
+            <h1 className="text-5xl font-bold text-foreground font-sans tracking-tight leading-tight">
               {contactContent[`${language}`].title}
             </h1>
-            <p className="text-[16px] text-muted-foreground font-serif max-w-2xl mx-auto leading-relaxed">
-              {contactContent[`${language}`].description}
-            </p>
           </div>
         </div>
       </div>

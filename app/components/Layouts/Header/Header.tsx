@@ -25,8 +25,8 @@ const navigationItems: Record<string, { name: string; href: string }[]> = {
     { name: "Blog", href: "/blog" },
     { name: "Yangiliklar", href: "/news" },
     { name: "Resurslar", href: "/resources" }, // Qo‘shildi
-    { name: "Kontakt", href: "/contact" },
     { name: "Rasmlar", href: "/pictures" },
+    { name: "Kontakt", href: "/contact" },
   ],
   ru: [
     { name: "Домашняя страница", href: "/" },
@@ -34,8 +34,8 @@ const navigationItems: Record<string, { name: string; href: string }[]> = {
     { name: "Блог", href: "/blog" },
     { name: "Новости", href: "/news" },
     { name: "Ресурсы", href: "/resources" }, // Qo‘shildi
-    { name: "Контакт", href: "/contact" },
     { name: "Фотографии", href: "/pictures" },
+    { name: "Контакт", href: "/contact" },
   ],
   en: [
     { name: "Home", href: "/" },
@@ -43,8 +43,8 @@ const navigationItems: Record<string, { name: string; href: string }[]> = {
     { name: "Blog", href: "/blog" },
     { name: "News", href: "/news" },
     { name: "Resources", href: "/resources" }, // Qo‘shildi
-    { name: "Contact", href: "/contact" },
     { name: "Pictures", href: "/pictures" },
+    { name: "Contact", href: "/contact" },
   ],
   ger: [
     { name: "Startseite", href: "/" },
@@ -52,8 +52,8 @@ const navigationItems: Record<string, { name: string; href: string }[]> = {
     { name: "Blog", href: "/blog" },
     { name: "Nachrichten", href: "/news" },
     { name: "Ressourcen", href: "/resources" }, // Qo‘shildi
-    { name: "Kontakt", href: "/contact" },
     { name: "Bilder", href: "/pictures" },
+    { name: "Kontakt", href: "/contact" },
   ],
 };
 
