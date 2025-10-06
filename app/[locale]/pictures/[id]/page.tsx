@@ -75,21 +75,42 @@ const PicturesView = () => {
   const t = TRANSLATIONS[lang];
 
   useEffect(() => {
+    if (!id) return;
+
     const ac = new AbortController();
+    let isActive = true; // komponent hali aktivmi?
+
     const fetchData = async () => {
       setLoading(true);
       try {
         const res = await fetch(`${apiBase}/PicturesModel/GetById?id=${id}`, {
           signal: ac.signal,
         });
+
+        if (!res.ok) throw new Error("Serverdan noto‘g‘ri javob");
         const result = await res.json();
-        setData(result?.content ?? null);
+
+        if (isActive) {
+          setData(result?.content ?? null);
+        }
+      } catch (err: any) {
+        if (err.name === "AbortError") {
+          // fetch bekor qilindi — e’tibor bermaymiz
+          return;
+        }
+        console.error("Fetch error:", err);
       } finally {
-        setLoading(false);
+        if (isActive) setLoading(false);
       }
     };
-    if (id) fetchData();
-    return () => ac.abort();
+
+    fetchData();
+
+    // cleanup
+    return () => {
+      isActive = false;
+      if (!ac.signal.aborted) ac.abort();
+    };
   }, [id, apiBase]);
 
   return (
