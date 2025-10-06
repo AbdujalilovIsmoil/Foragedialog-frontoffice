@@ -109,10 +109,6 @@ const PicturesPage = () => {
 
         setCategories(data?.content ?? []);
         setTotalPages(data?.totalPages ?? 1);
-      } catch (err) {
-        if ((err as any).name !== "AbortError") {
-          console.error("Fetch error:", err);
-        }
       } finally {
         setLoading(false);
       }

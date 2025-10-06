@@ -84,8 +84,6 @@ const PicturesView = () => {
         });
         const result = await res.json();
         setData(result?.content ?? null);
-      } catch (err) {
-        if ((err as any).name !== "AbortError") console.error(err);
       } finally {
         setLoading(false);
       }

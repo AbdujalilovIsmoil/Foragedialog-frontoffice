@@ -77,8 +77,6 @@ export default function NewsPage() {
   // ✅ Newslarni tayyorlash
   const news: NewsItem[] = useMemo(() => {
     if (!newsData?.content) return [];
-    console.log("newsdata", newsData.content);
-
     return newsData.content.map((n: NewsApiItem) => ({
       id: n.id,
       title: n.title[language] || n.title["uz"],

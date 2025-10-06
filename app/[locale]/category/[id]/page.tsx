@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { useGet } from "@/app/hooks";
 
 // API’dan keladigan blog interfeysi
 interface Blog {
@@ -55,10 +56,6 @@ const CategoryPage: React.FC = () => {
         );
         const data = await res.json();
         setBlogs(data?.content ?? []);
-      } catch (err) {
-        if ((err as any).name !== "AbortError") {
-          console.error("Fetch error:", err);
-        }
       } finally {
         setLoading(false);
       }
@@ -68,10 +65,18 @@ const CategoryPage: React.FC = () => {
     return () => controller.abort();
   }, [id]);
 
+  const { data: ourCategory } = useGet({
+    queryKey: "our-category",
+    path: `/OurCategory/GetById?id=${id}`,
+  });
+
   return (
     <div className="max-w-6xl mx-auto p-6">
       <h1 className="text-3xl font-bold text-teal-600 mb-8">
-        📚 Category {id}
+        📚{" "}
+        {ourCategory?.content?.name?.[locale] ||
+          ourCategory?.content?.name?.uz ||
+          ""}
       </h1>
 
       {loading ? (
