@@ -1,10 +1,10 @@
 "use client";
 
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { notFound } from "next/navigation";
 
 const page = () => {
-  useLayoutEffect(() => {
+  useEffect(() => {
     notFound();
   }, []);
 
