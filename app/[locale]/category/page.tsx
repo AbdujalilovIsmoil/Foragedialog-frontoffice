@@ -8,7 +8,7 @@ const page = () => {
     notFound();
   }, []);
 
-  return <></>;
+  return null;
 };
 
 export default page;
