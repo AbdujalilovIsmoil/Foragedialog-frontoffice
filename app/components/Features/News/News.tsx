@@ -165,7 +165,6 @@ const News = () => {
             const img =
               news.images && news.images.length > 0 ? news.images[0] : "";
 
-
             return (
               <SwiperSlide key={news.id} className="!h-auto">
                 <article className="flex flex-col bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group h-full">
@@ -232,7 +231,7 @@ const News = () => {
                     {/* Read more link */}
                     <div className="mt-auto flex justify-end">
                       <Link
-                        href={`/${language}/blog/${news.id}`}
+                        href={`/${language}/news/${news.id}`}
                         className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-700 font-medium transition-colors"
                       >
                         {language === "uz"

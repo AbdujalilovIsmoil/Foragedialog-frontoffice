@@ -154,13 +154,6 @@ export default function NewsPage() {
 
   type Lang = "uz" | "ru" | "en" | "ger";
 
-  const readFullArticleText: Record<Lang, string> = {
-    uz: "Yangilikni to‘liq o‘qish",
-    ru: "Читать полную новость",
-    en: "Read Full News",
-    ger: "Ganze Nachricht lesen",
-  };
-
   const renderTagLabel = (tag: any, lang: Lang) => {
     if (tag == null) return "";
     if (typeof tag === "string" || typeof tag === "number") return String(tag);

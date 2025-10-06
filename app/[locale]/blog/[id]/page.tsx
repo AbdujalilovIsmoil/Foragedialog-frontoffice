@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useGet } from "@/app/hooks";
 import { Button } from "@/app/components";
-import { get } from "lodash";
 
 // Swiper (carousel)
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -21,20 +20,6 @@ interface LocalizedRecord {
   ru: string;
   en: string;
   ger: string;
-}
-
-interface NewsApiItem {
-  id: number;
-  subject: LocalizedRecord;
-  title: LocalizedRecord;
-  text: LocalizedRecord;
-  categories: LocalizedRecord[];
-  tags: LocalizedRecord[];
-  images: string[];
-  readingTime: string;
-  publishedDate: string;
-  viewsCount: number;
-  publisherId?: number;
 }
 
 interface Publisher {
@@ -55,9 +40,9 @@ export default function NewsView() {
 
   const newsId = Number(params?.id);
 
-  const { data: newsData, isLoading } = useGet({
-    queryKey: "blog",
-    path: "/Blog/GetAll",
+  const { data: newOneData } = useGet({
+    queryKey: "blog-one",
+    path: `/Blog/GetById?id=${newsId}`,
   });
 
   const localeMap: Record<Lang, string> = {
@@ -67,20 +52,23 @@ export default function NewsView() {
     ger: "de-DE",
   };
 
-  const contentArray = (get(newsData, "content", []) as NewsApiItem[]) ?? [];
-  const article = contentArray.find((n) => n.id === newsId);
-
   const imageBase = "https://back.foragedialog.uz/File/DownloadFile/download";
 
   const imageUrls: string[] = useMemo(() => {
-    if (!article?.images || article.images.length === 0) return [];
-    return article.images.map((imgId) => `${imageBase}/${imgId}`);
-  }, [article]);
+    if (
+      !newOneData?.content?.images ||
+      newOneData?.content?.images.length === 0
+    )
+      return [];
+    return newOneData?.content?.images.map(
+      (imgId: string) => `${imageBase}/${imgId}`
+    );
+  }, [newOneData]);
 
-  const { data: publisherData } = useGet({
+  const { data: publisherData, isLoading } = useGet({
     queryKey: "publisher",
-    path: article?.publisherId
-      ? `/Publisher/GetById?id=${article.publisherId}`
+    path: newOneData?.content?.publisherId
+      ? `/Publisher/GetById?id=${newOneData?.content?.publisherId}`
       : "",
   });
 
@@ -95,7 +83,7 @@ export default function NewsView() {
     );
   }
 
-  if (!article) {
+  if (!newOneData) {
     return (
       <div className="min-h-screen bg-white">
         <main className="pt-20 pb-16">
@@ -126,13 +114,22 @@ export default function NewsView() {
     ger: "Zurück zu allen Blogs",
   };
 
-  const localized = (rec: LocalizedRecord) =>
-    rec[language] && rec[language].trim() !== "" ? rec[language] : rec.uz || "";
+  const localized = (rec?: LocalizedRecord | null): string => {
+    if (!rec || typeof rec !== "object") return "";
+    const val =
+      (rec[language] && rec[language].trim() !== "" ? rec[language] : rec.uz) ||
+      "";
+    return val;
+  };
 
-  const localizedArr = (arr: LocalizedRecord[]) =>
-    arr.map((r) =>
-      r[language] && r[language].trim() !== "" ? r[language] : r.uz
+  const localizedArr = (arr?: LocalizedRecord[] | null): string[] => {
+    if (!Array.isArray(arr)) return [];
+    return arr.map((r) =>
+      r && typeof r === "object"
+        ? (r[language] && r[language].trim() !== "" ? r[language] : r.uz) || ""
+        : ""
     );
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -158,7 +155,9 @@ export default function NewsView() {
                       height={900}
                       unoptimized
                       src={src}
-                      alt={localized(article.title)}
+                      alt={localized(
+                        newOneData?.content ? newOneData?.content?.title : ""
+                      )}
                       className="w-full h-full object-cover"
                     />
                   </SwiperSlide>
@@ -175,35 +174,43 @@ export default function NewsView() {
               <div className="max-w-5xl mx-auto px-6 py-10 text-white relative z-30">
                 {/* Categories + date + reading time */}
                 <div className="flex flex-wrap items-center gap-3 mb-4">
-                  {article.categories.length > 0 &&
-                    localizedArr(article.categories).map((c, i) => (
-                      <span
-                        key={`${c}-${i}`}
-                        className="bg-teal-600 text-white text-sm font-semibold px-3 py-1.5 rounded-full"
-                      >
-                        {c}
-                      </span>
-                    ))}
-                  <span className="text-sm">
-                    {new Date(article.publishedDate).toLocaleDateString(
-                      localeMap[language],
-                      { year: "numeric", month: "long", day: "numeric" }
+                  {newOneData &&
+                    newOneData?.content?.categories &&
+                    newOneData?.content?.categories?.length > 0 &&
+                    localizedArr(newOneData?.content?.categories).map(
+                      (c, i) => (
+                        <span
+                          key={`${c}-${i}`}
+                          className="bg-teal-600 text-white text-sm font-semibold px-3 py-1.5 rounded-full"
+                        >
+                          {c}
+                        </span>
+                      )
                     )}
+                  <span className="text-sm">
+                    {new Date(
+                      newOneData?.content?.publishedDate
+                    ).toLocaleDateString(localeMap[language], {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
                   </span>
                   <span className="text-sm">
-                    {article.readingTime && article.readingTime.trim() !== ""
-                      ? `${article.readingTime} min`
+                    {newOneData?.content?.readingTime &&
+                    newOneData?.content?.readingTime.trim() !== ""
+                      ? `${newOneData?.content.readingTime} min`
                       : "—"}
                   </span>
                 </div>
 
                 {/* Title */}
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 leading-tight drop-shadow-lg z-30 relative">
-                  {localized(article.title)}
+                  {localized(newOneData?.content?.title)}
                 </h1>
                 {/* Subject */}
                 <p className="text-lg sm:text-xl text-white/90 max-w-3xl drop-shadow-md z-30 relative">
-                  {localized(article.subject)}
+                  {localized(newOneData?.content?.subject)}
                 </p>
               </div>
             </div>
@@ -217,17 +224,19 @@ export default function NewsView() {
               className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-ul:text-gray-700"
               dangerouslySetInnerHTML={{
                 __html:
-                  (article.text[language] &&
-                  article.text[language].trim() !== ""
-                    ? article.text[language]
-                    : article.text.uz) || "",
+                  newOneData?.content?.text && typeof newOneData?.content?.text === "object"
+                    ? (newOneData?.content?.text[language] &&
+                      newOneData?.content?.text[language].trim() !== ""
+                        ? newOneData?.content?.text[language]
+                        : newOneData?.content?.text.uz) || ""
+                    : "",
               }}
             />
 
             {/* tags */}
             <div className="flex flex-wrap gap-2 mt-8">
-              {article.tags &&
-                localizedArr(article.tags).map((t, i) => (
+              {newOneData?.content?.tags &&
+                localizedArr(newOneData?.content?.tags).map((t, i) => (
                   <span
                     key={`${t}-${i}`}
                     className="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full hover:bg-teal-50 hover:text-teal-600 transition-colors duration-300"
