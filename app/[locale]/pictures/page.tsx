@@ -3,15 +3,21 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/app/components";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 type Lang = "uz" | "ru" | "en" | "ger";
 
 // API'dan keladigan element
-interface ImageItem {
-  fileId: string;
-  imageName: string;
+interface PictureCategory {
   id: number;
+  categoryId: number;
+  categoryName: Record<Lang, string>;
+  imagesIds: number[];
+  imageModels: {
+    fileId: string;
+    imageName: string;
+    id: number;
+  }[];
 }
 
 const TRANSLATIONS: Record<
@@ -23,83 +29,85 @@ const TRANSLATIONS: Record<
     prev: string;
     next: string;
     pageSize: string;
+    count: string;
   }
 > = {
   uz: {
-    title: "📸 Rasmlar Galereyasi",
+    title: "📸 Rasm toifalari",
     loading: "⏳ Yuklanmoqda...",
-    empty: "❌ Hozircha rasm yo‘q",
+    empty: "❌ Hozircha ma'lumot yo‘q",
     prev: "◀ Avvalgi",
     next: "Keyingi ▶",
-    pageSize: "Sahifadagi rasm soni",
+    pageSize: "Sahifadagi elementlar",
+    count: "ta rasm",
   },
   ru: {
-    title: "📸 Галерея изображений",
+    title: "📸 Категории изображений",
     loading: "⏳ Загрузка...",
-    empty: "❌ Нет изображений",
+    empty: "❌ Нет данных",
     prev: "◀ Назад",
     next: "Вперед ▶",
-    pageSize: "Размер страницы",
+    pageSize: "Элементов на странице",
+    count: "изображений",
   },
   en: {
-    title: "📸 Image Gallery",
+    title: "📸 Picture Categories",
     loading: "⏳ Loading...",
-    empty: "❌ No images found",
+    empty: "❌ No data found",
     prev: "◀ Prev",
     next: "Next ▶",
-    pageSize: "Page size",
+    pageSize: "Items per page",
+    count: "images",
   },
   ger: {
-    title: "📸 Bildergalerie",
+    title: "📸 Bilderkategorien",
     loading: "⏳ Wird geladen...",
-    empty: "❌ Keine Bilder gefunden",
+    empty: "❌ Keine Daten gefunden",
     prev: "◀ Zurück",
     next: "Weiter ▶",
     pageSize: "Seitengröße",
+    count: "Bilder",
   },
 };
 
 const PicturesPage = () => {
-  // Bu yerda default config
   const autoDetectLang = true;
   const initialPageSize = 8;
   const apiBase = "https://back.foragedialog.uz";
 
+  const router = useRouter();
   const pathName = usePathname();
 
-  // Pathname'dan tilni aniqlash
   const langFromPath = (pathName?.split("/")[1] ?? "uz") as string;
   const lang: Lang = ["uz", "ru", "en", "ger"].includes(langFromPath)
     ? (langFromPath as Lang)
     : "uz";
 
-  const [images, setImages] = useState<ImageItem[]>([]);
+  const [categories, setCategories] = useState<PictureCategory[]>([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(initialPageSize);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [lightbox, setLightbox] = useState<number | null>(null);
 
-  // Tanlangan til
-  const effectiveLang: Lang = useMemo(() => {
-    return autoDetectLang ? lang : "uz";
-  }, [autoDetectLang, lang]);
+  const effectiveLang: Lang = useMemo(
+    () => (autoDetectLang ? lang : "uz"),
+    [autoDetectLang, lang]
+  );
 
   const t = TRANSLATIONS[effectiveLang];
 
-  // Rasm olish
   useEffect(() => {
     const ac = new AbortController();
-    const fetchImages = async () => {
+    const fetchCategories = async () => {
       setLoading(true);
       try {
         const res = await fetch(
-          `${apiBase}/ImageModel/GetAll?page=${page}&pageSize=${pageSize}`,
+          `${apiBase}/PicturesModel/GetAll?page=${page}&pageSize=${pageSize}`,
           { signal: ac.signal }
         );
         const data = await res.json();
 
-        setImages(data?.content ?? []);
+        setCategories(data?.content ?? []);
         setTotalPages(data?.totalPages ?? 1);
       } catch (err) {
         if ((err as any).name !== "AbortError") {
@@ -110,7 +118,7 @@ const PicturesPage = () => {
       }
     };
 
-    fetchImages();
+    fetchCategories();
     return () => ac.abort();
   }, [page, pageSize, apiBase]);
 
@@ -141,35 +149,52 @@ const PicturesPage = () => {
       {/* Grid */}
       {loading ? (
         <p className="text-center text-gray-500">{t.loading}</p>
-      ) : images.length === 0 ? (
+      ) : categories.length === 0 ? (
         <p className="text-center text-gray-400 italic">{t.empty}</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {images.map((img, idx) => (
-            <div
-              key={img.id}
-              className="group relative rounded-xl overflow-hidden shadow hover:shadow-lg transition"
-            >
-              <div className="relative w-full h-48">
-                <Image
-                  src={`${apiBase}/File/DownloadFile/download/${img.fileId}`}
-                  alt={img.imageName}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+          {categories.map((cat) => {
+            const img = cat.imageModels?.[0];
+            return (
+              <div
+                key={cat.id}
+                onClick={() =>
+                  router.push(`/${effectiveLang}/pictures/${cat.id}`)
+                }
+                className="cursor-pointer group relative rounded-xl overflow-hidden shadow hover:shadow-lg transition bg-white"
+              >
+                <div className="relative w-full h-48">
+                  {img ? (
+                    <Image
+                      src={`${apiBase}/File/DownloadFile/download/${img.fileId}`}
+                      alt={img.imageName}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
+                      No Image
+                    </div>
+                  )}
+                </div>
+                <div className="absolute top-2 right-2 bg-teal-600 text-white text-xs px-2 py-1 rounded-full shadow">
+                  {cat.imageModels?.length ?? 0}
+                </div>
+                <div className="p-3">
+                  <h3 className="text-lg font-semibold text-gray-800 truncate">
+                    {cat.categoryName?.[effectiveLang] ||
+                      cat.categoryName?.uz ||
+                      "No title"}
+                  </h3>
+                  {img && (
+                    <p className="text-sm text-gray-500 mt-1 truncate">
+                      {img.imageName}
+                    </p>
+                  )}
+                </div>
               </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
-                <p className="text-sm text-white truncate">{img.imageName}</p>
-                <Button
-                  type="button"
-                  onClick={() => setLightbox(idx)}
-                  className="mt-2 px-3 py-1 text-xs rounded bg-white/20 text-white hover:bg-white/40"
-                >
-                  👁 View
-                </Button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
@@ -195,35 +220,6 @@ const PicturesPage = () => {
           {t.next}
         </Button>
       </div>
-
-      {/* Lightbox */}
-      {lightbox !== null && images[lightbox] && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-          <div className="bg-white rounded-lg overflow-hidden shadow-lg max-w-3xl w-full">
-            <div className="flex justify-between items-center p-3 border-b">
-              <h3 className="text-sm font-medium">
-                {images[lightbox].imageName}
-              </h3>
-              <Button
-                type="button"
-                onClick={() => setLightbox(null)}
-                className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300"
-              >
-                ✖ Close
-              </Button>
-            </div>
-            <div className="p-4 flex justify-center">
-              <Image
-                height={1000}
-                width={1000}
-                src={`${apiBase}/File/DownloadFile/download/${images[lightbox].fileId}`}
-                alt={images[lightbox].imageName}
-                className="max-h-[80vh] object-contain"
-              />
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
