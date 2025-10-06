@@ -377,7 +377,7 @@ const About = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen">
       {/* HEADER */}
       <section className="py-10 px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
@@ -388,7 +388,7 @@ const About = () => {
         </p>
       </section>
 
-      <section className="py-16 px-6 bg-white">
+      <section className="pb-16 px-6 bg-white">
         <div className="max-w-4xl mx-auto shadow-xl rounded-2xl p-8 sm:p-12 border border-gray-100 mb-[50px]">
           {/* Title */}
           <h2 className="text-3xl md:text-4xl font-extrabold text-green-700 mb-6 text-center">
@@ -476,20 +476,18 @@ const About = () => {
       </section>
 
       {/* PROJECT INFO */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-4xl mx-auto space-y-6">
-          <h2 className="text-3xl font-bold text-gray-900 text-center">
-            {translations.projectTitle[language]}
-          </h2>
-          <p className="text-gray-700 leading-relaxed">
-            {translations.projectDesc[language]}
-          </p>
-          <ul className="list-disc list-inside text-gray-700 space-y-2">
-            {translations.projectList[language].map((item, i) => (
-              <li key={i}>{item}</li>
-            ))}
-          </ul>
-        </div>
+      <section className="max-w-4xl mx-auto shadow-xl rounded-2xl py-16 px-4 sm:px-6 lg:px-8 bg-white border border-gray-100">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-green-700 mb-6 text-center">
+          {translations.projectTitle[language]}
+        </h2>
+        <p className="text-gray-700 leading-relaxed mb-[15px]">
+          {translations.projectDesc[language]}
+        </p>
+        <ul className="list-disc list-inside text-gray-700 space-y-2">
+          {translations.projectList[language].map((item, i) => (
+            <li key={i}>{item}</li>
+          ))}
+        </ul>
       </section>
 
       {/* CAROUSEL TEAM MEMBERS */}
@@ -605,23 +603,6 @@ const About = () => {
                   </h5>
                   <p className="text-gray-600">{selectedMember.experience}</p>
                 </div>
-
-                {/* Skills */}
-                {/* <div className="mt-auto">
-                  <h5 className="font-semibold text-gray-900 mb-2">
-                    {translations.skills[language]}:
-                  </h5>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedMember.skills.map((skill, idx) => (
-                      <span
-                        key={idx}
-                        className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div> */}
               </div>
             </div>
           </div>
