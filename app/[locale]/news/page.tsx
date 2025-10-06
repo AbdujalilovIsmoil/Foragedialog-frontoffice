@@ -296,10 +296,11 @@ export default function NewsPage() {
                         ? news.images[0]
                         : "";
 
-                    console.log("news component", news.date);
-
                     return (
-                      <article className="flex flex-col bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group h-full">
+                      <article
+                        className="flex flex-col bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group h-full"
+                        key={news.id}
+                      >
                         {/* Image container */}
                         <div className="aspect-video bg-gray-100 overflow-hidden">
                           {img ? (
