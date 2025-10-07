@@ -2,6 +2,8 @@ import "swiper/css";
 import "./globals.css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import Script from "next/script";
+import { GA_TRACKING_ID } from "@/lib/gtag";
 
 import Main from "./main";
 import { Footer, Header } from "./components";
@@ -25,10 +27,33 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* ✅ Google Search Console tasdiqlash */}
         <meta
-          content="upgrade-insecure-requests"
-          httpEquiv="Content-Security-Policy"
+          name="google-site-verification"
+          content="7LyUqkUstXCSndqzUA_PzXdArH2w3-W5xMAQ9cP0aLw"
         />
+
+        {/* ✅ HTTPS majburiy qilish (CSP to‘g‘ri sintaksisda) */}
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        />
+
+        {/* ✅ Google Analytics 4 skriptlari */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="ga-setup" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+          `}
+        </Script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
