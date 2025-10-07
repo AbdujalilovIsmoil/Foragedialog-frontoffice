@@ -321,9 +321,9 @@ export default function NewsPage() {
                         <h3 className="font-bold text-lg mb-2 line-clamp-2 text-gray-900">
                           {news.title}
                         </h3>
-                        <p className="text-sm text-gray-600 line-clamp-3 mb-4">
+                        {/* <p className="text-sm text-gray-600 line-clamp-3 mb-4">
                           {news.text}
-                        </p>
+                        </p> */}
 
                         {/* Publisher */}
                         {news.publisher && (
