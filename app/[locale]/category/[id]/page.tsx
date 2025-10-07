@@ -4,9 +4,16 @@ import React, { useEffect, useState } from "react";
 import { useParams, usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+
 import { useGet } from "@/app/hooks";
 
-// API’dan keladigan blog interfeysi
+const apiBase = "https://back.foragedialog.uz";
+
+// ==== Interfaces ====
 interface Blog {
   id: number;
   title: Record<string, string>;
@@ -15,15 +22,29 @@ interface Blog {
   images: string[];
 }
 
-interface Reference {
+interface ReferenceBlog {
   id: number;
   categoryId: number;
   blogId: number;
   blog: Blog;
 }
 
-const apiBase = "https://back.foragedialog.uz";
+interface PictureModel {
+  id: number;
+  categoryId: number;
+  categoryName: Record<string, string>;
+  imagesIds: number[];
+}
 
+interface ReferencePicture {
+  id: number;
+  categoryId: number;
+  picturesId: number;
+  pictures: PictureModel;
+  downloadLinks: string[];
+}
+
+// ==== Helper ====
 function stripHtml(html: string): string {
   if (!html) return "";
   return html.replace(/<[^>]+>/g, "").slice(0, 180) + "...";
@@ -32,7 +53,6 @@ function stripHtml(html: string): string {
 const CategoryPage: React.FC = () => {
   const params = useParams();
   const pathName = usePathname();
-
   const id = params?.id as string;
   const locale = (pathName?.split("/")[1] ?? "uz") as
     | "uz"
@@ -40,13 +60,20 @@ const CategoryPage: React.FC = () => {
     | "en"
     | "ger";
 
-  const [blogs, setBlogs] = useState<Reference[]>([]);
+  const [blogs, setBlogs] = useState<ReferenceBlog[]>([]);
+  const [pictures, setPictures] = useState<ReferencePicture[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const { data: ourCategory } = useGet({
+    queryKey: "our-category",
+    path: `/OurCategory/GetById?id=${id}`,
+  });
+
+  // ====== Fetch BLOGS ======
   useEffect(() => {
     if (!id) return;
-
     const controller = new AbortController();
+
     const fetchBlogs = async () => {
       setLoading(true);
       try {
@@ -65,13 +92,34 @@ const CategoryPage: React.FC = () => {
     return () => controller.abort();
   }, [id]);
 
-  const { data: ourCategory } = useGet({
-    queryKey: "our-category",
-    path: `/OurCategory/GetById?id=${id}`,
-  });
+  // ====== Fetch PICTURES ======
+  useEffect(() => {
+    if (!id) return;
+    const controller = new AbortController();
+
+    const fetchPictures = async () => {
+      try {
+        const res = await fetch(
+          `${apiBase}/ReferenceToPictures/GetReferencesByCategoryIds?id=${id}`,
+          { signal: controller.signal }
+        );
+        const data = await res.json();
+        setPictures(data?.content ?? []);
+      } catch (err) {
+        console.error("❌ Error fetching pictures:", err);
+      }
+    };
+
+    fetchPictures();
+    return () => controller.abort();
+  }, [id]);
+
+  // === Find pictures by category ===
+  const categoryPictures = pictures?.[0]?.downloadLinks || [];
 
   return (
     <div className="max-w-6xl mx-auto p-6">
+      {/* Title */}
       <h1 className="text-3xl font-bold text-teal-600 mb-8">
         📚{" "}
         {ourCategory?.content?.name?.[locale] ||
@@ -79,6 +127,7 @@ const CategoryPage: React.FC = () => {
           ""}
       </h1>
 
+      {/* Blogs */}
       {loading ? (
         <p className="text-center text-gray-500">⏳ Yuklanmoqda...</p>
       ) : blogs.length === 0 ? (
@@ -101,8 +150,9 @@ const CategoryPage: React.FC = () => {
             return (
               <div
                 key={blog.id}
-                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition"
+                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition flex flex-col"
               >
+                {/* Blog Image */}
                 <div className="relative w-full h-48">
                   <Image
                     src={imageUrl}
@@ -111,8 +161,10 @@ const CategoryPage: React.FC = () => {
                     className="object-cover"
                   />
                 </div>
+
+                {/* Blog Info */}
                 <div className="p-4 flex flex-col gap-2">
-                  <h2 className="text-lg font-semibold line-clamp-2">
+                  <h2 className="text-lg font-semibold line-clamp-2 text-gray-800">
                     {title}
                   </h2>
                   <p className="text-sm text-gray-500">{date}</p>
@@ -126,6 +178,32 @@ const CategoryPage: React.FC = () => {
                     Batafsil →
                   </Link>
                 </div>
+
+                {/* Pictures Swiper (rasmlar shu yerda) */}
+                {categoryPictures.length > 0 && (
+                  <div className="mt-4 border-t border-gray-100">
+                    <Swiper
+                      modules={[Pagination, Autoplay]}
+                      pagination={{ clickable: true }}
+                      autoplay={{ delay: 3000, disableOnInteraction: false }}
+                      loop
+                      className="h-56"
+                    >
+                      {categoryPictures.map((link, idx) => (
+                        <SwiperSlide key={idx}>
+                          <div className="relative w-full h-56">
+                            <Image
+                              src={link}
+                              alt={`category-img-${idx}`}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                  </div>
+                )}
               </div>
             );
           })}
