@@ -4,7 +4,7 @@ import About from "./about";
 // --- METADATA (server component) ---
 export async function generateMetadata(
   { params }: { params: Promise<{ locale: string }> },
-  _parent?: ResolvingMetadata
+  _parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { locale } = await params;
 
