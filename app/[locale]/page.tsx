@@ -2,10 +2,10 @@ import { Metadata, ResolvingMetadata } from "next";
 import { Blog, Hero, News, Partners, Categories } from "@/app/components";
 
 export async function generateMetadata(
-  { params }: { params: Promise<{ locale: string }> }, // ✅ params endi Promise
+  { params }: { params: Promise<{ locale: string }> },
   _parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const { locale } = await params; // ✅ Promise dan destructure qilamiz
+  const { locale } = await params;
 
   const titles: Record<string, string> = {
     uz: "Iqlimga chidamli qishloq xo‘jaligi bo‘yicha Germaniya-O‘zbekiston ekspertlar muloqot dasturi",
@@ -26,6 +26,7 @@ export async function generateMetadata(
   return {
     title: titles[lang],
     description: descriptions[lang],
+
     openGraph: {
       title: titles[lang],
       description: descriptions[lang],
@@ -33,23 +34,31 @@ export async function generateMetadata(
       siteName: "Forage Dialog",
       images: [
         {
-          url: "https://foragedialog.uz/og-image.jpg",
+          url: "https://foragedialog.uz/app/site-right-logo.ico",
           width: 1200,
           height: 630,
           alt: titles[lang],
         },
       ],
-      locale: lang === "ger" ? "de" : lang, // ✅ SEO uchun to‘g‘ri locale
+      locale: lang === "ger" ? "de" : lang,
       type: "website",
     },
+
     alternates: {
       canonical: `https://foragedialog.uz/${lang}`,
       languages: {
         uz: "https://foragedialog.uz/uz",
         ru: "https://foragedialog.uz/ru",
         en: "https://foragedialog.uz/en",
-        de: "https://foragedialog.uz/ger", // ✅ ger → de (Google SEO uchun)
+        de: "https://foragedialog.uz/ger",
       },
+    },
+
+    // ✅ Favicon / Logo moslashtirildi
+    icons: {
+      icon: "/app/site-right-logo.ico", // asosiy favicon (tab icon)
+      shortcut: "/app/site-right-logo.ico", // eski brauzerlar uchun
+      apple: "/app/site-right-logo.ico", // Apple qurilmalar uchun
     },
   };
 }

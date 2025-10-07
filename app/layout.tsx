@@ -63,6 +63,22 @@ export default function RootLayout({
           <main className="min-h-[100vh]">{children}</main>
           <Footer />
         </Main>
+
+        {/* ✅ GA4 skriptlar body ichida ishlaydi */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="ga-setup" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+          `}
+        </Script>
       </body>
     </html>
   );
