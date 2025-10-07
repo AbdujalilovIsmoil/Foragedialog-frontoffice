@@ -51,6 +51,11 @@ interface NewsItem {
 }
 
 export default function NewsPage() {
+  const { data: newsData } = useGet({
+    queryKey: "blog",
+    path: "/Blog/GetAll",
+  });
+
   const pathName = usePathname();
   const language = pathName.split("/")[1] as "uz" | "ru" | "en" | "ger";
 
@@ -87,11 +92,6 @@ export default function NewsPage() {
   const { data: categoriesData } = useGet({
     queryKey: "news-category",
     path: "/NewsCategory/GetAll",
-  });
-
-  const { data: newsData } = useGet({
-    queryKey: "blog",
-    path: "/Blog/GetAll",
   });
 
   const news: NewsItem[] = useMemo(() => {
