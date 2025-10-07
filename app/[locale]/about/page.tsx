@@ -22,6 +22,6 @@ export async function generateMetadata({
 }
 
 // --- PAGE KOMPONENT ---
-export default function AboutPage({ params }: { params: { locale: string } }) {
+export default function AboutPage() {
   return <About />;
 }
