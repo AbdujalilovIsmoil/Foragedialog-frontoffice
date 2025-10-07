@@ -80,8 +80,8 @@ const contactContent: contactContentInterface = {
     `,
     medias: {
       email: "Elektron pochta",
-      call: "Bizga qo'ng'iroq qiling",
-      visit: "Bizga tashrif buyuring",
+      call: "Tel",
+      visit: "Manzil",
     },
     information: "Bog'lanish uchun ma'lumot",
   },
@@ -94,9 +94,9 @@ const contactContent: contactContentInterface = {
       to life with personalized solutions and exceptional service.
     `,
     medias: {
-      call: "Call Us",
+      call: "Tel",
       email: "E-mail",
-      visit: "Visit Us",
+      visit: "Location",
     },
   },
   ru: {
@@ -108,9 +108,9 @@ const contactContent: contactContentInterface = {
       в жизнь, предлагая индивидуальные решения и исключительный сервис.
     `,
     medias: {
-      call: "Call Us",
+      call: "Тел",
       email: "Электронная почта",
-      visit: "Visit Us",
+      visit: "Расположение",
     },
   },
   ger: {
@@ -122,8 +122,8 @@ const contactContent: contactContentInterface = {
       individuellen Lösungen und außergewöhnlichem Service umzusetzen.
     `,
     medias: {
-      call: "Rufen Sie uns an",
-      visit: "Besuchen Sie uns",
+      call: "Tel",
+      visit: "Standort",
       email: "E-Mail",
     },
   },
