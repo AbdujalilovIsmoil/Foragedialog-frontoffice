@@ -1,11 +1,13 @@
-import { Metadata } from "next";
 import BlogPage from "./blog";
+import { Metadata, ResolvingMetadata } from "next";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+// --- METADATA (server component) ---
+export async function generateMetadata(
+  { params }: { params: Promise<{ locale: string }> },
+  _parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { locale } = await params;
+
   const titles: Record<string, string> = {
     uz: "Maqolalar",
     ru: "Блог",
@@ -14,12 +16,11 @@ export async function generateMetadata({
   };
 
   return {
-    title: titles[params.locale],
+    title: titles[locale] || titles["uz"],
   };
 }
 
-const Blog = () => {
+// --- PAGE KOMPONENT ---
+export default function Blog() {
   return <BlogPage />;
-};
-
-export default Blog;
+}
