@@ -1,11 +1,12 @@
-import { Metadata } from "next";
 import NewsPage from "./news";
+import { Metadata, ResolvingMetadata } from "next";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: { params: Promise<{ locale: string }> },
+  _parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { locale } = await params;
+
   const titles: Record<string, string> = {
     uz: "Yangiliklar",
     ru: "Новости",
@@ -14,7 +15,7 @@ export async function generateMetadata({
   };
 
   return {
-    title: titles[params.locale] || "Bosh sahifa",
+    title: titles[locale] || titles["uz"],
   };
 }
 

@@ -1,11 +1,12 @@
-import { Metadata } from "next";
+import { Metadata, ResolvingMetadata } from "next";
 import CategoryPage from "./category";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: { params: Promise<{ locale: string }> },
+  _parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { locale } = await params;
+
   const titles: Record<string, string> = {
     uz: "Kategoriya",
     ru: "Категория",
@@ -14,7 +15,7 @@ export async function generateMetadata({
   };
 
   return {
-    title: titles[params.locale],
+    title: titles[locale] || titles["uz"],
   };
 }
 
