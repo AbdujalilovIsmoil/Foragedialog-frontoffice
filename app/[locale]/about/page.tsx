@@ -1,6 +1,7 @@
 import { Metadata } from "next";
-import AboutPage from "./about";
+import About from "./about";
 
+// --- METADATA (server component) ---
 export async function generateMetadata({
   params,
 }: {
@@ -13,13 +14,16 @@ export async function generateMetadata({
     ger: "Über uns",
   };
 
+  const locale = (params?.locale || "uz") as "uz" | "ru" | "en" | "ger";
+
   return {
-    title: titles[params.locale] || "Bosh sahifa",
+    title: titles[locale],
   };
 }
 
-const About = () => {
-  return <AboutPage />;
-};
+// --- PAGE KOMPONENT ---
+export default function AboutPage({ params }: { params: { locale: string } }) {
+  const locale = params.locale;
 
-export default About;
+  return <About />;
+}
