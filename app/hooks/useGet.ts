@@ -10,9 +10,7 @@ type typeUseGet = {
 const useGet = ({ path = "/", queryKey }: typeUseGet) => {
   const data = useQuery({
     queryKey: [queryKey],
-    staleTime: 1000 * 60 * 6, // 6 daqiqa
-    queryFn: () =>
-      api.get(path).then((response) => get(response, "data.content")),
+    queryFn: () => api.get(path).then((response) => get(response, "data")),
   });
 
   return data;
