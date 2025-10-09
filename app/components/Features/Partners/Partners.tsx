@@ -61,6 +61,13 @@ export default function PartnersCarousel() {
     }
   );
 
+  const emptyPartners = {
+    uz: "Hamkorlar topilmadi",
+    en: "No partners found",
+    ger: "Keine Partner gefunden",
+    ru: "Партнёры не найдены",
+  };
+
   return (
     <section className="py-16 px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-sky-50 relative overflow-hidden">
       <div className="max-w-7xl mx-auto relative z-10">
@@ -93,7 +100,9 @@ export default function PartnersCarousel() {
           {mapped.length === 0 && (
             <SwiperSlide>
               <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
-                <p className="text-gray-500">No partners found</p>
+                <p className="text-gray-500">
+                  {emptyPartners[`${language}` as "uz" | "ru" | "en" | "ger"]}
+                </p>
               </div>
             </SwiperSlide>
           )}

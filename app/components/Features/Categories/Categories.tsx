@@ -67,6 +67,13 @@ const Categories = () => {
   const apiUrl =
     process.env.NEXT_PUBLIC_API_URL || "https://back.foragedialog.uz";
 
+  const emptyCategories = {
+    uz: "Kategoriyalar topilmadi",
+    en: "No categories found",
+    ger: "Keine Kategorien gefunden",
+    ru: "Категории не найдены",
+  };
+
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -84,7 +91,7 @@ const Categories = () => {
         {/* Categories Grid */}
         {categories.length === 0 ? (
           <p className="text-center text-gray-400 italic">
-            ❌ Kategoriyalar topilmadi
+            ❌ {emptyCategories[language]}
           </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
