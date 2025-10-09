@@ -113,6 +113,13 @@ const PicturesView = () => {
     };
   }, [id, apiBase]);
 
+  const closeData = {
+    uz: "Yopish",
+    en: "Close",
+    ger: "Schließen",
+    ru: "Закрыть",
+  };
+
   return (
     <div className="p-6 max-w-6xl mx-auto">
       {/* Header */}
@@ -177,7 +184,7 @@ const PicturesView = () => {
                 onClick={() => setLightbox(null)}
                 className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300"
               >
-                ✖ Close
+                ✖ {closeData[lang]}
               </Button>
             </div>
             <div className="p-4 flex justify-center">

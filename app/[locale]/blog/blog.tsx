@@ -187,6 +187,34 @@ export default function NewsPage() {
     fetchPublishers();
   }, [newsData]);
 
+  const views = {
+    uz: "Ko'rishlar",
+    en: "Views",
+    ger: "Aufrufe",
+    ru: "Просмотры",
+  };
+
+  const readMore = {
+    uz: "Batafsil o'qish",
+    en: "Read more",
+    ger: "Mehr lesen",
+    ru: "Читать далее",
+  };
+
+  const emptyImage = {
+    uz: "Rasm yo‘q",
+    en: "No Image",
+    ger: "Kein Bild",
+    ru: "Нет изображения",
+  };
+
+  const filterData = {
+    uz: ["Eng yangi", "Eng eski"],
+    en: ["Newest", "Oldest"],
+    ger: ["Neueste", "Älteste"],
+    ru: ["Новейшие", "Старейшие"],
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <main className="pt-20">
@@ -232,8 +260,8 @@ export default function NewsPage() {
                 }}
                 className="w-40 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500"
               >
-                <option value="newest">Newest</option>
-                <option value="oldest">Oldest</option>
+                <option value="newest">{filterData[language][0]}</option>
+                <option value="oldest">{filterData[language][1]}</option>
               </select>
             </div>
 
@@ -307,7 +335,7 @@ export default function NewsPage() {
                           />
                         ) : (
                           <div className="flex items-center justify-center h-full text-gray-400">
-                            No Image
+                            {emptyImage[language]}
                           </div>
                         )}
                       </div>
@@ -316,7 +344,9 @@ export default function NewsPage() {
                       <div className="flex flex-col flex-1 p-5">
                         <div className="flex items-center justify-between mb-3 text-sm text-gray-500">
                           <span>{news.date}</span>
-                          <span>{news.views} views</span>
+                          <span>
+                            {news.views} {views[language]}
+                          </span>
                         </div>
                         <h3 className="font-bold text-lg mb-2 line-clamp-2 text-gray-900">
                           {news.title}
@@ -346,7 +376,7 @@ export default function NewsPage() {
                           href={`/${language}/blog/${news.id}`}
                           className="mt-auto block w-full text-center px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition"
                         >
-                          Read more
+                          {readMore[language]}
                         </Link>
                       </div>
                     </article>

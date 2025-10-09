@@ -114,6 +114,13 @@ export default function NewsView() {
     ger: "Zurück zu allen Blogs",
   };
 
+  const emptyImage = {
+    uz: "Rasm yo‘q",
+    en: "No Image",
+    ger: "Kein Bild",
+    ru: "Нет изображения",
+  };
+
   const localized = (rec?: LocalizedRecord | null): string => {
     if (!rec || typeof rec !== "object") return "";
     const val =
@@ -165,7 +172,7 @@ export default function NewsView() {
               </Swiper>
             ) : (
               <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                <span className="text-gray-500">No image available</span>
+                <span className="text-gray-500">{emptyImage[language]}</span>
               </div>
             )}
 

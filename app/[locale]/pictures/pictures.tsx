@@ -118,6 +118,13 @@ const PicturesPage = () => {
     return () => ac.abort();
   }, [page, pageSize, apiBase]);
 
+  const emptyImage = {
+    uz: "Rasm yo‘q",
+    en: "No Image",
+    ger: "Kein Bild",
+    ru: "Нет изображения",
+  };
+
   return (
     <div className="p-6 max-w-6xl mx-auto">
       {/* Header */}
@@ -169,7 +176,7 @@ const PicturesPage = () => {
                     />
                   ) : (
                     <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
-                      No Image
+                      {emptyImage[lang]}
                     </div>
                   )}
                 </div>
