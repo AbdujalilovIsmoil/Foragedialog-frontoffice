@@ -77,10 +77,10 @@ const translations = {
     ger: "Die Landwirtschaft Usbekistans wird durch Landknappheit, geringe Bodenfruchtbarkeit und abnehmende Wasserressourcen beeinflusst.",
   },
   projectTitle: {
-    uz: "Loyiha",
-    ru: "Проект",
-    en: "Project",
-    ger: "Projekt",
+    uz: "Dastur",
+    ru: "Программа",
+    en: "Programme",
+    ger: "Programm",
   },
   projectDesc: {
     uz: "Sut mahsulotlarining hosildorligi to‘g‘ri ovqatlantirish va agrotexnik yondashuvlarga bog‘liq.",
@@ -274,8 +274,8 @@ const About = () => {
       },
       partnersTitle: "Loyiha hamkorlari va hamkorlik",
       partners: [
-        "Germaniya tomoni: Federal oziq-ovqat va qishloq xo‘jaligi vazirligi (BMEL)",
-        "O‘zbekiston tomoni: Qishloq xo‘jaligi vazirligi (QXV)",
+        "Germaniya tomoni: Federal oziq-ovqat va qishloq xo‘jaligi vazirligi",
+        "O‘zbekiston tomoni: Qishloq xo‘jaligi vazirligi",
       ],
       collaboratorsTitle: "Loyihaning faoliyat hamkori",
       collaborators: [
@@ -302,8 +302,8 @@ const About = () => {
       },
       partnersTitle: "Партнеры проекта и сотрудничество",
       partners: [
-        "Со стороны Германии: Федеральное министерство продовольствия и сельского хозяйства (BMEL)",
-        "Со стороны Узбекистана: Министерство сельского хозяйства (QXV)",
+        "Со стороны Германии: Федеральное министерство продовольствия и сельского хозяйства",
+        "Со стороны Узбекистана: Министерство сельского хозяйства",
       ],
       collaboratorsTitle: "Рабочие партнеры проекта",
       collaborators: [
@@ -331,8 +331,8 @@ const About = () => {
       },
       partnersTitle: "Project Partners and Cooperation",
       partners: [
-        "German side: Federal Ministry of Food and Agriculture (BMEL)",
-        "Uzbek side: Ministry of Agriculture (QXV)",
+        "German side: Federal Ministry of Food and Agriculture",
+        "Uzbek side: Ministry of Agriculture",
       ],
       collaboratorsTitle: "Project Implementing Partners",
       collaborators: [
@@ -360,8 +360,8 @@ const About = () => {
       },
       partnersTitle: "Projektpartner und Zusammenarbeit",
       partners: [
-        "Deutsche Seite: Bundesministerium für Ernährung und Landwirtschaft (BMEL)",
-        "Usbekische Seite: Ministerium für Landwirtschaft (QXV)",
+        "Deutsche Seite: Bundesministerium für Ernährung und Landwirtschaft",
+        "Usbekische Seite: Ministerium für Landwirtschaft",
       ],
       collaboratorsTitle: "Projektumsetzende Partner",
       collaborators: [
