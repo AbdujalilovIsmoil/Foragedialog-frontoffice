@@ -189,9 +189,9 @@ const CategoryPage: React.FC = () => {
                     {title}
                   </h2>
                   <p className="text-sm text-gray-500">{date}</p>
-                  <p className="text-gray-600 text-sm line-clamp-3">
+                  {/* <p className="text-gray-600 text-sm line-clamp-3">
                     {stripHtml(text)}
-                  </p>
+                  </p> */}
                   <Link
                     href={`/${locale}/blog/${blog.id}`}
                     className="mt-3 px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-medium hover:bg-teal-700 transition"
